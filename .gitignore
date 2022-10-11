@@ -1,5 +1,5 @@
 # Gradle
-#------
+# ------
 .gradle
 /build
 /buildSrc/build
@@ -7,8 +7,8 @@
 build
 out
 
-#IDEA
-#----
+# IDEA
+# ----
 .idea
 .shelf
 /*.iml
@@ -24,20 +24,20 @@ out
 /.teamcity/*.iml
 /.teamcity/target
 
-#VSCode
-#----
+# VSCode
+# ----
 .project
 .classpath
 .settings
 */bin/
 .vscode
 
-#Logging
-#----
+# Logging
+# ----
 /*.log
 /*.gz
 
-#Scripts
-#----
+# Scripts
+# ----
 .temp
 terraform-module-*
