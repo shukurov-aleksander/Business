@@ -50,9 +50,9 @@ public class Service {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {return true;}
+        if (obj == null) {return false;}
+        if (getClass() != obj.getClass()) {return false;}
         Service service = (Service) obj;
         return id == service.id &&
                 sum == service.sum &&
@@ -62,15 +62,16 @@ public class Service {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (int) (id - (id >>> 32));
-        result = 31 * result + (int) (sum - (sum >>> 32));
-        result = 31 * result + (serviceName == null ? 0 : serviceName.hashCode());
-        result = 31 * result + (serviceDescription == null ? 0 : serviceDescription.hashCode());
+        int result = 1;
+        int prime = 31;
+        result = prime * result + (int) (id - (id >>> 32));
+        result = prime * result + (int) (sum - (sum >>> 32));
+        result = prime * result + (serviceName == null ? 0 : serviceName.hashCode());
+        result = prime * result + (serviceDescription == null ? 0 : serviceDescription.hashCode());
         return result;
     }
     public String toString() {
-        return "Service [" +
+        return  this.getClass().getSimpleName() + " [" +
                 "id=" + id +
                 "sum=" + sum +
                 ", serviceName=' " + serviceName +

@@ -45,9 +45,9 @@ public class Order {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {return true;}
+        if (obj == null) {return false;}
+        if (getClass() != obj.getClass()) {return false;}
         Order order = (Order) obj;
         return id == order.id &&
                 supplierId == order.supplierId &&
@@ -56,15 +56,16 @@ public class Order {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (int) (id - (id >>> 32));
-        result = 31 * result + (int) (supplierId - (supplierId >>> 32));
-        result = 31 * result + (int) (companyId - (companyId >>> 32));
+        int result = 1;
+        int prime = 31;
+        result = prime * result + (int) (id - (id >>> 32));
+        result = prime * result + (int) (supplierId - (supplierId >>> 32));
+        result = prime * result + (int) (companyId - (companyId >>> 32));
         return result;
     }
     @Override
     public String toString() {
-        return "Order [" +
+        return this.getClass().getSimpleName() + " [" +
                 "id=" + id +
                 ", supplierID=" + supplierId +
                 " , companyID=" + companyId+"]";

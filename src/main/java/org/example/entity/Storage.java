@@ -50,8 +50,8 @@ public class Storage {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
+        if (this == obj) {return true;}
+        if (obj == null) {return false;}
         if (getClass() != obj.getClass()) return false;
         Storage storage = (Storage) obj;
         return id == storage.id &&
@@ -62,15 +62,16 @@ public class Storage {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (int) (id - (id >>> 32));
-        result = 31 * result + quantity;
-        result = 31 * result + (int) (companyId - (companyId >>> 32));
-        result = 31 * result + (int) (serviceId - (serviceId >>> 32));
+        int result = 1;
+        int prime = 31;
+        result = prime * result + (int) (id - (id >>> 32));
+        result = prime * result + quantity;
+        result = prime * result + (int) (companyId - (companyId >>> 32));
+        result = prime * result + (int) (serviceId - (serviceId >>> 32));
         return result;
     }
     public String toString() {
-        return "Storage [" +
+        return this.getClass().getSimpleName() + " [" +
                 "id=" + id +
                 "quantity=" + quantity +
                 ", companyId=" + companyId +
