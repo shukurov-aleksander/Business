@@ -50,9 +50,15 @@ public class Company {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         Company company = (Company) obj;
         return id == company.id &&
                 isGovernmentAgency == company.isGovernmentAgency &&
@@ -62,17 +68,18 @@ public class Company {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (int) (id - (id >>> 32));
-        result = 31 * result + (isGovernmentAgency ? 0 : 1);
-        result = 31 * result + (companyName == null ? 0 : companyName.hashCode());
-        result = 31 * result + (taxNumber == null ? 0 : taxNumber.hashCode());
+        int result = 1;
+        int prime = 31;
+        result = prime * result + (int) (id - (id >>> 32));
+        result = prime * result + (isGovernmentAgency ? 0 : 1);
+        result = prime * result + (companyName == null ? 0 : companyName.hashCode());
+        result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "Company [" +
+        return this.getClass().getSimpleName() + " [" +
                 "id=" + id +
                 ", companyName='" + companyName +
                 "' , taxNumber='" + taxNumber +
