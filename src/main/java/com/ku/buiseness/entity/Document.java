@@ -61,7 +61,7 @@ public class Document {
     public String toString() {
         return  this.getClass().getSimpleName() + " [" +
                 "id=" + id +
-                ", orderId=" + orderId +
+                ", orderId=" + orderId.toString() +
                 " , documentContent='" + documentContent +"']";
     }
 }

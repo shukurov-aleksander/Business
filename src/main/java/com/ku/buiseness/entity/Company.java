@@ -1,6 +1,7 @@
 package com.ku.buiseness.entity;
 
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.List;
 
 public class Company {
     private Long id;
@@ -8,20 +9,28 @@ public class Company {
     private String taxNumber;
     private Boolean isGovernmentAgency;
     private Long userId;
-    private Collection<Storage> storageList;
-    private Collection<Detail> detailList;
+    private List<Storage> storages;
+    private List<Detail> details;
 
     public Company() {
     }
 
-    public Company(Long id, String companyName, String taxNumber, Boolean isGovernmentAgency, Long userId, Collection<Storage> storageList, Collection<Detail> detailList) {
+    public Company(
+            Long id,
+            String companyName,
+            String taxNumber,
+            Boolean isGovernmentAgency,
+            Long userId,
+            List<Storage> storages,
+            List<Detail> details
+    ) {
         this.id = id;
         this.companyName = companyName;
         this.taxNumber = taxNumber;
         this.isGovernmentAgency = isGovernmentAgency;
         this.userId = userId;
-        this.storageList = storageList;
-        this.detailList = detailList;
+        this.storages = storages;
+        this.details = details;
     }
 
     public Long getId() {
@@ -64,20 +73,20 @@ public class Company {
         this.userId = userId;
     }
 
-    public Collection<Storage> getStorageList() {
-        return storageList;
+    public List<Storage> getStorages() {
+        return storages;
     }
 
-    public void setStorageList(Collection<Storage> storageList) {
-        this.storageList = storageList;
+    public void setStorages(List<Storage> storages) {
+        this.storages = storages;
     }
 
-    public Collection<Detail> getDetailList() {
-        return detailList;
+    public List<Detail> getDetails() {
+        return details;
     }
 
-    public void setDetailList(Collection<Detail> detailList) {
-        this.detailList = detailList;
+    public void setDetails(List<Detail> details) {
+        this.details = details;
     }
 
     @Override
@@ -90,8 +99,8 @@ public class Company {
                 companyName.equals(company.companyName) &&
                 taxNumber.equals(company.taxNumber) &&
                 userId.equals(company.userId) &&
-                storageList.equals(company.storageList) &&
-                detailList.equals(company.detailList);
+                storages.equals(company.storages) &&
+                details.equals(company.details);
 
     }
 
@@ -104,10 +113,10 @@ public class Company {
         result = prime * result + (companyName == null ? 0 : companyName.hashCode());
         result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         result = prime * result + (userId == null ? 0 : userId.hashCode());
-        for (Storage storage : storageList) {
+        for (Storage storage : storages) {
             result = prime * result + (storage == null ? 0 : storage.hashCode());
         }
-        for (Detail detail : detailList) {
+        for (Detail detail : details) {
             result = prime * result + (detail == null ? 0 : detail.hashCode());
         }
         return result;
@@ -121,7 +130,7 @@ public class Company {
                 "' , taxNumber='" + taxNumber +
                 "' , isGovernmentAgency=" + isGovernmentAgency +
                 " , userId=" + userId +
-                " , storageList=" + storageList +
-                " , detailList="+ detailList + "]";
+                " , storages=" + storages.toString() +
+                " , details="+ details.toString() + "]";
     }
 }

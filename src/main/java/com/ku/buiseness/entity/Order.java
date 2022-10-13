@@ -1,23 +1,23 @@
 package com.ku.buiseness.entity;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     private Long id;
     private OrderStatus orderStatus;
     private Date createdAtUtc;
     private Date completedAtUtc;
-    private Collection<Content> contentList;
+    private List<Content> contents;
 
     public Order() {
     }
 
-    public Order(Long id, Date createdAtUtc, Date completedAtUtc, Collection<Content> contentList) {
+    public Order(Long id, Date createdAtUtc, Date completedAtUtc, List<Content> contents) {
         this.id = id;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;
-        this.contentList = contentList;
+        this.contents = contents;
     }
 
     public Long getId() {
@@ -52,12 +52,12 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Collection<Content> getContentList() {
-        return contentList;
+    public List<Content> getContentList() {
+        return contents;
     }
 
-    public void setContentList(Collection<Content> contentList) {
-        this.contentList = contentList;
+    public void setContentList(List<Content> contentList) {
+        this.contents = contentList;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Order {
                 createdAtUtc.equals(order.createdAtUtc) &&
                 completedAtUtc.equals(order.completedAtUtc) &&
                 orderStatus.equals(order.orderStatus) &&
-                contentList.equals(order.contentList);
+                contents.equals(order.contents);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Order {
         result = prime * result + (createdAtUtc == null ? 0 : createdAtUtc.hashCode());
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
         result = prime * result + (orderStatus == null ? 0 : orderStatus.hashCode());
-        for (Content content : contentList) {
+        for (Content content : contents) {
             result = prime * result + (content == null ? 0 : content.hashCode());
         }
         return result;
@@ -92,6 +92,6 @@ public class Order {
                 ", createdAtUtc=" + createdAtUtc +
                 " , completedAtUtc=" + completedAtUtc+
                 "orderStatus="+ orderStatus +
-                "contentList="+ contentList + "]";
+                "contentList="+ contents.toString() + "]";
     }
 }

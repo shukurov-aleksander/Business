@@ -1,21 +1,23 @@
 package com.ku.buiseness.entity;
 
-import java.util.Collection;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Content {
     private Long id;
     private Long quantity;
     private Service serviceId;
-    private Collection<Order> orderList;
+    private List<Order> orders;
 
     public Content() {
     }
 
-    public Content(Long id, Long quantity, Service serviceId, Collection<Order> orderList) {
+    public Content(Long id, Long quantity, Service serviceId, List<Order> orders) {
         this.id = id;
         this.quantity = quantity;
         this.serviceId = serviceId;
-        this.orderList = orderList;
+        this.orders = orders;
     }
 
     public Long getId() {
@@ -42,12 +44,12 @@ public class Content {
         this.serviceId = serviceId;
     }
 
-    public Collection<Order> getOrderList() {
-        return orderList;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrderList(Collection<Order> orderList) {
-        this.orderList = orderList;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class Content {
         return id.equals(content.id) &&
                 quantity.equals(content.quantity) &&
                 serviceId.equals(content.serviceId) &&
-                orderList.equals(content.orderList);
+                orders.equals(content.orders);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class Content {
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
         result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
-        for (Order order : orderList) {
+        for (Order order : orders) {
             result = prime * result + (order == null ? 0 : order.hashCode());
         }
         return result;
@@ -81,6 +83,6 @@ public class Content {
                 "id=" + id +
                 ", quantity=" + quantity +
                 " , serviceId=" + serviceId.toString() +
-                "orderList=" + orderList + "]";
+                "orderList=" + orders.toString() + "]";
     }
 }
