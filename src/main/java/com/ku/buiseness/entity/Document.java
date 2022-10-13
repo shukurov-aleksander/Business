@@ -1,32 +1,32 @@
-package org.example.entity;
+package com.ku.buiseness.entity;
 
 public class Document {
-    private long id;
-    private long orderId;
+    private Long id;
+    private Order orderId;
     private String documentContent;
 
     public Document() {
     }
 
-    public Document(long id, long orderId, String documentContent) {
+    public Document(Long id, Order orderId, String documentContent) {
         this.id = id;
         this.orderId = orderId;
         this.documentContent = documentContent;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getOrderId() {
+    public Order getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Order orderId) {
         this.orderId = orderId;
     }
 
@@ -41,11 +41,10 @@ public class Document {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {return true;}
-        if (obj == null) {return false;}
-        if (getClass() != obj.getClass()) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
         Document documents = (Document) obj;
-        return id == documents.id &&
-                orderId == documents.orderId &&
+        return id.equals(documents.id) &&
+                orderId.equals(documents.orderId) &&
                 documentContent.equals(documents.documentContent);
     }
 
@@ -53,8 +52,8 @@ public class Document {
     public int hashCode() {
         int result = 1;
         int prime = 31;
-        result = prime * result + (int) (id - (id >>> 32));
-        result = prime * result + (int) (orderId - (orderId >>> 32));
+        result = prime * result + (id == null ? 0 : id.hashCode());
+        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
         result = prime * result + (documentContent == null ? 0 : documentContent.hashCode());
         return result;
     }

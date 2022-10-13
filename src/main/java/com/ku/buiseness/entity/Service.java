@@ -1,26 +1,26 @@
-package org.example.entity;
+package com.ku.buiseness.entity;
 
 public class Service {
-    private long id;
+    private Long id;
     private String serviceName;
-    private long sum;
+    private Long sum;
     private String serviceDescription;
 
     public Service() {
     }
 
-    public Service(long id, String serviceName, long sum, String serviceDescription) {
+    public Service(Long id, String serviceName, Long sum, String serviceDescription) {
         this.id = id;
         this.serviceName = serviceName;
         this.sum = sum;
         this.serviceDescription = serviceDescription;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,11 +32,11 @@ public class Service {
         this.serviceName = serviceName;
     }
 
-    public long getSum() {
+    public Long getSum() {
         return sum;
     }
 
-    public void setSum(long sum) {
+    public void setSum(Long sum) {
         this.sum = sum;
     }
 
@@ -51,11 +51,10 @@ public class Service {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {return true;}
-        if (obj == null) {return false;}
-        if (getClass() != obj.getClass()) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
         Service service = (Service) obj;
-        return id == service.id &&
-                sum == service.sum &&
+        return id.equals(service.id) &&
+                sum.equals(service.sum) &&
                 serviceName.equals(service.serviceName) &&
                 serviceDescription.equals(service.serviceDescription);
     }
@@ -64,8 +63,8 @@ public class Service {
     public int hashCode() {
         int result = 1;
         int prime = 31;
-        result = prime * result + (int) (id - (id >>> 32));
-        result = prime * result + (int) (sum - (sum >>> 32));
+        result = prime * result + (id == null ? 0 : id.hashCode());
+        result = prime * result + (sum == null ? 0 : sum.hashCode());
         result = prime * result + (serviceName == null ? 0 : serviceName.hashCode());
         result = prime * result + (serviceDescription == null ? 0 : serviceDescription.hashCode());
         return result;
