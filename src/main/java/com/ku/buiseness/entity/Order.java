@@ -44,13 +44,13 @@ public class Order {
         this.completedAtUtc = completedAtUtc;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
+   public OrderStatus getOrderStatus() {
+       return orderStatus;
+   }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
+   public void setOrderStatus(OrderStatus orderStatus) {
+       this.orderStatus = orderStatus;
+   }
 
     public List<Content> getContentList() {
         return contents;
@@ -68,7 +68,6 @@ public class Order {
         return id.equals(order.id) &&
                 createdAtUtc.equals(order.createdAtUtc) &&
                 completedAtUtc.equals(order.completedAtUtc) &&
-                orderStatus.equals(order.orderStatus) &&
                 contents.equals(order.contents);
     }
 
@@ -79,7 +78,6 @@ public class Order {
         result = prime * result +  (id == null ? 0 : id.hashCode());
         result = prime * result + (createdAtUtc == null ? 0 : createdAtUtc.hashCode());
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
-        result = prime * result + (orderStatus == null ? 0 : orderStatus.hashCode());
         for (Content content : contents) {
             result = prime * result + (content == null ? 0 : content.hashCode());
         }

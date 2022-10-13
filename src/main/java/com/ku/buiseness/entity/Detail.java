@@ -54,8 +54,7 @@ public class Detail {
         Detail detail = (Detail) obj;
         return id.equals(detail.id) &&
                 companyId.equals(detail.companyId) &&
-                orderId.equals(detail.orderId) &&
-                operationType.equals(detail.operationType);
+                orderId.equals(detail.orderId);
     }
 
     @Override
@@ -63,9 +62,8 @@ public class Detail {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
+        result = prime * result + (companyId==null ? 0 : companyId.hashCode());
         result = prime * result + (orderId == null ? 0 : orderId.hashCode());
-        result = prime * result + (operationType == null ? 0 : operationType.hashCode());
         return result;
     }
 

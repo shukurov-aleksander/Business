@@ -64,7 +64,7 @@ public class Storage {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + quantity;
+        result = prime * result + (quantity == null ? 0 : quantity.hashCode());
         result = prime * result + (companyId == null ? 0 : companyId.hashCode());
         result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
         return result;
