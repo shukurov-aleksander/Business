@@ -1,5 +1,8 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
+import com.ku.business.entity.Content;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -7,18 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DetailTest {
-    List<Storage> storages = new ArrayList<>();
-    List<Detail> details = new ArrayList<>();
+public class OrderTest {
     List<Content> contents = new ArrayList<>();
-    Order order = new Order();
-    Company company = new Company();
-
-    Detail x = new Detail(1L, company, order);
-    Detail y = new Detail(1L, company, order);
-    Detail z = new Detail(1L, company, order);
-    Detail v = new Detail(2L, company, order);
-
+    Order x = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
+    Order y = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
+    Order z = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
+    Order v = new Order(2L,new Date(31548484466546L),new Date(31548488466546L),contents);
     @Test
     public void equalsReflexiveTesting() {
         Detail detail = new Detail();

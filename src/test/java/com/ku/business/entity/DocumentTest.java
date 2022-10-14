@@ -1,10 +1,13 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
+import com.ku.business.entity.Content;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.Document;
+import com.ku.business.entity.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DocumentTest {

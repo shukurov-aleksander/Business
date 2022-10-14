@@ -1,5 +1,8 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
+import com.ku.business.entity.Company;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

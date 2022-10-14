@@ -1,4 +1,4 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
 public class Storage {
     private Long id;

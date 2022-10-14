@@ -1,4 +1,4 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
 import java.util.Date;
 import java.util.List;

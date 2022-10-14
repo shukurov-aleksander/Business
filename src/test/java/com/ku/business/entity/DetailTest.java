@@ -1,21 +1,23 @@
-package com.ku.buiseness.entity;
+package com.ku.business.entity;
 
+import com.ku.business.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageTest {
+public class DetailTest {
     List<Storage> storages = new ArrayList<>();
     List<Detail> details = new ArrayList<>();
+    List<Content> contents = new ArrayList<>();
+    Order order = new Order();
     Company company = new Company();
-    Company company2 = new Company();
-    Service service = new Service();
-    Storage x = new Storage(1L,255,company,service);
-    Storage y = new Storage(1L,255,company,service);
-    Storage z = new Storage(1L,255,company,service);
-    Storage v = new Storage(2L,365,company2,service);
+
+    Detail x = new Detail(1L, company, order);
+    Detail y = new Detail(1L, company, order);
+    Detail z = new Detail(1L, company, order);
+    Detail v = new Detail(2L, company, order);
 
     @Test
     public void equalsReflexiveTesting() {
