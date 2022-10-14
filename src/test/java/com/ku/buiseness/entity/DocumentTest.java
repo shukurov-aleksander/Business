@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DocumentTest {
-    ArrayList<Content> contents = new ArrayList<>();
-    Order order = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
+    List<Content> contents = new ArrayList<>();
+    Order order = new Order();
     Document x = new Document(1L, order, "Some text");
     Document y = new Document(1L, order, "Some text");
     Document z = new Document(1L, order, "Some text");

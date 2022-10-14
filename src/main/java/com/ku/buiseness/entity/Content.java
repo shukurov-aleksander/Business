@@ -1,7 +1,6 @@
 package com.ku.buiseness.entity;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Content {
@@ -53,11 +52,11 @@ public class Content {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null) {return false;}
-        if (getClass() != obj.getClass()) {return false;}
-        Content content = (Content) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null) {return false;}
+        if (getClass() != aThat.getClass()) {return false;}
+        Content content = (Content) aThat;
         return id.equals(content.id) &&
                 quantity.equals(content.quantity) &&
                 serviceId.equals(content.serviceId) &&
@@ -72,7 +71,7 @@ public class Content {
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
         result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
         for (Order order : orders) {
-            result = prime * result + (order == null ? 0 : order.hashCode());
+            result = prime * result + (order.getId() == null ? 0 : order.getId().hashCode());
         }
         return result;
     }

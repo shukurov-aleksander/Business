@@ -39,10 +39,10 @@ public class Document {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null || getClass() != obj.getClass()) {return false;}
-        Document documents = (Document) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null || getClass() != aThat.getClass()) {return false;}
+        Document documents = (Document) aThat;
         return id.equals(documents.id) &&
                 orderId.equals(documents.orderId) &&
                 documentContent.equals(documents.documentContent);
@@ -53,7 +53,7 @@ public class Document {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
+        result = prime * result + (orderId.getId() == null ? 0 : orderId.hashCode());
         result = prime * result + (documentContent == null ? 0 : documentContent.hashCode());
         return result;
     }

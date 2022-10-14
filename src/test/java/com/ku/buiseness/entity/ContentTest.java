@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContentTest {
-    ArrayList<Order> orders = new ArrayList<>();
-    Service service = new Service(1L, "Barter", 255L, "Some barter");
+    List<Order> orders = new ArrayList<>();
+    Service service = new Service();
     Content x = new Content(1L, 255L, service, orders);
     Content y = new Content(1L, 255L, service, orders);
     Content z = new Content(1L, 255L, service, orders);

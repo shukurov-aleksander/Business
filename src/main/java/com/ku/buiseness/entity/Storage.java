@@ -49,10 +49,10 @@ public class Storage {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null || getClass() != obj.getClass()) {return false;}
-        Storage storage = (Storage) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null || getClass() != aThat.getClass()) {return false;}
+        Storage storage = (Storage) aThat;
         return id.equals(storage.id) &&
                 quantity.equals(storage.quantity) &&
                 companyId.equals(storage.companyId) &&
@@ -65,8 +65,8 @@ public class Storage {
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
-        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
-        result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
+        result = prime * result + (companyId.getId() == null ? 0 : companyId.hashCode());
+        result = prime * result + (serviceId.getId() == null ? 0 : serviceId.hashCode());
         return result;
     }
     public String toString() {

@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompanyTest {
-    ArrayList<Storage> storages = new ArrayList<>();
-    ArrayList<Detail> details = new ArrayList<>();
+    List<Storage> storages = new ArrayList<>();
+    List<Detail> details = new ArrayList<>();
     Company x = new Company(1L, "Bank", "124325", true, 1L, storages, details);
     Company y = new Company(1L, "Bank", "124325", true, 1L, storages, details);
     Company z = new Company(1L, "Bank", "124325", true, 1L, storages, details);
@@ -58,4 +59,5 @@ public class CompanyTest {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
     }
+
 }

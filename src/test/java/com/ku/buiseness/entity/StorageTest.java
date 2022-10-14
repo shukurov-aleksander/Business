@@ -4,12 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StorageTest {
-    ArrayList<Storage> storages = new ArrayList<>();
-    ArrayList<Detail> details = new ArrayList<>();
-    Company company = new Company(1L, "Bank", "124325", true, 1L, storages, details);
-    Company company2 = new Company(2L, "Circus", "143245", false, 2L, storages, details);
+    List<Storage> storages = new ArrayList<>();
+    List<Detail> details = new ArrayList<>();
+    Company company = new Company();
+    Company company2 = new Company();
     Service service = new Service();
     Storage x = new Storage(1L,255,company,service);
     Storage y = new Storage(1L,255,company,service);

@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OrderTest {
-    ArrayList<Content> contents = new ArrayList<>();
+    List<Content> contents = new ArrayList<>();
     Order x = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
     Order y = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
     Order z = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);

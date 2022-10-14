@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DetailTest {
-    ArrayList<Storage> storages = new ArrayList<>();
-    ArrayList<Detail> details = new ArrayList<>();
-    ArrayList<Content> contents = new ArrayList<>();
-    Order order = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
-    Company company = new Company(1L, "Bank", "124325", true, 1L, storages, details);
+    List<Storage> storages = new ArrayList<>();
+    List<Detail> details = new ArrayList<>();
+    List<Content> contents = new ArrayList<>();
+    Order order = new Order();
+    Company company = new Company();
 
     Detail x = new Detail(1L, company, order);
     Detail y = new Detail(1L, company, order);

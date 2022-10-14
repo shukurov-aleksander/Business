@@ -61,10 +61,10 @@ public class Order {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null || getClass() != obj.getClass()) {return false;}
-        Order order = (Order) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null || getClass() != aThat.getClass()) {return false;}
+        Order order = (Order) aThat;
         return id.equals(order.id) &&
                 createdAtUtc.equals(order.createdAtUtc) &&
                 completedAtUtc.equals(order.completedAtUtc) &&
@@ -79,7 +79,7 @@ public class Order {
         result = prime * result + (createdAtUtc == null ? 0 : createdAtUtc.hashCode());
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
         for (Content content : contents) {
-            result = prime * result + (content == null ? 0 : content.hashCode());
+            result = prime * result + (content.getId() == null ? 0 : content.getId().hashCode());
         }
         return result;
     }

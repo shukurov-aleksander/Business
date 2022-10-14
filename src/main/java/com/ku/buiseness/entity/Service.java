@@ -49,10 +49,10 @@ public class Service {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null || getClass() != obj.getClass()) {return false;}
-        Service service = (Service) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null || getClass() != aThat.getClass()) {return false;}
+        Service service = (Service) aThat;
         return id.equals(service.id) &&
                 sum.equals(service.sum) &&
                 serviceName.equals(service.serviceName) &&

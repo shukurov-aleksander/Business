@@ -1,6 +1,6 @@
 package com.ku.buiseness.entity;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Company {
@@ -90,10 +90,10 @@ public class Company {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null || getClass() != obj.getClass()) {return false;}
-        Company company = (Company) obj;
+    public boolean equals(Object aThat) {
+        if (this == aThat) {return true;}
+        if (aThat == null || getClass() != aThat.getClass()) {return false;}
+        Company company = (Company) aThat;
         return id.equals(company.id) &&
                 isGovernmentAgency.equals(company.isGovernmentAgency) &&
                 companyName.equals(company.companyName) &&
@@ -114,23 +114,38 @@ public class Company {
         result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         result = prime * result + (userId == null ? 0 : userId.hashCode());
         for (Storage storage : storages) {
-            result = prime * result + (storage == null ? 0 : storage.hashCode());
+            result = prime * result + (storage.getId() == null ? 0 : storage.getId().hashCode());
         }
+
         for (Detail detail : details) {
-            result = prime * result + (detail == null ? 0 : detail.hashCode());
+            result = prime * result + (detail.getId() == null ? 0 : detail.getId().hashCode());
         }
         return result;
     }
 
     @Override
     public String toString() {
+        Iterator<Storage> storageIterator = storages.iterator();
+        String storage = " " + storages.get(0).getClass().getTypeName() + "[";
+        while (storageIterator.hasNext()) {
+            storage+= " " + storages.iterator().next();
+        }
+        storage += "]";
+
+        Iterator<Detail> detailIterator = details.iterator();
+        String detail = " " + details.get(0).getClass().getTypeName() + "[";
+        while (storageIterator.hasNext()) {
+            detail+= " " + details.iterator().next();
+        }
+        detail += "]";
+
         return this.getClass().getSimpleName() + " [" +
                 "id=" + id +
                 ", companyName='" + companyName +
                 "' , taxNumber='" + taxNumber +
                 "' , isGovernmentAgency=" + isGovernmentAgency +
                 " , userId=" + userId +
-                " , storages=" + storages.toString() +
-                " , details="+ details.toString() + "]";
+                " , storages=" + storage +
+                " , details="+ detail + "]";
     }
 }
