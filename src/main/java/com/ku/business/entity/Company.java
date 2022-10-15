@@ -1,6 +1,5 @@
 package com.ku.business.entity;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class Company {
@@ -90,62 +89,88 @@ public class Company {
     }
 
     @Override
-    public boolean equals(Object aThat) {
-        if (this == aThat) {return true;}
-        if (aThat == null || getClass() != aThat.getClass()) {return false;}
-        Company company = (Company) aThat;
-        return id.equals(company.id) &&
-                isGovernmentAgency.equals(company.isGovernmentAgency) &&
-                companyName.equals(company.companyName) &&
-                taxNumber.equals(company.taxNumber) &&
-                userId.equals(company.userId) &&
-                storages.equals(company.storages) &&
-                details.equals(company.details);
-
+    public boolean equals(Object obj) {
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Company aThat = (Company) obj;
+        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
+        if ((this.companyName == null && aThat.companyName != null) || (this.companyName != null && aThat.companyName == null)) {return false;}
+        if ((this.taxNumber == null && aThat.taxNumber != null) || (this.taxNumber != null && aThat.taxNumber == null)) {return false;}
+        if ((this.isGovernmentAgency == null && aThat.isGovernmentAgency != null) || (this.isGovernmentAgency != null && aThat.isGovernmentAgency == null)) {return false;}
+        if ((this.userId == null && aThat.userId != null) || (this.userId != null && aThat.userId == null)) {return false;}
+        if ((this.storages == null && aThat.storages != null) || (this.storages != null && aThat.storages == null)) {return false;}
+        if ((this.details == null && aThat.details != null) || (this.details != null && aThat.details == null)) {return false;}
+        if ((this.storages != null && aThat.storages != null) && (this.storages.size() == aThat.storages.size())) {
+            for (int i = 0; i < storages.size(); i++) {
+                if (!storages.get(0).getId().equals(aThat.storages.get(0).getId()))
+                {return false;}
+            }
+        }
+        if ((this.details != null && aThat.details != null) && (this.details.size() == aThat.details.size())) {
+            for (int i = 0; i < details.size(); i++) {
+                if (!details.get(0).getId().equals(aThat.details.get(0).getId()))
+                {return false;}
+            }
+        }
+        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
+                (((this.companyName == aThat.companyName) && (aThat.companyName == null)) || (this.companyName.equals(aThat.companyName))) &&
+                (((this.taxNumber == aThat.taxNumber) && (aThat.taxNumber == null)) || (this.taxNumber.equals(aThat.taxNumber))) &&
+                (((this.isGovernmentAgency == aThat.isGovernmentAgency) && (aThat.isGovernmentAgency == null)) || (this.isGovernmentAgency.equals(aThat.isGovernmentAgency))) &&
+                (((this.userId == aThat.userId) && (aThat.userId == null)) || (this.userId.equals(aThat.userId)));
     }
+
+
+
 
     @Override
     public int hashCode() {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (isGovernmentAgency ? 0 : 1);
+        result = prime * result + (isGovernmentAgency == null ? 0 : (isGovernmentAgency ? 0 : 1));
         result = prime * result + (companyName == null ? 0 : companyName.hashCode());
         result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         result = prime * result + (userId == null ? 0 : userId.hashCode());
-        for (Storage storage : storages) {
-            result = prime * result + (storage.getId() == null ? 0 : storage.getId().hashCode());
+        if(storages!=null) {
+            for (Storage storage : storages
+                 ) {
+                result = prime * result + (storage!=null && storage.getId()!=null ?  (storage.getId().hashCode()) : 0);
+            }
         }
-
-        for (Detail detail : details) {
-            result = prime * result + (detail.getId() == null ? 0 : detail.getId().hashCode());
+        if(details!=null) {
+            for (Detail detail : details
+            ) {
+                result = prime * result + (detail!=null && detail.getId()!=null ?  (detail.getId().hashCode()) : 0);
+            }
         }
         return result;
     }
 
     @Override
     public String toString() {
-        Iterator<Storage> storageIterator = storages.iterator();
-        String storage = " " + storages.get(0).getClass().getTypeName() + "[";
-        while (storageIterator.hasNext()) {
-            storage+= " " + storages.iterator().next();
+        StringBuilder storage = new StringBuilder(" " + storages.get(0).getClass().getTypeName() + "{ contains");
+        for (Storage storage1 : storages
+             ) {
+            storage.append(" [ detail {" + storage1.getId() + "},");
         }
-        storage += "]";
-
-        Iterator<Detail> detailIterator = details.iterator();
-        String detail = " " + details.get(0).getClass().getTypeName() + "[";
-        while (storageIterator.hasNext()) {
-            detail+= " " + details.iterator().next();
+        if (storage.length() > 0) {storage.setLength(storage.length()-1);}
+        storage.append(" ]");
+        StringBuilder detail = new StringBuilder(" " + details.get(0).getClass().getTypeName() + "{ contains");
+        for (Detail detail1 : details
+        ) {
+            detail.append(" [ detail {" + detail1.getId() + "},");
         }
-        detail += "]";
+        if (detail.length() > 0) {detail.setLength(detail.length()-1);}
+        detail.append(" ]");
 
-        return this.getClass().getSimpleName() + " [" +
+
+        return this.getClass().getSimpleName() + " {" +
                 "id=" + id +
                 ", companyName='" + companyName +
                 "' , taxNumber='" + taxNumber +
                 "' , isGovernmentAgency=" + isGovernmentAgency +
                 " , userId=" + userId +
                 " , storages=" + storage +
-                " , details="+ detail + "]";
+                " , details="+ detail + "}";
     }
 }

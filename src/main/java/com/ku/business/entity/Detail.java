@@ -48,13 +48,16 @@ public class Detail {
     }
 
     @Override
-    public boolean equals(Object aThat) {
-        if (this == aThat) return true;
-        if (aThat == null || getClass() != aThat.getClass()) return false;
-        Detail detail = (Detail) aThat;
-        return id.equals(detail.id) &&
-                companyId.equals(detail.companyId) &&
-                orderId.equals(detail.orderId);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Detail aThat = (Detail) obj;
+        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
+        if ((this.companyId == null && aThat.companyId != null) || (this.companyId != null && aThat.companyId == null)) {return false;}
+        if ((this.orderId == null && aThat.orderId  != null) || (this.orderId  != null && aThat.orderId  == null)) {return false;}
+        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
+                (((this.companyId == aThat.companyId) && (aThat.companyId == null)) || (this.companyId.equals(aThat.companyId))) &&
+                (((this.orderId == aThat.orderId) && (aThat.orderId == null)) || (this.orderId.equals(aThat.orderId)));
     }
 
     @Override

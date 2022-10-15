@@ -1,9 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Company;
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Service;
-import com.ku.business.entity.Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +16,10 @@ public class StorageTest {
     Storage y = new Storage(1L,255,company,service);
     Storage z = new Storage(1L,255,company,service);
     Storage v = new Storage(2L,365,company2,service);
+    Storage storage1 = new Storage(2L,365,null,service);
+    Storage storage4 = new Storage(2L,365,null,service);
+    Storage storage2 = new Storage(null,365,company2,service);
+    Storage storage3 = new Storage(2L,365,null,null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -65,5 +65,13 @@ public class StorageTest {
     public void equalsHashcodeDifferentObjects() {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(storage1.equals(storage2));
+        Assertions.assertFalse(storage1.equals(storage3));
+        Assertions.assertFalse(storage2.equals(storage3));
+        Assertions.assertTrue(storage1.equals(storage4));
     }
 }

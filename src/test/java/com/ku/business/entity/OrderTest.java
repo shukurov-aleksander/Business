@@ -1,8 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Content;
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +13,12 @@ public class OrderTest {
     Order y = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
     Order z = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
     Order v = new Order(2L,new Date(31548484466546L),new Date(31548488466546L),contents);
+    Order order1 = new Order(2L,null,new Date(31548488466546L),null);
+    Order order4 = new Order(2L,null,new Date(31548488466546L),null);
+    Order order2 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
+    Order order3 = new Order(2L,null,null,null);
     @Test
     public void equalsReflexiveTesting() {
-        Detail detail = new Detail();
         Assertions.assertTrue(x.equals(x));
     }
 
@@ -60,5 +60,13 @@ public class OrderTest {
     public void equalsHashcodeDifferentObjects() {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(order1.equals(order2));
+        Assertions.assertFalse(order1.equals(order3));
+        Assertions.assertFalse(order2.equals(order3));
+        Assertions.assertTrue(order1.equals(order4));
     }
 }

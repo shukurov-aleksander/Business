@@ -49,14 +49,18 @@ public class Service {
     }
 
     @Override
-    public boolean equals(Object aThat) {
-        if (this == aThat) {return true;}
-        if (aThat == null || getClass() != aThat.getClass()) {return false;}
-        Service service = (Service) aThat;
-        return id.equals(service.id) &&
-                sum.equals(service.sum) &&
-                serviceName.equals(service.serviceName) &&
-                serviceDescription.equals(service.serviceDescription);
+    public boolean equals(Object obj) {
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Service aThat = (Service) obj;
+        if ((this.id==null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
+        if ((this.sum==null && aThat.sum != null) || (this.sum != null && aThat.sum == null)) {return false;}
+        if ((this.serviceName==null && aThat.serviceName != null) || (this.serviceName != null && aThat.serviceName == null)) {return false;}
+        if ((this.serviceDescription==null && aThat.serviceDescription != null) || (this.serviceDescription != null && aThat.serviceDescription == null)) {return false;}
+        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
+                (((this.sum == aThat.sum) && (aThat.sum == null)) || (this.sum.equals(aThat.sum))) &&
+                (((this.serviceName == aThat.serviceName) && (aThat.serviceName == null)) || (this.serviceName.equals(aThat.serviceName))) &&
+                (((this.serviceDescription == aThat.serviceDescription) && (aThat.serviceDescription == null)) || (this.serviceDescription.equals(aThat.serviceDescription)));
     }
 
     @Override

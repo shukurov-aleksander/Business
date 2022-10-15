@@ -49,14 +49,18 @@ public class Storage {
     }
 
     @Override
-    public boolean equals(Object aThat) {
-        if (this == aThat) {return true;}
-        if (aThat == null || getClass() != aThat.getClass()) {return false;}
-        Storage storage = (Storage) aThat;
-        return id.equals(storage.id) &&
-                quantity.equals(storage.quantity) &&
-                companyId.equals(storage.companyId) &&
-                serviceId.equals(storage.serviceId);
+    public boolean equals(Object obj) {
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Storage aThat = (Storage) obj;
+        if ((this.id==null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
+        if ((this.quantity==null && aThat.quantity != null) || (this.quantity != null && aThat.quantity == null)) {return false;}
+        if ((this.companyId==null && aThat.companyId != null) || (this.companyId != null && aThat.companyId == null)) {return false;}
+        if ((this.serviceId==null && aThat.serviceId != null) || (this.serviceId != null && aThat.serviceId == null)) {return false;}
+        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
+                (((this.quantity == aThat.quantity) && (aThat.quantity == null)) || (this.quantity.equals(aThat.quantity))) &&
+                (((this.companyId == aThat.companyId) && (aThat.companyId == null)) || (this.companyId.equals(aThat.companyId))) &&
+                (((this.serviceId == aThat.serviceId) && (aThat.serviceId == null)) || (this.serviceId.equals(aThat.serviceId)));
     }
 
     @Override

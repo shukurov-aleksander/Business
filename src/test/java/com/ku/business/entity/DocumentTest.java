@@ -1,9 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Content;
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Document;
-import com.ku.business.entity.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +13,10 @@ public class DocumentTest {
     Document y = new Document(1L, order, "Some text");
     Document z = new Document(1L, order, "Some text");
     Document v = new Document(2L, order, "Some different text");
+    Document document1 = new Document(2L, null, "Some different text");
+    Document document4 = new Document(2L, null, "Some different text");
+    Document document2 = new Document(null, order, "Some different text");
+    Document document3 = new Document(2L, null, "null");
 
     @Test
     public void equalsReflexiveTesting() {
@@ -62,5 +62,13 @@ public class DocumentTest {
     public void equalsHashcodeDifferentObjects() {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(document1.equals(document2));
+        Assertions.assertFalse(document1.equals(document3));
+        Assertions.assertFalse(document2.equals(document3));
+        Assertions.assertTrue(document1.equals(document4));
     }
 }

@@ -1,6 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +17,10 @@ public class DetailTest {
     Detail y = new Detail(1L, company, order);
     Detail z = new Detail(1L, company, order);
     Detail v = new Detail(2L, company, order);
+    Detail detail1 = new Detail(2L, null, order);
+    Detail detail4 = new Detail(2L, null, order);
+    Detail detail2 = new Detail(null, company, order);
+    Detail detail3 = new Detail(2L, null, null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -63,5 +66,13 @@ public class DetailTest {
     public void equalsHashcodeDifferentObjects() {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(detail1.equals(detail2));
+        Assertions.assertFalse(detail1.equals(detail3));
+        Assertions.assertFalse(detail2.equals(detail3));
+        Assertions.assertTrue(detail1.equals(detail4));
     }
 }

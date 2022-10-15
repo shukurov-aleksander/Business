@@ -1,8 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Company;
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +13,10 @@ public class CompanyTest {
     Company y = new Company(1L, "Bank", "124325", true, 1L, storages, details);
     Company z = new Company(1L, "Bank", "124325", true, 1L, storages, details);
     Company v = new Company(2L, "Circus", "21453212", false, 2L, storages, details);
+    Company company1 = new Company(2L, "Circus", "21453212", false, 2L, storages, details);
+    Company company2 = new Company(1L, "Bank", "124325", true, 1L, null, details);
+    Company company3 = new Company(null, "Bank", "124325", true, 1L, storages, details);
+    Company company4 = new Company(1L, "Bank", "124325", true, 1L, null, null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -63,4 +64,13 @@ public class CompanyTest {
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
     }
 
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(company1.equals(company2));
+        Assertions.assertFalse(company2.equals(company3));
+        Assertions.assertFalse(company3.equals(company4));
+        Assertions.assertFalse(company1.equals(company3));
+        Assertions.assertFalse(company1.equals(company4));
+        Assertions.assertFalse(company2.equals(company4));
+    }
 }

@@ -39,13 +39,16 @@ public class Document {
     }
 
     @Override
-    public boolean equals(Object aThat) {
-        if (this == aThat) {return true;}
-        if (aThat == null || getClass() != aThat.getClass()) {return false;}
-        Document documents = (Document) aThat;
-        return id.equals(documents.id) &&
-                orderId.equals(documents.orderId) &&
-                documentContent.equals(documents.documentContent);
+    public boolean equals(Object obj) {
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Document aThat = (Document) obj;
+        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
+        if ((this.orderId == null && aThat.orderId != null) || (this.orderId != null && aThat.orderId == null)) {return false;}
+        if ((this.documentContent == null && aThat.documentContent != null) || (this.documentContent != null && aThat.documentContent == null)) {return false;}
+        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
+                (((this.orderId == aThat.orderId) && (aThat.orderId == null)) || (this.orderId.equals(aThat.orderId))) &&
+                (((this.documentContent == aThat.documentContent) && (aThat.documentContent == null)) || (this.documentContent.equals(aThat.documentContent)));
     }
 
     @Override

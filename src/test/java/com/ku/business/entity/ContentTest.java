@@ -1,9 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Content;
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Order;
-import com.ku.business.entity.Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +13,10 @@ public class ContentTest {
     Content y = new Content(1L, 255L, service, orders);
     Content z = new Content(1L, 255L, service, orders);
     Content v = new Content(2L, 341L, service, orders);
+    Content content1 = new Content(2L, 341L, null, orders);
+    Content content2 = new Content(null, 341L, service, orders);
+    Content content4 = new Content(null, 341L, service, orders);
+    Content content3 = new Content(2L, 341L, null, null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -64,4 +64,11 @@ public class ContentTest {
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
     }
 
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(content1.equals(content2));
+        Assertions.assertFalse(content1.equals(content3));
+        Assertions.assertFalse(content2.equals(content3));
+        Assertions.assertTrue(content2.equals(content4));
+    }
 }

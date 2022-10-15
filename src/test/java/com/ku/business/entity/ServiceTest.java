@@ -1,7 +1,5 @@
 package com.ku.business.entity;
 
-import com.ku.business.entity.Detail;
-import com.ku.business.entity.Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +8,10 @@ public class ServiceTest {
     Service y = new Service(1L, "Barter", 255L, "Some barter");
     Service z = new Service(1L, "Barter", 255L, "Some barter");
     Service v = new Service(2L, "byu", 3552L, "Some byu");
+    Service service1 = new Service(2L, "byu", 3552L, null);
+    Service service4 = new Service(2L, "byu", 3552L, null);
+    Service service2 = new Service(null, "byu", 3552L, "Some byu");
+    Service service3 = new Service(2L, null, 3552L, null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -55,5 +57,13 @@ public class ServiceTest {
     public void equalsHashcodeDifferentObjects() {
         Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
         Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
+    }
+
+    @Test
+    public void testingEquals() {
+        Assertions.assertFalse(service1.equals(service2));
+        Assertions.assertFalse(service1.equals(service3));
+        Assertions.assertFalse(service2.equals(service3));
+        Assertions.assertTrue(service1.equals(service4));
     }
 }
