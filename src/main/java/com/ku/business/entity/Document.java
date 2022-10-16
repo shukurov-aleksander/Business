@@ -43,12 +43,19 @@ public class Document {
         if (this == obj) {return true;}
         if (obj == null || getClass() != obj.getClass()) {return false;}
         Document aThat = (Document) obj;
-        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.orderId == null && aThat.orderId != null) || (this.orderId != null && aThat.orderId == null)) {return false;}
-        if ((this.documentContent == null && aThat.documentContent != null) || (this.documentContent != null && aThat.documentContent == null)) {return false;}
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.orderId == aThat.orderId) && (aThat.orderId == null)) || (this.orderId.equals(aThat.orderId))) &&
-                (((this.documentContent == aThat.documentContent) && (aThat.documentContent == null)) || (this.documentContent.equals(aThat.documentContent)));
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getOrderId() == null) {
+            if (aThat.getOrderId() != null) {return false;}
+        } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
+
+        if (getDocumentContent() == null) {
+            if (aThat.getDocumentContent() != null) {return false;}
+        } else if (!getDocumentContent().equals(aThat.getDocumentContent())) {return false;}
+        return true;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class Document {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (orderId.getId() == null ? 0 : orderId.hashCode());
+        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
         result = prime * result + (documentContent == null ? 0 : documentContent.hashCode());
         return result;
     }

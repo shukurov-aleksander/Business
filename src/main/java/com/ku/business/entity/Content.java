@@ -57,19 +57,27 @@ public class Content {
         if (obj == null) {return false;}
         if (getClass() != obj.getClass()) {return false;}
         Content aThat = (Content) obj;
-        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.quantity == null && aThat.quantity != null) || (this.quantity != null && aThat.quantity == null)) {return false;}
-        if ((this.serviceId == null && aThat.serviceId != null) || (this.serviceId != null && aThat.serviceId == null)) {return false;}
-        if ((this.orders == null && aThat.orders != null) || (this.orders != null && aThat.orders == null)) {return false;}
-        if ((this.orders != null && aThat.orders != null) && (this.orders.size() == aThat.orders.size())) {
-            for (int i = 0; i < orders.size(); i++) {
-                if (!orders.get(0).getId().equals(aThat.orders.get(0).getId()))
-                {return false;}
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getQuantity() == null) {
+            if (aThat.getQuantity() != null) {return false;}
+        } else if (!getQuantity().equals(aThat.getQuantity())) {return false;}
+
+        if (getServiceId() == null) {
+            if (aThat.getServiceId() != null) {return false;}
+        } else if (!getServiceId().equals(aThat.getServiceId())) {return false;}
+
+        if ((getOrders() == null && aThat.getOrders() != null) || (getOrders() != null && aThat.getOrders() == null)) {return false;}
+        else if (getOrders() != null && aThat.getOrders() != null) {
+            for (int i = 0; i < getOrders().size(); i++) {
+                if (!getOrders().get(i).getId().equals(aThat.getOrders().get(i).getId())) {return false;}
             }
         }
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.quantity == aThat.quantity) && (aThat.quantity == null)) || (this.quantity.equals(aThat.quantity))) &&
-                (((this.serviceId == aThat.serviceId) && (aThat.serviceId == null)) || (this.serviceId.equals(aThat.serviceId)));}
+        return true;
+    }
 
     @Override
     public int hashCode() {
@@ -78,10 +86,9 @@ public class Content {
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
         result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
-        if(orders!=null) {
-            for (Order order : orders
-            ) {
-                result = prime * result + (order!=null && order.getId()!=null ?  (order.getId().hashCode()) : 0);
+        if(orders != null) {
+            for (Order order : orders) {
+                result = prime * result + (order != null && order.getId() != null ?  (order.getId().hashCode()) : 0);
             }
         }
         return result;
@@ -89,9 +96,8 @@ public class Content {
 
     @Override
     public String toString() {
-        StringBuilder order = new StringBuilder(" " + orders.get(0).getClass().getTypeName() + "{ contains");
-        for (Order order1 : orders
-        ) {
+        StringBuilder order = new StringBuilder(orders.get(0).getClass().getTypeName() + "{ contains");
+        for (Order order1 : orders) {
             order.append(" [ detail {" + order1.getId() + "},");
         }
         if (order.length() > 0) {order.setLength(order.length()-1);}

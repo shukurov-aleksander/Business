@@ -14,9 +14,12 @@ public class OrderTest {
     Order z = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
     Order v = new Order(2L,new Date(31548484466546L),new Date(31548488466546L),contents);
     Order order1 = new Order(2L,null,new Date(31548488466546L),null);
-    Order order4 = new Order(2L,null,new Date(31548488466546L),null);
+    Order order11 = new Order(2L,null,new Date(31548488466546L),null);
     Order order2 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
+    Order order4 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),null);
+    Order order22 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
     Order order3 = new Order(2L,null,null,null);
+    Order order33 = new Order(2L,null,null,null);
     @Test
     public void equalsReflexiveTesting() {
         Assertions.assertTrue(x.equals(x));
@@ -65,8 +68,22 @@ public class OrderTest {
     @Test
     public void testingEquals() {
         Assertions.assertFalse(order1.equals(order2));
-        Assertions.assertFalse(order1.equals(order3));
         Assertions.assertFalse(order2.equals(order3));
-        Assertions.assertTrue(order1.equals(order4));
+        Assertions.assertFalse(order1.equals(order3));
+        Assertions.assertTrue(order1.equals(order11));
+        Assertions.assertTrue(order2.equals(order22));
+        Assertions.assertTrue(order3.equals(order33));
+    }
+
+    @Test
+    public void testingHashCode() {
+        Assertions.assertFalse(order1.hashCode() == (order2).hashCode());
+        Assertions.assertFalse(order2.hashCode() == (order3).hashCode());
+        Assertions.assertFalse(order1.hashCode() == (order3).hashCode());
+        Assertions.assertTrue(order1.hashCode() == (order11).hashCode());
+        Assertions.assertTrue(order2.hashCode() == (order22).hashCode());
+        Assertions.assertTrue(order3.hashCode() == (order33).hashCode());
+        Assertions.assertFalse(order2.hashCode() == (order4).hashCode());
+
     }
 }

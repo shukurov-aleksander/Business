@@ -53,14 +53,23 @@ public class Storage {
         if (this == obj) {return true;}
         if (obj == null || getClass() != obj.getClass()) {return false;}
         Storage aThat = (Storage) obj;
-        if ((this.id==null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.quantity==null && aThat.quantity != null) || (this.quantity != null && aThat.quantity == null)) {return false;}
-        if ((this.companyId==null && aThat.companyId != null) || (this.companyId != null && aThat.companyId == null)) {return false;}
-        if ((this.serviceId==null && aThat.serviceId != null) || (this.serviceId != null && aThat.serviceId == null)) {return false;}
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.quantity == aThat.quantity) && (aThat.quantity == null)) || (this.quantity.equals(aThat.quantity))) &&
-                (((this.companyId == aThat.companyId) && (aThat.companyId == null)) || (this.companyId.equals(aThat.companyId))) &&
-                (((this.serviceId == aThat.serviceId) && (aThat.serviceId == null)) || (this.serviceId.equals(aThat.serviceId)));
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getQuantity() == null) {
+            if (aThat.getQuantity() != null) {return false;}
+        } else if (!getQuantity().equals(aThat.getQuantity())) {return false;}
+
+        if (getCompanyId() == null) {
+            if (aThat.getCompanyId() != null) {return false;}
+        } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
+
+        if (getServiceId() == null) {
+            if (aThat.getServiceId() != null) {return false;}
+        } else if (!getServiceId().equals(aThat.getServiceId())) {return false;}
+        return true;
     }
 
     @Override
@@ -69,8 +78,8 @@ public class Storage {
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
-        result = prime * result + (companyId.getId() == null ? 0 : companyId.hashCode());
-        result = prime * result + (serviceId.getId() == null ? 0 : serviceId.hashCode());
+        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
+        result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
         return result;
     }
     public String toString() {

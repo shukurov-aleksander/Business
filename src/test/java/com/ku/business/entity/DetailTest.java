@@ -18,9 +18,11 @@ public class DetailTest {
     Detail z = new Detail(1L, company, order);
     Detail v = new Detail(2L, company, order);
     Detail detail1 = new Detail(2L, null, order);
-    Detail detail4 = new Detail(2L, null, order);
+    Detail detail11 = new Detail(2L, null, order);
     Detail detail2 = new Detail(null, company, order);
+    Detail detail22 = new Detail(null, company, order);
     Detail detail3 = new Detail(2L, null, null);
+    Detail detail33 = new Detail(2L, null, null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -71,8 +73,20 @@ public class DetailTest {
     @Test
     public void testingEquals() {
         Assertions.assertFalse(detail1.equals(detail2));
-        Assertions.assertFalse(detail1.equals(detail3));
         Assertions.assertFalse(detail2.equals(detail3));
-        Assertions.assertTrue(detail1.equals(detail4));
+        Assertions.assertFalse(detail1.equals(detail3));
+        Assertions.assertTrue(detail1.equals(detail11));
+        Assertions.assertTrue(detail2.equals(detail22));
+        Assertions.assertTrue(detail3.equals(detail33));
+    }
+
+    @Test
+    public void testingHashCode() {
+        Assertions.assertFalse(detail1.hashCode() == (detail2).hashCode());
+        Assertions.assertFalse(detail2.hashCode() == (detail3).hashCode());
+        Assertions.assertFalse(detail1.hashCode() == (detail3).hashCode());
+        Assertions.assertTrue(detail1.hashCode() == (detail11).hashCode());
+        Assertions.assertTrue(detail2.hashCode() == (detail22).hashCode());
+        Assertions.assertTrue(detail3.hashCode() == (detail33).hashCode());
     }
 }

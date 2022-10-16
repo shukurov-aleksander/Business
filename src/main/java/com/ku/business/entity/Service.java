@@ -53,14 +53,23 @@ public class Service {
         if (this == obj) {return true;}
         if (obj == null || getClass() != obj.getClass()) {return false;}
         Service aThat = (Service) obj;
-        if ((this.id==null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.sum==null && aThat.sum != null) || (this.sum != null && aThat.sum == null)) {return false;}
-        if ((this.serviceName==null && aThat.serviceName != null) || (this.serviceName != null && aThat.serviceName == null)) {return false;}
-        if ((this.serviceDescription==null && aThat.serviceDescription != null) || (this.serviceDescription != null && aThat.serviceDescription == null)) {return false;}
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.sum == aThat.sum) && (aThat.sum == null)) || (this.sum.equals(aThat.sum))) &&
-                (((this.serviceName == aThat.serviceName) && (aThat.serviceName == null)) || (this.serviceName.equals(aThat.serviceName))) &&
-                (((this.serviceDescription == aThat.serviceDescription) && (aThat.serviceDescription == null)) || (this.serviceDescription.equals(aThat.serviceDescription)));
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getServiceName() == null) {
+            if (aThat.getServiceName() != null) {return false;}
+        } else if (!getServiceName().equals(aThat.getServiceName())) {return false;}
+
+        if (getSum() == null) {
+            if (aThat.getSum() != null) {return false;}
+        } else if (!getSum().equals(aThat.getSum())) {return false;}
+
+        if (getServiceDescription() == null) {
+            if (aThat.getServiceDescription() != null) {return false;}
+        } else if (!getServiceDescription().equals(aThat.getServiceDescription())) {return false;}
+        return true;
     }
 
     @Override

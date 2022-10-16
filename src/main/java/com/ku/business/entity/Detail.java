@@ -52,12 +52,19 @@ public class Detail {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Detail aThat = (Detail) obj;
-        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.companyId == null && aThat.companyId != null) || (this.companyId != null && aThat.companyId == null)) {return false;}
-        if ((this.orderId == null && aThat.orderId  != null) || (this.orderId  != null && aThat.orderId  == null)) {return false;}
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.companyId == aThat.companyId) && (aThat.companyId == null)) || (this.companyId.equals(aThat.companyId))) &&
-                (((this.orderId == aThat.orderId) && (aThat.orderId == null)) || (this.orderId.equals(aThat.orderId)));
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getCompanyId() == null) {
+            if (aThat.getCompanyId() != null) {return false;}
+        } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
+
+        if (getOrderId() == null) {
+            if (aThat.getOrderId() != null) {return false;}
+        } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
+        return true;
     }
 
     @Override
@@ -65,8 +72,8 @@ public class Detail {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (companyId.getId()==null ? 0 : companyId.hashCode());
-        result = prime * result + (orderId.getId() == null ? 0 : orderId.hashCode());
+        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
+        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
         return result;
     }
 

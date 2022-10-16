@@ -93,34 +93,42 @@ public class Company {
         if (this == obj) {return true;}
         if (obj == null || getClass() != obj.getClass()) {return false;}
         Company aThat = (Company) obj;
-        if ((this.id == null && aThat.id != null) || (this.id != null && aThat.id == null)) {return false;}
-        if ((this.companyName == null && aThat.companyName != null) || (this.companyName != null && aThat.companyName == null)) {return false;}
-        if ((this.taxNumber == null && aThat.taxNumber != null) || (this.taxNumber != null && aThat.taxNumber == null)) {return false;}
-        if ((this.isGovernmentAgency == null && aThat.isGovernmentAgency != null) || (this.isGovernmentAgency != null && aThat.isGovernmentAgency == null)) {return false;}
-        if ((this.userId == null && aThat.userId != null) || (this.userId != null && aThat.userId == null)) {return false;}
-        if ((this.storages == null && aThat.storages != null) || (this.storages != null && aThat.storages == null)) {return false;}
-        if ((this.details == null && aThat.details != null) || (this.details != null && aThat.details == null)) {return false;}
-        if ((this.storages != null && aThat.storages != null) && (this.storages.size() == aThat.storages.size())) {
-            for (int i = 0; i < storages.size(); i++) {
-                if (!storages.get(0).getId().equals(aThat.storages.get(0).getId()))
-                {return false;}
+
+        if (getId() == null) {
+            if (aThat.getId() != null) {return false;}
+        } else if (!getId().equals(aThat.getId())) {return false;}
+
+        if (getCompanyName() == null) {
+            if (aThat.getCompanyName() != null) {return false;}
+        } else if (!getCompanyName().equals(aThat.getCompanyName())) {return false;}
+
+        if (getTaxNumber() == null) {
+            if (aThat.getTaxNumber() != null) {return false;}
+        } else if (!getTaxNumber().equals(aThat.getTaxNumber())) {return false;}
+
+        if (isGovernmentAgency() == null) {
+            if (aThat.isGovernmentAgency() != null) {return false;}
+        } else if (!isGovernmentAgency().equals(aThat.isGovernmentAgency())) {return false;}
+
+        if (getUserId() == null) {
+            if (aThat.getUserId() != null) {return false;}
+        } else if (!getUserId().equals(aThat.getUserId())) {return false;}
+
+        if ((getStorages() == null && aThat.getStorages() != null) || (getStorages() != null && aThat.getStorages() == null)) {return false;}
+        else if (getStorages() != null && aThat.getStorages() != null) {
+            for (int i = 0; i < getStorages().size(); i++) {
+                if (!getStorages().get(i).getId().equals(aThat.getStorages().get(i).getId())) {return false;}
             }
         }
-        if ((this.details != null && aThat.details != null) && (this.details.size() == aThat.details.size())) {
-            for (int i = 0; i < details.size(); i++) {
-                if (!details.get(0).getId().equals(aThat.details.get(0).getId()))
-                {return false;}
+
+        if ((getDetails() == null && aThat.getDetails() != null) || (getDetails() != null && aThat.getDetails() == null)) {return false;}
+        else if (getDetails() != null && aThat.getDetails() != null) {
+            for (int i = 0; i < getDetails().size(); i++) {
+                if (!getDetails().get(i).getId().equals(aThat.getDetails().get(i).getId())) {return false;}
             }
         }
-        return (((this.id == aThat.id) && (aThat.id == null)) || (this.id.equals(aThat.id))) &&
-                (((this.companyName == aThat.companyName) && (aThat.companyName == null)) || (this.companyName.equals(aThat.companyName))) &&
-                (((this.taxNumber == aThat.taxNumber) && (aThat.taxNumber == null)) || (this.taxNumber.equals(aThat.taxNumber))) &&
-                (((this.isGovernmentAgency == aThat.isGovernmentAgency) && (aThat.isGovernmentAgency == null)) || (this.isGovernmentAgency.equals(aThat.isGovernmentAgency))) &&
-                (((this.userId == aThat.userId) && (aThat.userId == null)) || (this.userId.equals(aThat.userId)));
+        return true;
     }
-
-
-
 
     @Override
     public int hashCode() {
@@ -131,16 +139,14 @@ public class Company {
         result = prime * result + (companyName == null ? 0 : companyName.hashCode());
         result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         result = prime * result + (userId == null ? 0 : userId.hashCode());
-        if(storages!=null) {
-            for (Storage storage : storages
-                 ) {
-                result = prime * result + (storage!=null && storage.getId()!=null ?  (storage.getId().hashCode()) : 0);
+        if (storages != null) {
+            for (Storage storage : storages) {
+                result = prime * result + (storage != null && storage.getId() != null ? (storage.getId().hashCode()) : 0);
             }
         }
-        if(details!=null) {
-            for (Detail detail : details
-            ) {
-                result = prime * result + (detail!=null && detail.getId()!=null ?  (detail.getId().hashCode()) : 0);
+        if (details != null) {
+            for (Detail detail : details) {
+                result = prime * result + (detail != null && detail.getId() != null ? (detail.getId().hashCode()) : 0);
             }
         }
         return result;
@@ -148,19 +154,21 @@ public class Company {
 
     @Override
     public String toString() {
-        StringBuilder storage = new StringBuilder(" " + storages.get(0).getClass().getTypeName() + "{ contains");
-        for (Storage storage1 : storages
-             ) {
+        StringBuilder storage = new StringBuilder(storages.get(0).getClass().getTypeName() + "{ contains");
+        for (Storage storage1 : storages) {
             storage.append(" [ detail {" + storage1.getId() + "},");
         }
-        if (storage.length() > 0) {storage.setLength(storage.length()-1);}
+        if (storage.length() > 0) {
+            storage.setLength(storage.length() - 1);
+        }
         storage.append(" ]");
-        StringBuilder detail = new StringBuilder(" " + details.get(0).getClass().getTypeName() + "{ contains");
-        for (Detail detail1 : details
-        ) {
+        StringBuilder detail = new StringBuilder(details.get(0).getClass().getTypeName() + "{ contains");
+        for (Detail detail1 : details) {
             detail.append(" [ detail {" + detail1.getId() + "},");
         }
-        if (detail.length() > 0) {detail.setLength(detail.length()-1);}
+        if (detail.length() > 0) {
+            detail.setLength(detail.length() - 1);
+        }
         detail.append(" ]");
 
 
@@ -171,6 +179,6 @@ public class Company {
                 "' , isGovernmentAgency=" + isGovernmentAgency +
                 " , userId=" + userId +
                 " , storages=" + storage +
-                " , details="+ detail + "}";
+                " , details=" + detail + "}";
     }
 }

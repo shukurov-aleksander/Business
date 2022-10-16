@@ -17,9 +17,11 @@ public class StorageTest {
     Storage z = new Storage(1L,255,company,service);
     Storage v = new Storage(2L,365,company2,service);
     Storage storage1 = new Storage(2L,365,null,service);
-    Storage storage4 = new Storage(2L,365,null,service);
+    Storage storage11 = new Storage(2L,365,null,service);
     Storage storage2 = new Storage(null,365,company2,service);
+    Storage storage22 = new Storage(null,365,company2,service);
     Storage storage3 = new Storage(2L,365,null,null);
+    Storage storage33 = new Storage(2L,365,null,null);
 
     @Test
     public void equalsReflexiveTesting() {
@@ -70,8 +72,20 @@ public class StorageTest {
     @Test
     public void testingEquals() {
         Assertions.assertFalse(storage1.equals(storage2));
-        Assertions.assertFalse(storage1.equals(storage3));
         Assertions.assertFalse(storage2.equals(storage3));
-        Assertions.assertTrue(storage1.equals(storage4));
+        Assertions.assertFalse(storage1.equals(storage3));
+        Assertions.assertTrue(storage1.equals(storage11));
+        Assertions.assertTrue(storage2.equals(storage22));
+        Assertions.assertTrue(storage3.equals(storage33));
+    }
+
+    @Test
+    public void testingHashCode() {
+        Assertions.assertFalse(storage1.hashCode() == (storage2).hashCode());
+        Assertions.assertFalse(storage2.hashCode() == (storage3).hashCode());
+        Assertions.assertFalse(storage1.hashCode() == (storage3).hashCode());
+        Assertions.assertTrue(storage1.hashCode() == (storage11).hashCode());
+        Assertions.assertTrue(storage2.hashCode() == (storage22).hashCode());
+        Assertions.assertTrue(storage3.hashCode() == (storage33).hashCode());
     }
 }
