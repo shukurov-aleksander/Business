@@ -96,16 +96,15 @@ public class Content {
 
     @Override
     public String toString() {
-        StringBuilder order = new StringBuilder(orders.get(0).getClass().getTypeName() + "{ contains");
-        for (Order order1 : orders) {
-            order.append(" [ detail {" + order1.getId() + "},");
+        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " {id=" + getId() + ", quantity=" +
+                getQuantity() + ", serviceID=" + getServiceId() + "} contains [");
+        if (!getOrders().isEmpty()) {
+            for (Order order: orders) {
+                stringBuilder.append("detail {" + order.getId() + "}, ");
+            }
         }
-        if (order.length() > 0) {order.setLength(order.length()-1);}
-        order.append(" ]");
-        return this.getClass().getSimpleName() + " [" +
-                "id=" + id +
-                ", quantity=" + quantity +
-                " , serviceId=" + serviceId.toString() +
-                "orderList=" + order + "]";
+        stringBuilder.setLength(stringBuilder.length()-2);
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
     }
 }

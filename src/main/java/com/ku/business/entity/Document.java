@@ -69,9 +69,9 @@ public class Document {
     }
     @Override
     public String toString() {
-        return  this.getClass().getSimpleName() + " [" +
+        return  getClass().getSimpleName() + " {" +
                 "id=" + id +
                 ", orderId=" + orderId.toString() +
-                " , documentContent='" + documentContent +"']";
+                " , documentContent='" + documentContent +"'}";
     }
 }

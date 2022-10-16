@@ -83,10 +83,10 @@ public class Service {
         return result;
     }
     public String toString() {
-        return  this.getClass().getSimpleName() + " [" +
+        return  getClass().getSimpleName() + " [" +
                 "id=" + id +
                 "sum=" + sum +
                 ", serviceName=' " + serviceName +
-                "' , serviceDescription=" + serviceDescription + "']";
+                "' , serviceDescription='" + serviceDescription + "']";
     }
 }

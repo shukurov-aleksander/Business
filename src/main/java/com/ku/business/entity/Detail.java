@@ -79,11 +79,9 @@ public class Detail {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [" +
-                "id=" + id +
-                ", companyId='" + companyId.toString() +
-                "' , orderId='" + orderId.toString() +
-                "' , operationType= '" + operationType + "']";
+        return getClass().getSimpleName() + " {id=" + getId() +
+                ", companyId=" + getCompanyId() +
+                ", orderId=" + getOrderId() +
+                ", operationType=" + getOperationType() + "}";
     }
-
 }

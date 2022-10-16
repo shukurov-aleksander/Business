@@ -154,31 +154,23 @@ public class Company {
 
     @Override
     public String toString() {
-        StringBuilder storage = new StringBuilder(storages.get(0).getClass().getTypeName() + "{ contains");
-        for (Storage storage1 : storages) {
-            storage.append(" [ detail {" + storage1.getId() + "},");
+        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " {id=" + getId() + ", companyName=" +
+                getCompanyName() + ", taxNumber=" + getTaxNumber() + ", isGovernmentAgency=" + isGovernmentAgency() + ", uerId=" +
+                getUserId() + "} contains [");
+        if (!getStorages().isEmpty()) {
+            for (Storage storage: storages) {
+                stringBuilder.append("detail {" + storage.getId() + "}, ");
+            }
         }
-        if (storage.length() > 0) {
-            storage.setLength(storage.length() - 1);
+        stringBuilder.setLength(stringBuilder.length()-1);
+        stringBuilder.append("], contains [");
+        if (!getDetails().isEmpty()) {
+            for (Detail detail: details) {
+                stringBuilder.append("detail {" + detail.getId() + "}, ");
+            }
         }
-        storage.append(" ]");
-        StringBuilder detail = new StringBuilder(details.get(0).getClass().getTypeName() + "{ contains");
-        for (Detail detail1 : details) {
-            detail.append(" [ detail {" + detail1.getId() + "},");
-        }
-        if (detail.length() > 0) {
-            detail.setLength(detail.length() - 1);
-        }
-        detail.append(" ]");
-
-
-        return this.getClass().getSimpleName() + " {" +
-                "id=" + id +
-                ", companyName='" + companyName +
-                "' , taxNumber='" + taxNumber +
-                "' , isGovernmentAgency=" + isGovernmentAgency +
-                " , userId=" + userId +
-                " , storages=" + storage +
-                " , details=" + detail + "}";
+        stringBuilder.setLength(stringBuilder.length()-2);
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
     }
 }
