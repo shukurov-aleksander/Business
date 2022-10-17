@@ -13,11 +13,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, LocalDateTime createdAtUtc, LocalDateTime completedAtUtc, List<Content> contents) {
+    public Order(Long id, LocalDateTime createdAtUtc, LocalDateTime completedAtUtc, List<Content> contents, OrderStatus orderStatus) {
         this.id = id;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;
         this.contents = contents;
+        this.orderStatus = orderStatus;
     }
 
     public Long getId() {
@@ -78,6 +79,8 @@ public class Order {
             if (aThat.getCompletedAtUtc() != null) {return false;}
         } else if (!getCompletedAtUtc().equals(aThat.getCompletedAtUtc())) {return false;}
 
+        if (getOrderStatus() != aThat.getOrderStatus()) {return false;}
+
         if ((getContents() == null && aThat.getContents() != null) || (getContents() != null && aThat.getContents() == null)) {return false;}
         else if (getContents() != null && aThat.getContents() != null) {
             for (int i = 0; i < getContents().size(); i++) {
@@ -94,6 +97,7 @@ public class Order {
         result = prime * result +  (id == null ? 0 : id.hashCode());
         result = prime * result + (createdAtUtc == null ? 0 : createdAtUtc.hashCode());
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
+        result = prime * result + (orderStatus == null ? 0 : orderStatus.hashCode());
         if(contents != null) {
             for (Content content : contents) {
                 result = prime * result + (content != null && content.getId() != null ?  (content.getId().hashCode()) : 0);
@@ -106,6 +110,7 @@ public class Order {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {id=").append(getId())
+                .append(", orderStatus=").append(getOrderStatus())
                 .append(", createdAtUtc=").append(getCreatedAtUtc())
                 .append(", completedAtUtc=").append(getCompletedAtUtc())
                 .append(", Content contains [");

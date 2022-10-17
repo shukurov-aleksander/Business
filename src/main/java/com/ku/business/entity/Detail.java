@@ -9,10 +9,11 @@ public class Detail {
     public Detail() {
     }
 
-    public Detail(Long id, Company companyId, Order orderId) {
+    public Detail(Long id, Company companyId, Order orderId, OperationType operationType) {
         this.id = id;
         this.companyId = companyId;
         this.orderId = orderId;
+        this.operationType = operationType;
     }
 
     public Long getId() {
@@ -61,6 +62,8 @@ public class Detail {
             if (aThat.getCompanyId() != null) {return false;}
         } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
 
+        if (getOperationType() != aThat.getOperationType()) {return false;}
+
         if (getOrderId() == null) {
             if (aThat.getOrderId() != null) {return false;}
         } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
@@ -74,6 +77,7 @@ public class Detail {
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (companyId == null ? 0 : companyId.hashCode());
         result = prime * result + (orderId == null ? 0 : orderId.hashCode());
+        result = prime * result + (operationType == null ? 0 : operationType.hashCode());
         return result;
     }
 
