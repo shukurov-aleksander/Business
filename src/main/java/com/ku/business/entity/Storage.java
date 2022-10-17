@@ -83,10 +83,10 @@ public class Storage {
         return result;
     }
     public String toString() {
-        return this.getClass().getSimpleName() + " [" +
-                "id=" + id +
-                "quantity=" + quantity +
-                ", companyId=" + companyId.toString() +
-                ", serviceId=" + serviceId.toString() + "]";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()).append(" {").append("id=").append(id).append(", quantity=")
+                .append(quantity).append(", companyId=").append(companyId.toString()).append(", serviceId=")
+                .append(serviceId.toString()).append("}");
+        return stringBuilder.toString();
     }
 }

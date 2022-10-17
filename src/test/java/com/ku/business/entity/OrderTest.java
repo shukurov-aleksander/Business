@@ -8,82 +8,95 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderTest {
-    List<Content> contents = new ArrayList<>();
-    Order x = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
-    Order y = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
-    Order z = new Order(1L,new Date(51548484466546L),new Date(51548488466546L),contents);
-    Order v = new Order(2L,new Date(31548484466546L),new Date(31548488466546L),contents);
-    Order order1 = new Order(2L,null,new Date(31548488466546L),null);
-    Order order11 = new Order(2L,null,new Date(31548488466546L),null);
-    Order order2 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
-    Order order4 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),null);
-    Order order22 = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
-    Order order3 = new Order(2L,null,null,null);
-    Order order33 = new Order(2L,null,null,null);
+
     @Test
-    public void equalsReflexiveTesting() {
-        Assertions.assertTrue(x.equals(x));
+    public void testEqualsWhenIdNull() {
+        //given
+        Service service = new Service(1L,"sell",355L,"sell something");
+        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        List<Order> orders = new ArrayList<>();
+        orders.add(firstOrder);
+        orders.add(secondOrder);
+        orders.add(null);
+        Content firstContent = new Content(null,255L,service,orders);
+        Content secondContent = new Content(null,384L,service,null);
+        List<Content> contents = new ArrayList<>();
+        contents.add(firstContent);
+        contents.add(secondContent);
+        Order first = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
+        Order second = new Order(null,null,new Date(31548488466546L),null);
+
+        //when
+        boolean isEqual = first.equals(second);
+
+        //then
+        Assertions.assertFalse(isEqual);
     }
 
     @Test
-    public void equalsSymmetricTesting() {
-        Assertions.assertTrue(x.equals(y) && y.equals(x));
+    public void testHashCodeWhenIdNull() {
+        //given
+        Service service = new Service(1L,"sell",355L,"sell something");
+        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        List<Order> orders = new ArrayList<>();
+        orders.add(firstOrder);
+        orders.add(secondOrder);
+        orders.add(null);
+        Content firstContent = new Content(null,255L,service,orders);
+        Content secondContent = new Content(null,384L,service,null);
+        List<Content> contents = new ArrayList<>();
+        contents.add(firstContent);
+        contents.add(secondContent);
+        Order first = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
+        Order second = new Order(null,null,new Date(31548488466546L),null);
+
+        //when
+        boolean isHashCodeEqual = first.hashCode()==second.hashCode();
+
+        //then
+        Assertions.assertFalse(isHashCodeEqual);
     }
 
     @Test
-    public void equalsTransitiveTesting() {
-        Assertions.assertTrue(x.equals(y) && y.equals(z) && x.equals(z));
+    public void testToStringWithCollections() {
+        //given
+        Service service = new Service(1L,"sell",355L,"sell something");
+        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        List<Order> orders = new ArrayList<>();
+        orders.add(firstOrder);
+        orders.add(secondOrder);
+        orders.add(null);
+        Content firstContent = new Content(null,255L,service,orders);
+        Content secondContent = new Content(null,384L,service,null);
+        List<Content> contents = new ArrayList<>();
+        contents.add(firstContent);
+        contents.add(secondContent);
+        Order order = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
+
+        //when
+        String output = order.toString();
+
+        //then
+        System.out.println(output);
+        Assertions.assertTrue(output.contains("id=null"));
     }
 
     @Test
-    public void equalsConsistentTesting() {
-        for (int i = 0; i <= 2; i++) {
-            Assertions.assertTrue(x.equals(y));
-        }
+    public void testHashCodeCollisionForDifferentObjects() {
+        //given
+        List<Content> contents = new ArrayList<>();
+        Order first = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
+        Order second = new Order(null,new Date(31548484466546L),new Date(31548488466546L),null);
 
-    }
+        //when
+        boolean isHashCodeEqual = first.hashCode() == second.hashCode();
+        boolean isObjectsEqual = first.equals(second);
 
-    @Test
-    public void equalsEqualToNullTesting() {
-        Assertions.assertFalse(x.equals(null));
-    }
-
-    @Test
-    public void hashCodePermanentCalling() {
-        Assertions.assertTrue(x.hashCode() == x.hashCode());
-    }
-
-    @Test
-    public void hashCodeForEqualObjectsCalling() {
-        Assertions.assertTrue(x.equals(y));
-        Assertions.assertTrue(x.hashCode() == y.hashCode());
-    }
-
-    @Test
-    public void equalsHashcodeDifferentObjects() {
-        Assertions.assertFalse(x.equals(v) && x.hashCode() == v.hashCode());
-        Assertions.assertTrue(x.equals(y) && x.hashCode() == y.hashCode());
-    }
-
-    @Test
-    public void testingEquals() {
-        Assertions.assertFalse(order1.equals(order2));
-        Assertions.assertFalse(order2.equals(order3));
-        Assertions.assertFalse(order1.equals(order3));
-        Assertions.assertTrue(order1.equals(order11));
-        Assertions.assertTrue(order2.equals(order22));
-        Assertions.assertTrue(order3.equals(order33));
-    }
-
-    @Test
-    public void testingHashCode() {
-        Assertions.assertFalse(order1.hashCode() == (order2).hashCode());
-        Assertions.assertFalse(order2.hashCode() == (order3).hashCode());
-        Assertions.assertFalse(order1.hashCode() == (order3).hashCode());
-        Assertions.assertTrue(order1.hashCode() == (order11).hashCode());
-        Assertions.assertTrue(order2.hashCode() == (order22).hashCode());
-        Assertions.assertTrue(order3.hashCode() == (order33).hashCode());
-        Assertions.assertFalse(order2.hashCode() == (order4).hashCode());
-
+        //then
+        Assertions.assertTrue(isHashCodeEqual);
+        Assertions.assertFalse(isObjectsEqual);
     }
 }

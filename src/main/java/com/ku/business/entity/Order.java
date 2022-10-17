@@ -103,15 +103,17 @@ public class Order {
     }
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " {id=" + getId() + ", createdAtUtc=" +
-                getCreatedAtUtc() + ", completedAtUtc=" + getCompletedAtUtc() + "} contains [");
-        if (!getContents().isEmpty()) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", createdAtUtc=")
+                .append(getCreatedAtUtc()).append(", completedAtUtc=").append(getCompletedAtUtc())
+                .append(", Content contains [");
+        if (getContents() != null && !getContents().isEmpty()) {
             for (Content content: contents) {
-                stringBuilder.append("detail {" + content.getId() + "}, ");
+                stringBuilder.append("detail {").append(content.getId()).append("}, ");
             }
+            stringBuilder.setLength(stringBuilder.length()-2);
         }
-        stringBuilder.setLength(stringBuilder.length()-2);
-        stringBuilder.append("]}");
+                stringBuilder.append("]}");
         return stringBuilder.toString();
     }
 }

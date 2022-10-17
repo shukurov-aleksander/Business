@@ -79,9 +79,10 @@ public class Detail {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " {id=" + getId() +
-                ", companyId=" + getCompanyId() +
-                ", orderId=" + getOrderId() +
-                ", operationType=" + getOperationType() + "}";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", companyId=")
+                .append(getCompanyId()).append(", orderId=").append(getOrderId()).append(", operationType=")
+                .append(getOperationType()).append("}");
+        return  stringBuilder.toString();
     }
 }

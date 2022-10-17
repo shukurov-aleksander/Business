@@ -83,10 +83,10 @@ public class Service {
         return result;
     }
     public String toString() {
-        return  getClass().getSimpleName() + " [" +
-                "id=" + id +
-                "sum=" + sum +
-                ", serviceName=' " + serviceName +
-                "' , serviceDescription='" + serviceDescription + "']";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()).append(" {").append("id=").append(id).append(", sum=")
+                .append(sum).append(", serviceName='").append(serviceName).append("', serviceDescription='")
+                .append(serviceDescription).append("'}");
+        return  stringBuilder.toString();
     }
 }

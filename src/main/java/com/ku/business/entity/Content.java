@@ -1,6 +1,5 @@
 package com.ku.business.entity;
 
-
 import java.util.List;
 
 public class Content {
@@ -96,15 +95,16 @@ public class Content {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " {id=" + getId() + ", quantity=" +
-                getQuantity() + ", serviceID=" + getServiceId() + "} contains [");
-        if (!getOrders().isEmpty()) {
+        StringBuilder stringBuilder = new StringBuilder();
+       stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", quantity=")
+               .append(getQuantity()).append(", serviceID=").append(getServiceId()).append(" contains [");
+        if (getOrders()!=null && !getOrders().isEmpty()) {
             for (Order order: orders) {
-                stringBuilder.append("detail {" + order.getId() + "}, ");
+                stringBuilder.append("detail orderID {").append(order.getId()).append("}, ");
             }
+            stringBuilder.setLength(stringBuilder.length()-2);
         }
-        stringBuilder.setLength(stringBuilder.length()-2);
-        stringBuilder.append("]}");
+                stringBuilder.append("]}");
         return stringBuilder.toString();
     }
 }

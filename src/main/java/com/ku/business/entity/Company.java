@@ -154,23 +154,25 @@ public class Company {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " {id=" + getId() + ", companyName=" +
-                getCompanyName() + ", taxNumber=" + getTaxNumber() + ", isGovernmentAgency=" + isGovernmentAgency() + ", uerId=" +
-                getUserId() + "} contains [");
-        if (!getStorages().isEmpty()) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", companyName=")
+                .append(getCompanyName()).append(", taxNumber=").append(getTaxNumber())
+                .append(", isGovernmentAgency=").append(isGovernmentAgency()).append(", uerId=")
+                .append(getUserId()).append(", storages contains [");
+        if (getStorages()!= null && !getStorages().isEmpty()) {
             for (Storage storage: storages) {
-                stringBuilder.append("detail {" + storage.getId() + "}, ");
+                stringBuilder.append("detail storageId {").append(storage.getId()).append("}, ");
             }
+            stringBuilder.setLength(stringBuilder.length()-2);
         }
-        stringBuilder.setLength(stringBuilder.length()-1);
-        stringBuilder.append("], contains [");
-        if (!getDetails().isEmpty()) {
+        stringBuilder.append("], details contains [");
+        if (getDetails()!= null && !getDetails().isEmpty()) {
             for (Detail detail: details) {
-                stringBuilder.append("detail {" + detail.getId() + "}, ");
+                stringBuilder.append("detail detailId {").append(detail.getId()).append("}, ");
             }
+            stringBuilder.setLength(stringBuilder.length()-3);
         }
-        stringBuilder.setLength(stringBuilder.length()-2);
-        stringBuilder.append("]}");
+        stringBuilder.append("}]}");
         return stringBuilder.toString();
     }
 }
