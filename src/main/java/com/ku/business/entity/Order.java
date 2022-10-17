@@ -96,7 +96,7 @@ public class Order {
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
         if(contents != null) {
             for (Content content : contents) {
-                result = prime * result + (content != null && content.getId() !=null ?  (content.getId().hashCode()) : 0);
+                result = prime * result + (content != null && content.getId() != null ?  (content.getId().hashCode()) : 0);
             }
         }
         return result;

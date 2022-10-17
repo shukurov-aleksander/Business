@@ -162,14 +162,14 @@ public class Company {
                 .append(", isGovernmentAgency=").append(isGovernmentAgency())
                 .append(", uerId=").append(getUserId())
                 .append(", storages contains [");
-        if (getStorages()!= null && !getStorages().isEmpty()) {
+        if (getStorages() != null && !getStorages().isEmpty()) {
             for (Storage storage: storages) {
                 stringBuilder.append("detail storageId {").append(storage.getId()).append("}, ");
             }
             stringBuilder.setLength(stringBuilder.length()-2);
         }
         stringBuilder.append("], details contains [");
-        if (getDetails()!= null && !getDetails().isEmpty()) {
+        if (getDetails() != null && !getDetails().isEmpty()) {
             for (Detail detail: details) {
                 stringBuilder.append("detail detailId {").append(detail.getId()).append("}, ");
             }

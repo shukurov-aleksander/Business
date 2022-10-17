@@ -101,7 +101,7 @@ public class Content {
                .append(", quantity=").append(getQuantity())
                .append(", serviceID=").append(getServiceId())
                .append(" contains [");
-        if (getOrders()!=null && !getOrders().isEmpty()) {
+        if (getOrders() != null && !getOrders().isEmpty()) {
             for (Order order: orders) {
                 stringBuilder.append("detail orderID {").append(order.getId()).append("}, ");
             }
