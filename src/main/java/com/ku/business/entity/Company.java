@@ -155,10 +155,13 @@ public class Company {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", companyName=")
-                .append(getCompanyName()).append(", taxNumber=").append(getTaxNumber())
-                .append(", isGovernmentAgency=").append(isGovernmentAgency()).append(", uerId=")
-                .append(getUserId()).append(", storages contains [");
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" {id=").append(getId())
+                .append(", companyName=").append(getCompanyName())
+                .append(", taxNumber=").append(getTaxNumber())
+                .append(", isGovernmentAgency=").append(isGovernmentAgency())
+                .append(", uerId=").append(getUserId())
+                .append(", storages contains [");
         if (getStorages()!= null && !getStorages().isEmpty()) {
             for (Storage storage: storages) {
                 stringBuilder.append("detail storageId {").append(storage.getId()).append("}, ");

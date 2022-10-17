@@ -84,9 +84,13 @@ public class Storage {
     }
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getClass().getSimpleName()).append(" {").append("id=").append(id).append(", quantity=")
-                .append(quantity).append(", companyId=").append(companyId.toString()).append(", serviceId=")
-                .append(serviceId.toString()).append("}");
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" {")
+                .append("id=").append(getId())
+                .append(", quantity=").append(getQuantity())
+                .append(", companyId=").append(getCompanyId().toString())
+                .append(", serviceId=").append(getServiceId().toString())
+                .append("}");
         return stringBuilder.toString();
     }
 }

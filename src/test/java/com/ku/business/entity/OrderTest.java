@@ -3,8 +3,8 @@ package com.ku.business.entity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderTest {
@@ -13,8 +13,8 @@ public class OrderTest {
     public void testEqualsWhenIdNull() {
         //given
         Service service = new Service(1L,"sell",355L,"sell something");
-        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
-        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        Order firstOrder = new Order(null, LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
+        Order secondOrder = new Order(null,LocalDateTime.of(2022, 11, 14, 9, 25),null, null);
         List<Order> orders = new ArrayList<>();
         orders.add(firstOrder);
         orders.add(secondOrder);
@@ -24,8 +24,8 @@ public class OrderTest {
         List<Content> contents = new ArrayList<>();
         contents.add(firstContent);
         contents.add(secondContent);
-        Order first = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
-        Order second = new Order(null,null,new Date(31548488466546L),null);
+        Order first = new Order(null,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5),contents);
+        Order second = new Order(null,null,LocalDateTime.of(2022, 11, 14, 9, 25),null);
 
         //when
         boolean isEqual = first.equals(second);
@@ -38,8 +38,8 @@ public class OrderTest {
     public void testHashCodeWhenIdNull() {
         //given
         Service service = new Service(1L,"sell",355L,"sell something");
-        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
-        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        Order firstOrder = new Order(null, LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
+        Order secondOrder = new Order(null,LocalDateTime.of(2022, 11, 14, 9, 25),null, null);
         List<Order> orders = new ArrayList<>();
         orders.add(firstOrder);
         orders.add(secondOrder);
@@ -49,8 +49,8 @@ public class OrderTest {
         List<Content> contents = new ArrayList<>();
         contents.add(firstContent);
         contents.add(secondContent);
-        Order first = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
-        Order second = new Order(null,null,new Date(31548488466546L),null);
+        Order first = new Order(null,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5),contents);
+        Order second = new Order(null,null,LocalDateTime.of(2022, 11, 14, 9, 25),null);
 
         //when
         boolean isHashCodeEqual = first.hashCode()==second.hashCode();
@@ -63,8 +63,8 @@ public class OrderTest {
     public void testToStringWithCollections() {
         //given
         Service service = new Service(1L,"sell",355L,"sell something");
-        Order firstOrder = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
-        Order secondOrder = new Order(null,new Date(31543542466546L),null, null);
+        Order firstOrder = new Order(null, LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
+        Order secondOrder = new Order(null,LocalDateTime.of(2022, 11, 14, 9, 25),null, null);
         List<Order> orders = new ArrayList<>();
         orders.add(firstOrder);
         orders.add(secondOrder);
@@ -74,7 +74,7 @@ public class OrderTest {
         List<Content> contents = new ArrayList<>();
         contents.add(firstContent);
         contents.add(secondContent);
-        Order order = new Order(null,new Date(31524488466546L),new Date(31548488466546L),contents);
+        Order order = new Order(null,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5),contents);
 
         //when
         String output = order.toString();
@@ -88,8 +88,8 @@ public class OrderTest {
     public void testHashCodeCollisionForDifferentObjects() {
         //given
         List<Content> contents = new ArrayList<>();
-        Order first = new Order(null,new Date(31548484466546L),new Date(31548488466546L),contents);
-        Order second = new Order(null,new Date(31548484466546L),new Date(31548488466546L),null);
+        Order first = new Order(null,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5),contents);
+        Order second = new Order(null,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5),null);
 
         //when
         boolean isHashCodeEqual = first.hashCode() == second.hashCode();

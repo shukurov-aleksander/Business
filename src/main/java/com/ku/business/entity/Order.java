@@ -1,19 +1,19 @@
 package com.ku.business.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
     private Long id;
     private OrderStatus orderStatus;
-    private Date createdAtUtc;
-    private Date completedAtUtc;
+    private LocalDateTime createdAtUtc;
+    private LocalDateTime completedAtUtc;
     private List<Content> contents;
 
     public Order() {
     }
 
-    public Order(Long id, Date createdAtUtc, Date completedAtUtc, List<Content> contents) {
+    public Order(Long id, LocalDateTime createdAtUtc, LocalDateTime completedAtUtc, List<Content> contents) {
         this.id = id;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;
@@ -28,19 +28,19 @@ public class Order {
         this.id = id;
     }
 
-    public Date getCreatedAtUtc() {
+    public LocalDateTime getCreatedAtUtc() {
         return createdAtUtc;
     }
 
-    public void setCreatedAtUtc(Date createdAtUtc) {
+    public void setCreatedAtUtc(LocalDateTime createdAtUtc) {
         this.createdAtUtc = createdAtUtc;
     }
 
-    public Date getCompletedAtUtc() {
+    public LocalDateTime getCompletedAtUtc() {
         return completedAtUtc;
     }
 
-    public void setCompletedAtUtc(Date completedAtUtc) {
+    public void setCompletedAtUtc(LocalDateTime completedAtUtc) {
         this.completedAtUtc = completedAtUtc;
     }
 
@@ -104,8 +104,10 @@ public class Order {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getClass().getSimpleName()).append(" {id=").append(getId()).append(", createdAtUtc=")
-                .append(getCreatedAtUtc()).append(", completedAtUtc=").append(getCompletedAtUtc())
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" {id=").append(getId())
+                .append(", createdAtUtc=").append(getCreatedAtUtc())
+                .append(", completedAtUtc=").append(getCompletedAtUtc())
                 .append(", Content contains [");
         if (getContents() != null && !getContents().isEmpty()) {
             for (Content content: contents) {

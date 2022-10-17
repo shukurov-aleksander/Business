@@ -70,8 +70,12 @@ public class Document {
     @Override
     public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getClass().getSimpleName()).append(" {").append("id=").append(id).append(", orderId=")
-                .append(orderId.toString()).append(" , documentContent='").append(documentContent).append("'}");
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" {")
+                .append("id=").append(getId())
+                .append(", orderId=").append(getOrderId().toString())
+                .append(" , documentContent='").append(getDocumentContent())
+                .append("'}");
         return  stringBuilder.toString();
     }
 }

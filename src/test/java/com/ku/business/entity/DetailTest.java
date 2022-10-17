@@ -3,8 +3,8 @@ package com.ku.business.entity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DetailTest {
@@ -22,7 +22,7 @@ public class DetailTest {
         details.add(firstDetail);
         details.add(secondDetail);
         Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);
-        Order order = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Order order = new Order(1L, LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
         Detail first = new Detail(null,company,order);
         Detail second = new Detail(null,company,null);
 
@@ -46,8 +46,8 @@ public class DetailTest {
         List<Detail> details = new ArrayList<>();
         details.add(firstDetail);
         details.add(secondDetail);
-        Company company = new Company(null, "Bank", "124325", true, 1L, null, details);
-        Order order = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);
+        Order order = new Order(1L,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
         Detail first = new Detail(null,company,order);
         Detail second = new Detail(null,company,null);
 
@@ -71,8 +71,8 @@ public class DetailTest {
         List<Detail> details = new ArrayList<>();
         details.add(firstDetail);
         details.add(secondDetail);
-        Company company = new Company(null, "Bank", "124325", true, 1L, null, details);
-        Order order = new Order(1L,new Date(31548484466546L),new Date(31548994466546L), null);
+        Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);
+        Order order = new Order(1L,LocalDateTime.of(2022, 9, 19, 14, 5),LocalDateTime.of(2022, 9, 29, 14, 5), null);
         Detail detail = new Detail(null,company,order);
 
         //when

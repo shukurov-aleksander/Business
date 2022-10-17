@@ -84,9 +84,13 @@ public class Service {
     }
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getClass().getSimpleName()).append(" {").append("id=").append(id).append(", sum=")
-                .append(sum).append(", serviceName='").append(serviceName).append("', serviceDescription='")
-                .append(serviceDescription).append("'}");
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" {")
+                .append("id=").append(getId())
+                .append(", sum=").append(getSum())
+                .append(", serviceName='").append(getServiceName())
+                .append("', serviceDescription='").append(getServiceDescription())
+                .append("'}");
         return  stringBuilder.toString();
     }
 }
