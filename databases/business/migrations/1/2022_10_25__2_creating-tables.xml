@@ -56,24 +56,54 @@
             </column>
             <column name="quantity" type="int"/>
             <column name="service_id" type="bigint">
-                <constraints foreignKeyName="fk__contents_services" referencedTableName="services"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet id="5" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE contents
+                ADD CONSTRAINT fk__contents_services FOREIGN KEY (service_id) REFERENCES services (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE contents DROP CONSTRAINT fk__contents_services
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="6" author="Aleksander.shukurov@gmail.com">
         <createTable tableName="order_content_links">
             <column name="order_id" type="bigint">
-                <constraints foreignKeyName="fk__order_content_links_orders" referencedTableName="orders"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="content_id" type="bigint">
-                <constraints foreignKeyName="fk__order_content_links_contents" referencedTableName="contents"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="6" author="Aleksander.shukurov@gmail.com">
+    <changeSet id="7" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE order_content_links
+                ADD CONSTRAINT fk__order_content_links_orders FOREIGN KEY (order_id) REFERENCES orders (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE order_content_links DROP CONSTRAINT fk__order_content_links_orders
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="8" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE order_content_links
+                ADD CONSTRAINT fk__order_content_links_contents FOREIGN KEY (content_id) REFERENCES contents (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE order_content_links DROP CONSTRAINT fk__order_content_links_contents
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="9" author="Aleksander.shukurov@gmail.com">
         <sql>
             ALTER TABLE order_content_links
                 ADD CONSTRAINT uc_order_content unique (order_id, content_id);
@@ -84,55 +114,105 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet id="7" author="Aleksander.shukurov@gmail.com">
+    <changeSet id="10" author="Aleksander.shukurov@gmail.com">
         <createTable tableName="details">
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="company_id" type="bigint">
-                <constraints foreignKeyName="fk__details_companies" referencedTableName="companies"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="order_id" type="bigint">
-                <constraints foreignKeyName="fk__details_orders" referencedTableName="orders"
-                             referencedColumnNames="id" nullable="false" unique="true"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="operation_type" type="operation_type_enum">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="8" author="Aleksander.shukurov@gmail.com">
+    <changeSet id="11" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE details
+                ADD CONSTRAINT fk__details_companies FOREIGN KEY (company_id) REFERENCES companies (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE details DROP CONSTRAINT fk__details_companies
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="12" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE details
+                ADD CONSTRAINT fk__details_orders FOREIGN KEY (order_id) REFERENCES orders (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE details DROP CONSTRAINT fk__details_orders
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="13" author="Aleksander.shukurov@gmail.com">
         <createTable tableName="documents">
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="order_id" type="bigint">
-                <constraints foreignKeyName="fk__documents_orders" referencedTableName="orders"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="document_content" type="varchar(2048)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="9" author="Aleksander.shukurov@gmail.com">
+    <changeSet id="14" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE documents
+                ADD CONSTRAINT fk__documents_orders FOREIGN KEY (order_id) REFERENCES orders (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE documents DROP CONSTRAINT fk__documents_orders
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="15" author="Aleksander.shukurov@gmail.com">
         <createTable tableName="storages">
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="quantity" type="int"/>
             <column name="company_id" type="bigint">
-                <constraints foreignKeyName="fk__storages_companies" referencedTableName="companies"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="service_id" type="bigint">
-                <constraints foreignKeyName="fk__storages_services" referencedTableName="services"
-                             referencedColumnNames="id" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="10" author="Aleksander.shukurov@gmail.com">
+    <changeSet id="16" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE storages
+                ADD CONSTRAINT fk__storages_companies FOREIGN KEY (company_id) REFERENCES companies (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE storages DROP CONSTRAINT fk__storages_companies
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="17" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE storages
+                ADD CONSTRAINT fk__storages_services FOREIGN KEY (service_id) REFERENCES services (id) ON UPDATE RESTRICT ON DELETE CASCADE
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE storages DROP CONSTRAINT fk__storages_services
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="18" author="Aleksander.shukurov@gmail.com">
         <sql>
             ALTER TABLE storages
                 ADD CONSTRAINT uc_company_service unique (company_id, service_id);
