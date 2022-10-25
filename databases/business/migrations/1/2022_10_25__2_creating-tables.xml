@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="companies">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="company_name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tax_number" type="varchar(16)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="is_government_agency" type="boolean"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="services">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="service_name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sum" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_description" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="orders">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="order_status" type="order_status_enum">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at_utc" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at_utc" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="contents">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="quantity" type="int"/>
+            <column name="service_id" type="bigint">
+                <constraints foreignKeyName="fk__contents_services" referencedTableName="services"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="order_content_links">
+            <column name="order_id" type="bigint">
+                <constraints foreignKeyName="fk__order_content_links_orders" referencedTableName="orders"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="content_id" type="bigint">
+                <constraints foreignKeyName="fk__order_content_links_contents" referencedTableName="contents"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE order_content_links
+                ADD CONSTRAINT uc_order_content unique (order_id, content_id);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE order_content_links DROP CONSTRAINT uc_order_content
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="7" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="details">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="company_id" type="bigint">
+                <constraints foreignKeyName="fk__details_companies" referencedTableName="companies"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints foreignKeyName="fk__details_orders" referencedTableName="orders"
+                             referencedColumnNames="id" nullable="false" unique="true"/>
+            </column>
+            <column name="operation_type" type="operation_type_enum">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="8" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="documents">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints foreignKeyName="fk__documents_orders" referencedTableName="orders"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="document_content" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="Aleksander.shukurov@gmail.com">
+        <createTable tableName="storages">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="quantity" type="int"/>
+            <column name="company_id" type="bigint">
+                <constraints foreignKeyName="fk__storages_companies" referencedTableName="companies"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="service_id" type="bigint">
+                <constraints foreignKeyName="fk__storages_services" referencedTableName="services"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            ALTER TABLE storages
+                ADD CONSTRAINT uc_company_service unique (company_id, service_id);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE storages DROP CONSTRAINT uc_company_service
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            with series as (select generate_series(1, 1000) sery),
+                 count_series as (select count(*) as quantity
+                                  from series)
+            insert
+            into companies (company_name, tax_number, user_id, is_government_agency)
+            select 'Company name №' || cast(s.sery as varchar(3)) || ' .inc',
+                   lpad(s.sery::varchar, 16, '0'),
+                   FLOOR(random() * (cs.quantity - 1) + 1),
+                   case
+                       when s.sery % 100 = 0 then true
+                       else false
+                       end
+            from series s,
+                 count_series cs
+        </sql>
+        <rollback>
+            <sql>
+                delete from companies
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            with series as (select generate_series(1, 1000) sery)
+            insert
+            into services  (service_name, sum, service_description)
+            select 'Service name №' || cast(s.sery as varchar),
+                   FLOOR(random() * (150000 - 1) + 1),
+                   'Service description of the service name №' || cast(s.sery as varchar)
+            from series s
+        </sql>
+        <rollback>
+            <sql>
+                delete from companies
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="3" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            with series as (select generate_series(1, 1000) sery)
+            insert
+            into orders (order_status, created_at_utc, completed_at_utc)
+            select case
+                       when s.sery % 4 = 0 then 'remittance'::order_status_enum
+                       when s.sery % 3 = 0  then 'barter'::order_status_enum
+                       when s.sery % 2 = 0  then 'outsourcing'::order_status_enum
+                       else 'purchase'::order_status_enum
+                       end,
+                   now() - floor((random() * (1000 - 500) + 500)) * interval '1 day', now() - floor((random() * (499 - 1) + 1)) * interval '1 day'
+            from series s
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            insert into contents (quantity, service_id)
+            select FLOOR(random() * (20000 - 1) + 1),
+                   floor(random() * ((select count(*) from services) - 1) + 1)
+            from (select generate_series(1, 1000)) as series
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            insert into order_content_links (order_id, content_id)
+            select floor(random() * ((select count(*) from orders) - 1) + 1),
+                   floor(random() * ((select count(*) from contents) - 1) + 1)
+            from (select generate_series(1, 1000)) as series on conflict do nothing
+        </sql>
+    </changeSet>
+    <changeSet id="6" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            with series as (select generate_series(1, 1000) sery)
+            insert
+            into details  (company_id, order_id, operation_type)
+            select floor(random() * ((select count(*) from companies) - 1) + 1),
+                   floor(random() * ((select count(*) from orders) - 1) + 1),
+                   case
+                       when s.sery % 4 = 0 then 'processing'::operation_type_enum
+                       when s.sery % 3 = 0  then 'completed'::operation_type_enum
+                       else 'created'::operation_type_enum
+                       end
+            from series s on conflict do nothing
+        </sql>
+    </changeSet>
+    <changeSet id="7" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            insert into documents (order_id, document_content)
+            select floor(random() * ((select count(*) from orders) - 1) + 1),
+                   lpad('content from document consist of', (floor(random() * ((248 - 32) + 32))):: integer,
+                        'different document content and another ')
+            from (select generate_series(1, 1000)) as series on conflict do nothing
+        </sql>
+    </changeSet>
+    <changeSet id="8" author="Aleksander.shukurov@gmail.com">
+        <sql>
+            insert into storages (quantity, company_id, service_id)
+            select FLOOR(random() * (1000 - 1) + 1),
+                   floor(random() * ((select count(*) from companies) - 1) + 1),
+                   floor(random() * ((select count(*) from services) - 1) + 1)
+            from (select generate_series(1, 1000)) as series on conflict do nothing
+        </sql>
+    </changeSet>
+</databaseChangeLog>
