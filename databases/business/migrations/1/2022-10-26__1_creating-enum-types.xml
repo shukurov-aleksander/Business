@@ -3,22 +3,25 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>create type "operation_type_enum"</comment>
         <sql>
             CREATE TYPE operation_type_enum AS ENUM ('created', 'processing', 'completed');
         </sql>
         <rollback>
             <sql>
-                drop type operation_type_enum
+                DROP TYPE operation_type_enum
             </sql>
         </rollback>
     </changeSet>
+
     <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <comment>create type "order_status_enum"</comment>
         <sql>
             CREATE TYPE order_status_enum AS ENUM ('purchase', 'remittance', 'barter','outsourcing');
         </sql>
         <rollback>
             <sql>
-                drop type order_status_enum
+                DROP TYPE order_status_enum
             </sql>
         </rollback>
     </changeSet>
