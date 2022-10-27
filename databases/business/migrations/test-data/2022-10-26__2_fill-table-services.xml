@@ -6,17 +6,11 @@
         <comment>fill in the table "services" with test data</comment>
         <sql>
             WITH series AS (SELECT GENERATE_SERIES(1, 1000) sery)
-            INSERT
-            INTO services  (service_name, sum, service_description)
+            INSERT INTO services  (service_name, sum, service_description)
             SELECT 'Service name №' || CAST(s.sery AS VARCHAR),
                    FLOOR(RANDOM() * (150000 - 1) + 1),
                    'Service description of the service name №' || CAST(s.sery AS VARCHAR)
             FROM series s
         </sql>
-        <rollback>
-            <sql>
-                DELETE FROM services
-            </sql>
-        </rollback>
     </changeSet>
 </databaseChangeLog>

@@ -11,10 +11,5 @@
                         'different document content and another ')
             FROM (SELECT GENERATE_SERIES(1, 1000)) AS series ON CONFLICT DO NOTHING
         </sql>
-        <rollback>
-            <sql>
-                DELETE FROM documents
-            </sql>
-        </rollback>
     </changeSet>
 </databaseChangeLog>

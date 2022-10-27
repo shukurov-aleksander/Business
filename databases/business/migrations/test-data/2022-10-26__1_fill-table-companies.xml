@@ -6,24 +6,15 @@
         <comment>fill in the table "companies" with test data</comment>
         <sql>
             WITH series AS (SELECT GENERATE_SERIES(1, 1000) sery),
-                 count_series AS (SELECT COUNT(*) AS quantity
-                                  FROM series)
-            INSERT
-            INTO companies (company_name, tax_number, user_id, is_government_agency)
+                 count_series AS (SELECT COUNT(*) AS quantity FROM series)
+            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency)
             SELECT 'Company name №' || CAST(s.sery AS VARCHAR(3)) || ' .inc',
-                   lpad(s.sery::VARCHAR, 16, '0'),
+                   LPAD(s.sery::VARCHAR, 16, '0'),
                    FLOOR(RANDOM() * (cs.quantity - 1) + 1),
                    CASE
-                       WHEN s.sery % 100 = 0 THEN TRUE
-                       ELSE FALSE
-                       END
-            FROM series s,
-                 count_series cs
+                       WHEN s.sery % 100 = 0 THEN TRUE ELSE FALSE
+                   END
+            FROM series s, count_series cs
         </sql>
-        <rollback>
-            <sql>
-                DELETE FROM companies
-            </sql>
-        </rollback>
     </changeSet>
 </databaseChangeLog>

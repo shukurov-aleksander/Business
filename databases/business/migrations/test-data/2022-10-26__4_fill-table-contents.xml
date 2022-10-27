@@ -10,10 +10,5 @@
                    FLOOR(RANDOM() * ((SELECT COUNT(*) FROM services) - 1) + 1)
             FROM (SELECT GENERATE_SERIES(1, 1000)) AS series
         </sql>
-        <rollback>
-            <sql>
-                DELETE FROM contents
-            </sql>
-        </rollback>
     </changeSet>
 </databaseChangeLog>
