@@ -1,27 +1,21 @@
 package com.ku.business.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import org.postgresql.ds.PGSimpleDataSource;
+
+import javax.sql.DataSource;
 
 public class Connect {
     UserDataBase userDataBase = new UserDataBase();
-    private Connection connection;
+    private static PGSimpleDataSource pgSimpleDataSource;
+    public DataSource getConnection(){
+        if (pgSimpleDataSource == null){
+            pgSimpleDataSource = new PGSimpleDataSource();
+            pgSimpleDataSource.setUrl(userDataBase.getURL());
+            pgSimpleDataSource.setUser(userDataBase.getUSERNAME());
+            pgSimpleDataSource.setPassword(userDataBase.getPASSWORD());
 
-    public Connect() {
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(userDataBase.getURL(), userDataBase.getUSERNAME(), userDataBase.getPASSWORD());
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
-        System.out.println("Opened database successfully");
+        return pgSimpleDataSource;
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
 }

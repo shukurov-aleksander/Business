@@ -3,31 +3,33 @@ package com.ku.business.DAO;
 import com.ku.business.controller.Connect;
 import com.ku.business.entity.Company;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyRepository {
+    Connect connect = new Connect();
+    DataSource dataSource = connect.getConnection();
+    ResultSet resultSet = null;
+    PreparedStatement preparedStatement;
+
     public Company findById(Long id) {
-        Connect connect = new Connect();
         Company company = new Company();
-        ResultSet resultSet = null;
-        Statement statement;
         StringBuilder result = new StringBuilder("SELECT * FROM companies WHERE id=").append(id);
         try {
-            statement = connect.getConnection().createStatement();
-            resultSet = statement.executeQuery(String.valueOf(result));
-            while (resultSet.next()) {
-                {
-                    company.setId(Long.valueOf(resultSet.getString("id")));
-                    company.setCompanyName(String.valueOf(resultSet.getString("company_name")));
-                    company.setTaxNumber(String.valueOf(resultSet.getString("tax_number")));
-                    company.setUserId(Long.valueOf(String.valueOf(resultSet.getString("user_id"))));
-                    company.setGovernmentAgency((String.valueOf(resultSet.getString("is_government_agency"))).equals("t"));
-                }
-            }
+            Connection connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(String.valueOf(result));
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            company.setId(Long.valueOf(resultSet.getString("id")));
+            company.setCompanyName(String.valueOf(resultSet.getString("company_name")));
+            company.setTaxNumber(String.valueOf(resultSet.getString("tax_number")));
+            company.setUserId(Long.valueOf(String.valueOf(resultSet.getString("user_id"))));
+            company.setGovernmentAgency((String.valueOf(resultSet.getString("is_government_agency"))).equals("t"));
+
+
         } catch (SQLException s) {
             s.printStackTrace();
         } finally {
@@ -43,15 +45,13 @@ public class CompanyRepository {
     }
 
     public List<Company> findAll() {
-        Connect connect = new Connect();
         List<Company> companies = new ArrayList<>();
         Company company = new Company();
-        ResultSet resultSet = null;
-        Statement statement;
         StringBuilder result = new StringBuilder("SELECT * FROM companies");
         try {
-            statement = connect.getConnection().createStatement();
-            resultSet = statement.executeQuery(String.valueOf(result));
+            Connection connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(String.valueOf(result));
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 {
                     company.setId(Long.valueOf(resultSet.getString("id")));
@@ -79,32 +79,22 @@ public class CompanyRepository {
 
 
     public void add(String companyName, String taxNumber, Long userId, Boolean isGovernmentAgency) {
-        Connect connect = new Connect();
-        Statement statement;
-        StringBuilder result = new StringBuilder("INSERT INTO companies (company_name, tax_number, user_id, is_government_agency) VALUES ('")
-                .append(companyName).append("', '")
-                .append(taxNumber).append("', ")
-                .append(userId).append(", '")
-                .append(isGovernmentAgency).append("')");
+        StringBuilder result = new StringBuilder("INSERT INTO companies (company_name, tax_number, user_id, is_government_agency) VALUES ('").append(companyName).append("', '").append(taxNumber).append("', ").append(userId).append(", '").append(isGovernmentAgency).append("')");
         try {
-            statement = connect.getConnection().createStatement();
-            statement.execute(String.valueOf(result));
+            Connection connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(String.valueOf(result));
+            preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void update(Company company) {
-        Connect connect = new Connect();
-        Statement statement;
-        StringBuilder updateCompany = new StringBuilder("UPDATE  companies SET company_name = '").append(company.getCompanyName())
-                .append("', tax_number ='").append(company.getTaxNumber())
-                .append("', user_id =").append(company.getUserId())
-                .append(", is_government_agency ='").append(company.isGovernmentAgency())
-                .append("' WHERE id =").append(company.getId()).append(";");
+        StringBuilder updateCompany = new StringBuilder("UPDATE  companies SET company_name = '").append(company.getCompanyName()).append("', tax_number ='").append(company.getTaxNumber()).append("', user_id =").append(company.getUserId()).append(", is_government_agency ='").append(company.isGovernmentAgency()).append("' WHERE id =").append(company.getId()).append(";");
         try {
-            statement = connect.getConnection().createStatement();
-            statement.execute(String.valueOf(updateCompany));
+            Connection connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(String.valueOf(updateCompany));
+            preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,12 +102,11 @@ public class CompanyRepository {
 
 
     public void delete(Long id) {
-        Connect connect = new Connect();
-        Statement statement;
         StringBuilder deleteFromCompany = new StringBuilder("DELETE FROM companies WHERE id =").append(id).append(";");
         try {
-            statement = connect.getConnection().createStatement();
-            statement.execute(String.valueOf(deleteFromCompany));
+            Connection connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(String.valueOf(deleteFromCompany));
+            preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }

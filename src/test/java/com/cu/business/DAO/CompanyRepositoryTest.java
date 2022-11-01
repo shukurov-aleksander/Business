@@ -14,9 +14,6 @@ public class CompanyRepositoryTest {
         //given
         CompanyRepository companyRepository = new CompanyRepository();
         List<Company> companies = companyRepository.findAll();
-        for (Company company : companies) {
-            System.out.println(company.toString());
-        }
 
         //when
         boolean isNotEmpty = (companies.isEmpty());
@@ -44,7 +41,7 @@ public class CompanyRepositoryTest {
 
         //given
         CompanyRepository companyRepository = new CompanyRepository();
-        companyRepository.add("ENEKA", "333444999", 342L, false);
+        companyRepository.add("ENEKA", "3390699", 342L, false);
         Company company = companyRepository.findById(1001L);
         companyRepository.delete(1001L);
         //when
