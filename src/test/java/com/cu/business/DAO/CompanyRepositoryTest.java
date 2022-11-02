@@ -8,13 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class CompanyRepositoryTest {
+    CompanyRepository companyRepository = new CompanyRepository();
     @Test
     public void testGetListOfCompanies() {
 
         //given
-        CompanyRepository companyRepository = new CompanyRepository();
         List<Company> companies = companyRepository.findAll();
-
+        for (Company c: companies
+             ) {
+            System.out.println(c);
+        }
         //when
         boolean isNotEmpty = (companies.isEmpty());
 
@@ -25,7 +28,6 @@ public class CompanyRepositoryTest {
     @Test
     public void testReturnCompanyById() {
         //given
-        CompanyRepository companyRepository = new CompanyRepository();
         Company company = companyRepository.findById(333L);
 
         //when
@@ -40,7 +42,6 @@ public class CompanyRepositoryTest {
     public void testAddToTable() {
 
         //given
-        CompanyRepository companyRepository = new CompanyRepository();
         companyRepository.add("ENEKA", "3390699", 342L, false);
         Company company = companyRepository.findById(1001L);
         companyRepository.delete(1001L);
@@ -57,7 +58,6 @@ public class CompanyRepositoryTest {
 
         //given
         long id = (long) (Math.random() * 1000 + 1);
-        CompanyRepository companyRepository = new CompanyRepository();
         Company first = companyRepository.findById(id);
         companyRepository.update(new Company(id, "ENEKA", "333444999", false, 333L, null, null));
         Company second = companyRepository.findById(id);
@@ -74,7 +74,6 @@ public class CompanyRepositoryTest {
     @Test
     public void testDeleteFromTable() {
         //given
-        CompanyRepository companyRepository = new CompanyRepository();
         companyRepository.add("ENEKA", "333444999", 342L, false);
         Company first = companyRepository.findById(1001L);
         boolean isExist = first.getId() != null;
