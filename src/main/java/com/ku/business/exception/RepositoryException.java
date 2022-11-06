@@ -1,8 +1,6 @@
 package com.ku.business.exception;
 
-import java.sql.SQLException;
-
-public class RepositoryException extends SQLException {
+public class RepositoryException extends RuntimeException {
 
     public RepositoryException() {
         super();
