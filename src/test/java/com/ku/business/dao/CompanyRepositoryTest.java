@@ -1,18 +1,30 @@
-package com.cu.business.DAO;
+package com.ku.business.dao;
 
-import com.ku.business.dao.CompanyRepository;
 import com.ku.business.entity.Company;
 import com.ku.business.exception.RepositoryException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 
 public class CompanyRepositoryTest {
-    PGSimpleDataSource dataSource = new PGSimpleDataSource();
-    CompanyRepository companyRepository = new CompanyRepository(dataSource);
+    public PGSimpleDataSource dataSource = new PGSimpleDataSource();
+    CompanyRepository companyRepository = new CompanyRepository(getConnection());
+
+    public DataSource getConnection() {
+        this.dataSource.setServerNames(new String[] {
+        "Local Business database"
+    });
+        this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
+        this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
+        this.dataSource.setUser("postgres");
+        this.dataSource.setPassword("postgres");
+        return dataSource;
+    }
+
     @Test
     public void testGetListOfCompanies() throws RepositoryException {
 
@@ -27,16 +39,17 @@ public class CompanyRepositoryTest {
     }
 
     @Test
+    //@RepeatedTest(10000)
     public void testReturnCompanyById() throws RepositoryException {
         //given
-        Company company = companyRepository.findById(333L);
+        Long id = (long)( Math.random() * (1000-1) ) + 1;
+        Company company = companyRepository.findById(id);
 
         //when
-        boolean isIdEqual = (company.getId() == 333);
+        boolean isIdEqual = (Objects.equals(company.getId(), id));
 
         //then
         Assertions.assertTrue(isIdEqual);
-
     }
 
     @Test
@@ -52,7 +65,6 @@ public class CompanyRepositoryTest {
 
         //then
         Assertions.assertTrue(isEqual);
-
     }
 
     @Test
@@ -80,7 +92,7 @@ public class CompanyRepositoryTest {
         companyRepository.save(company);
         Company first = companyRepository.findById(1005L);
         boolean isExist = first.getId() != null;
-      companyRepository.delete(1024L);
+    companyRepository.delete(1005L);
         Company second = companyRepository.findById(1005L);
 
 
