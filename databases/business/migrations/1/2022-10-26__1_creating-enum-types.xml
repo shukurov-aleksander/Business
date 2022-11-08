@@ -5,7 +5,7 @@
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
         <comment>create type "operation_type_enum"</comment>
         <sql>
-            CREATE TYPE operation_type_enum AS ENUM ('created', 'processing', 'completed');
+            CREATE TYPE operation_type_enum AS ENUM ('PURCHASE', 'REMITTANCE', 'BARTER','OUTSOURCING');
         </sql>
         <rollback>
             <sql>
@@ -17,7 +17,7 @@
     <changeSet id="2" author="Aleksander.shukurov@gmail.com">
         <comment>create type "order_status_enum"</comment>
         <sql>
-            CREATE TYPE order_status_enum AS ENUM ('purchase', 'remittance', 'barter','outsourcing');
+            CREATE TYPE order_status_enum AS ENUM ('CREATED', 'PROCESSING', 'COMPLETED');
         </sql>
         <rollback>
             <sql>
