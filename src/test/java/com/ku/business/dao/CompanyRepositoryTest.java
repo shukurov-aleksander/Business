@@ -3,6 +3,7 @@ package com.ku.business.dao;
 import com.ku.business.entity.Company;
 import com.ku.business.exception.RepositoryException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -30,20 +31,23 @@ public class CompanyRepositoryTest {
 
         //given
         List<Company> companies = companyRepository.findAll();
-
+        for (Company c: companies
+             ) {
+            System.out.println(c);
+        }
         //when
         boolean isNotEmpty = (companies.isEmpty());
 
         //then
         Assertions.assertFalse(isNotEmpty);
     }
-
-    @Test
-    //@RepeatedTest(10000)
+    
+    @RepeatedTest(1000)
     public void testReturnCompanyById() throws RepositoryException {
         //given
         Long id = (long)( Math.random() * (1000-1) ) + 1;
         Company company = companyRepository.findById(id);
+        System.out.println(company);
 
         //when
         boolean isIdEqual = (Objects.equals(company.getId(), id));
