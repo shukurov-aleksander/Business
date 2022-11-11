@@ -17,8 +17,8 @@ public class CompanyRepository {
     private final DataSource dataSource;
     public static final String FIND_BY_ID_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.user_id, c.is_government_agency,
-            s.id storage__id, s.quantity storage__quantity,
-            d.id detail__id, d.operation_type detail__ot
+            s.id storage_id, s.quantity storage_quantity,
+            d.id detail_id, d.operation_type detail_operation_type
         FROM companies c
             LEFT JOIN storages s ON s.company_id=c.id
             LEFT JOIN details d ON c.id=d.company_id
@@ -40,52 +40,51 @@ public class CompanyRepository {
     public static final String COMPANY_TAX_NUMBER_COLUMN = "tax_number";
     public static final String COMPANY_USER_ID_COLUMN = "user_id";
     public static final String COMPANY_IS_GOVERNMENT_AGENCY_COLUMN = "is_government_agency";
-    public static final String STORAGE_ID_COLUMN = "storage__id";
-    public static final String STORAGE_QUANTITY = "storage__quantity";
-    public static final String DETAIL_ID_COLUMN = "detail__id";
-    public static final String DETAIL_OPERATION_TYPE_COLUMN = "detail__ot";
+    public static final String STORAGE_ID_COLUMN = "storage_id";
+    public static final String STORAGE_QUANTITY = "storage_quantity";
+    public static final String DETAIL_ID_COLUMN = "detail_id";
+    public static final String DETAIL_OPERATION_TYPE_COLUMN = "detail_operation_type";
 
     public CompanyRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public Company findById(Long id) {
+        Company company;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)
         ) {
-            Company company;
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 company = buildCompany(resultSet);
             }
             return company;
         } catch (Exception s) {
-            throw new RepositoryException("Can't find user with id=" + id, s);
+            throw new RepositoryException("Can't find company with id=" + id, s);
         }
     }
 
     private Company buildCompany(ResultSet resultSet) {
-        Company company = new Company();
+        Company company;
         List<Storage> storages = new ArrayList<>();
         List<Detail> details = new ArrayList<>();
+        Storage storage;
+        Detail detail;
         try {
             resultSet.next();
-            company.setId(resultSet.getLong(COMPANY_ID_COLUMN));
-            company.setCompanyName(resultSet.getString(COMPANY_NAME_COLUMN));
-            company.setTaxNumber(resultSet.getString(COMPANY_TAX_NUMBER_COLUMN));
-            company.setUserId(resultSet.getLong(COMPANY_USER_ID_COLUMN));
-            company.setGovernmentAgency((resultSet.getBoolean(COMPANY_IS_GOVERNMENT_AGENCY_COLUMN)));
+            company = buildCompanyWithoutLists(resultSet);
             do {
-                if (!storages.contains(buildStorage(resultSet))) {
-                    storages.add(buildStorage(resultSet));
+                storage = buildStorage(resultSet);
+                if (!storages.contains(storage) && !storage.equals(new Storage())) {
+                    storages.add(storage);
                 }
-                if (!details.contains(buildDetails(resultSet))) {
-                    details.add(buildDetails(resultSet));
+                detail = buildDetails(resultSet);
+                if (!details.contains(detail) && !detail.equals(new Detail()) ) {
+                    details.add(detail);
                 }
             } while (resultSet.next());
-            company.setStorages(storages);
-            company.setDetails(details);
-
+                company.setStorages(storages);
+                company.setDetails(details);
         } catch (Exception s) {
             throw new RepositoryException("Result set is empty!", s);
         }
@@ -95,8 +94,10 @@ public class CompanyRepository {
     private Storage buildStorage(ResultSet resultSet) {
         Storage storage = new Storage();
         try {
-            storage.setId(resultSet.getLong(STORAGE_ID_COLUMN));
-            storage.setQuantity(resultSet.getInt(STORAGE_QUANTITY));
+            if (resultSet.getString(STORAGE_ID_COLUMN) != null) {
+                storage.setId(resultSet.getLong(STORAGE_ID_COLUMN));
+                storage.setQuantity(resultSet.getInt(STORAGE_QUANTITY));
+            }
             return storage;
         } catch (Exception s) {
             throw new RepositoryException("Result set is empty!", s);
