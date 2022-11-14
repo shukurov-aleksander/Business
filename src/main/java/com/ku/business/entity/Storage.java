@@ -87,10 +87,14 @@ public class Storage {
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {")
                 .append("id=").append(getId())
-                .append(", quantity=").append(getQuantity())
-                .append(", companyId=").append(getCompanyId().toString())
-                .append(", serviceId=").append(getServiceId().toString())
-                .append("}");
+                .append(", quantity=").append(getQuantity());
+        if (getCompanyId()!= null) {
+            stringBuilder.append(", companyId=").append(getCompanyId().toString());
+        }
+        if (getServiceId()!= null) {
+            stringBuilder.append(", serviceId=").append(getServiceId().toString());
+        }
+        stringBuilder.append("}");
         return stringBuilder.toString();
     }
 }

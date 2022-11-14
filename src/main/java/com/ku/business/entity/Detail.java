@@ -16,6 +16,11 @@ public class Detail {
         this.operationType = operationType;
     }
 
+    public Detail(Detail detail) {
+        this.id = detail.getId();
+        this.operationType = detail.getOperationType();
+    }
+
     public Long getId() {
         return id;
     }
