@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ku.business.dao.ICompanyRepository.*;
+
 public class CompanyRepository {
     private final DataSource dataSource;
     public static final String FIND_BY_ID_QUERY = """
@@ -35,15 +37,6 @@ public class CompanyRepository {
         SET company_name = ?, tax_number =?, user_id = ?, is_government_agency = ? 
         WHERE id = ?
     """;
-    public static final String COMPANY_ID_COLUMN = "id";
-    public static final String COMPANY_NAME_COLUMN = "company_name";
-    public static final String COMPANY_TAX_NUMBER_COLUMN = "tax_number";
-    public static final String COMPANY_USER_ID_COLUMN = "user_id";
-    public static final String COMPANY_IS_GOVERNMENT_AGENCY_COLUMN = "is_government_agency";
-    public static final String STORAGE_ID_COLUMN = "storage_id";
-    public static final String STORAGE_QUANTITY = "storage_quantity";
-    public static final String DETAIL_ID_COLUMN = "detail_id";
-    public static final String DETAIL_OPERATION_TYPE_COLUMN = "detail_operation_type";
 
     public CompanyRepository(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -69,13 +62,11 @@ public class CompanyRepository {
             resultSet.next();
             Company company = buildCompanyWithoutLists(resultSet);
             do {
-                Storage storage = buildStorage(resultSet);
-                if (!storages.contains(storage)) {
-                    storages.add(storage);
+                if (resultSet.getString(STORAGE_ID_COLUMN) != null && !storages.contains(buildStorage(resultSet))) {
+                    storages.add(buildStorage(resultSet));
                 }
-                Detail detail = buildDetails(resultSet);
-                if (!details.contains(detail)) {
-                    details.add(detail);
+                if (resultSet.getString(DETAIL_ID_COLUMN) != null && !details.contains(buildDetails(resultSet))) {
+                    details.add(buildDetails(resultSet));
                 }
             } while (resultSet.next());
             company.setStorages(storages);
@@ -83,47 +74,6 @@ public class CompanyRepository {
             return company;
         } catch (Exception s) {
             throw new RepositoryException("Result set is empty!", s);
-        }
-    }
-
-    private Storage buildStorage(ResultSet resultSet) {
-        try {
-            Storage storage = new Storage();
-            if (resultSet.getString(STORAGE_ID_COLUMN) != null) {
-                storage.setId(resultSet.getLong(STORAGE_ID_COLUMN));
-                storage.setQuantity(resultSet.getInt(STORAGE_QUANTITY));
-            }
-            return storage;
-        } catch (Exception s) {
-            throw new RepositoryException("Result set is empty!", s);
-        }
-    }
-
-    private Detail buildDetails(ResultSet resultSet) {
-        try {
-            Detail detail = new Detail();
-            if (resultSet.getString(DETAIL_ID_COLUMN) != null) {
-                detail.setId(resultSet.getLong(DETAIL_ID_COLUMN));
-                detail.setOperationType(OperationType.valueOf(resultSet.getString(DETAIL_OPERATION_TYPE_COLUMN)));
-            }
-            return detail;
-        } catch (Exception s) {
-            throw new RepositoryException("Result set is empty!", s);
-        }
-    }
-
-    public List<Company> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            List<Company> companies = new ArrayList<>();
-            while (resultSet.next()) {
-                companies.add(new Company(buildCompanyWithoutLists(resultSet)));
-            }
-            return companies;
-        } catch (Exception e) {
-            throw new RepositoryException("Table companies is empty!", e);
         }
     }
 
@@ -138,6 +88,35 @@ public class CompanyRepository {
             return company;
         } catch (Exception s) {
             throw new RepositoryException("Result set is empty!", s);
+        }
+    }
+
+    private Storage buildStorage(ResultSet resultSet) throws Exception {
+        Storage storage = new Storage();
+        storage.setId(resultSet.getLong(STORAGE_ID_COLUMN));
+        storage.setQuantity(resultSet.getInt(STORAGE_QUANTITY));
+        return storage;
+    }
+
+    private Detail buildDetails(ResultSet resultSet) throws Exception {
+        Detail detail = new Detail();
+        detail.setId(resultSet.getLong(DETAIL_ID_COLUMN));
+        detail.setOperationType(OperationType.valueOf(resultSet.getString(DETAIL_OPERATION_TYPE_COLUMN)));
+        return detail;
+    }
+
+    public List<Company> findAll() {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+             ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
+            List<Company> companies = new ArrayList<>();
+            while (resultSet.next()) {
+                companies.add(new Company(buildCompanyWithoutLists(resultSet)));
+            }
+            return companies;
+        } catch (Exception e) {
+            throw new RepositoryException("Table companies is empty!", e);
         }
     }
 
@@ -182,7 +161,6 @@ public class CompanyRepository {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RepositoryException(String.format("Can't delete company with id=%d. This company is not exist!", id), e);
         }
     }
