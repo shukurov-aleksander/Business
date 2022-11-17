@@ -112,7 +112,7 @@ public class CompanyRepository {
         ) {
             List<Company> companies = new ArrayList<>();
             while (resultSet.next()) {
-                companies.add(new Company(buildCompanyWithoutLists(resultSet)));
+                companies.add(buildCompanyWithoutLists(resultSet));
             }
             return companies;
         } catch (Exception e) {

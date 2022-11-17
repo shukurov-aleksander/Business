@@ -14,11 +14,6 @@ public class Document {
         this.documentContent = documentContent;
     }
 
-    public Document(Document document) {
-        this.id = document.getId();
-        this.documentContent = document.getDocumentContent();
-    }
-
     public Long getId() {
         return id;
     }

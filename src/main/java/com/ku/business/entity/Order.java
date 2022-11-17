@@ -21,13 +21,6 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Order(Order order) {
-        this.id = order.getId();
-        this.createdAtUtc = order.getCreatedAtUtc();
-        this.completedAtUtc = order.getCompletedAtUtc();
-        this.orderStatus = order.getOrderStatus();
-    }
-
     public Long getId() {
         return id;
     }

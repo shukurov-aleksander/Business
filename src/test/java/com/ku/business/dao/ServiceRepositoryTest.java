@@ -1,7 +1,6 @@
 package com.ku.business.dao;
 
-import com.ku.business.entity.Document;
-import com.ku.business.entity.Order;
+import com.ku.business.entity.Service;
 import com.ku.business.exception.RepositoryException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
@@ -12,9 +11,9 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 
-public class DocumentRepositoryTest {
+public class ServiceRepositoryTest {
     public PGSimpleDataSource dataSource = new PGSimpleDataSource();
-    DocumentRepository documentRepository = new DocumentRepository(getConnection());
+    ServiceRepository serviceRepository = new ServiceRepository(getConnection());
 
     public DataSource getConnection() {
         this.dataSource.setServerNames(new String[]{
@@ -28,46 +27,47 @@ public class DocumentRepositoryTest {
     }
 
     @Test
-    public void testGetListOfDocuments() throws RepositoryException {
+    public void testGetListOfOrders() throws RepositoryException {
 
         //given
-        List<Document> documents = documentRepository.findAll();
-        for (Document d: documents
-             ) {
-            System.out.println(d);
+        List<Service> services = serviceRepository.findAll();
+        for (Service s: services
+        ) {
+            System.out.println(s);
         }
 
         //when
-        boolean isNotEmpty = (documents.isEmpty());
+        boolean isNotEmpty = (services.isEmpty());
 
         //then
         Assertions.assertFalse(isNotEmpty);
     }
 
     @RepeatedTest(100)
-    public void testReturnDocumentById() throws RepositoryException {
+    public void testReturnOrderById() throws RepositoryException {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
-        Document document = documentRepository.findById(id);
+        Service service = serviceRepository.findById(id);
+        System.out.println(service);
 
         //when
-        boolean isIdEqual = (Objects.equals(document.getId(), id));
+        boolean isIdEqual = (Objects.equals(service.getId(), id));
 
         //then
         Assertions.assertTrue(isIdEqual);
     }
 
     @Test
-    public void testSaveToTableDocuments() throws RepositoryException {
+    public void testSaveToTableOrder() throws RepositoryException {
 
         //given
-        Document first = new Document(1001L, new Order(325L, null, null, null, null), "Some content");
-        documentRepository.save(first);
-        Document second = documentRepository.findById(1001L);
-        documentRepository.delete(1001L);
+        Service first = new Service(1001L, "Service name", 52542L, "Some Service description");
+        serviceRepository.save(first);
+        Service second = serviceRepository.findById(1001L);
+        //orderRepository.delete(1001L);
 
         //when
-        boolean isEqual = (Objects.equals(first.getDocumentContent(), second.getDocumentContent()));
+        boolean isEqual = (Objects.equals(first.getServiceName(), second.getServiceName()));
 
         //then
         Assertions.assertTrue(isEqual);
@@ -77,14 +77,14 @@ public class DocumentRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1002L;// (long) (Math.random() * 1000 + 1);
-        Document first = documentRepository.findById(id);
-        documentRepository.update(new Document(id, new Order(285L, null, null, null, null), "Some another content"));
-        Document second = documentRepository.findById(id);
+        long id = 1001L;// (long) (Math.random() * 1000 + 1);
+        Service first = serviceRepository.findById(id);
+        serviceRepository.update(new Service(1001L, "Different Service name", 52542L, "Some different Service description"));
+        Service second = serviceRepository.findById(id);
 
         //when
         boolean isEqual = (first.equals(second));
-        documentRepository.update(first);
+        serviceRepository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);
@@ -95,12 +95,12 @@ public class DocumentRepositoryTest {
     public void testDeleteFromTable() throws RepositoryException {
 
         //given
-        Document document = new Document(1002L, new Order(333L, null, null, null, null), "Some usefully content");
-        documentRepository.save(document);
-        Document first = documentRepository.findById(1002L);
+        Service service = new Service(1001L, "Different Service name", 52542L, "Some different Service description");
+        serviceRepository.save(service);
+        Service first = serviceRepository.findById(1001L);
         boolean isExist = first.getId() != null;
-        documentRepository.delete(1002L);
-        Document second = documentRepository.findById(1002L);
+        serviceRepository.delete(1001L);
+        Service second = serviceRepository.findById(1001L);
 
         //when
         boolean isExistAfterDelete = second.getId() != null;

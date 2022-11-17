@@ -110,7 +110,7 @@ public class ContentRepository {
         ) {
             List<Content> contents = new ArrayList<>();
             while (resultSet.next()) {
-                contents.add(new Content(buildContentWithoutEntities(resultSet)));
+                contents.add(buildContentWithoutEntities(resultSet));
             }
             return contents;
         } catch (Exception e) {

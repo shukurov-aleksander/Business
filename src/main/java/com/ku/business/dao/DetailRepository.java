@@ -97,7 +97,7 @@ public class DetailRepository {
         ) {
             List<Detail> details = new ArrayList<>();
             while (resultSet.next()) {
-                details.add(new Detail(buildDetailsWithoutEntities(resultSet)));
+                details.add(buildDetailsWithoutEntities(resultSet));
             }
             return details;
         } catch (Exception e) {

@@ -18,12 +18,6 @@ public class Content {
         this.orders = orders;
     }
 
-    public Content(Content content) {
-        this.id = content.getId();
-        this.quantity = content.getQuantity();
-        this.serviceId = content.getServiceId();
-    }
-
     public Long getId() {
         return id;
     }

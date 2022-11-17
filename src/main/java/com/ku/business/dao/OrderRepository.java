@@ -17,11 +17,12 @@ import static com.ku.business.dao.IOrderRepository.*;
 public class OrderRepository {
 private final DataSource dataSource;
     public static final String FIND_BY_ID_QUERY = """
-        SELECT d.id, d.order_id, d.document_content,
-            o.id order_order_id, o.order_status order_status, o.created_at_utc order_created_at_utc, o.completed_at_utc order_completed_at_utc
-        FROM documents d
-        LEFT JOIN orders o ON d.order_id = o.id
-        WHERE d.id = ?
+        SELECT o.id, o.order_status, o.created_at_utc, o.completed_at_utc,
+            c.id content_id, c.quantity content_quantity 
+        FROM orders o
+            LEFT JOIN order_content_links ocl ON ocl.order_id = o.id
+            LEFT JOIN contents c  ON c.id = ocl.content_id
+        WHERE o.id = ?
     """;
     public static final String FIND_ALL_QUERY = "SELECT * FROM orders";
     public static final String DELETE_BY_ID_QUERY = "DELETE FROM orders WHERE id = ?";
@@ -85,7 +86,6 @@ private final DataSource dataSource;
         }
     }
 
-
     public List<Order> findAll() {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
@@ -93,7 +93,7 @@ private final DataSource dataSource;
         ) {
             List<Order> orders = new ArrayList<>();
             while (resultSet.next()) {
-                orders.add(new Order(buildOrderWithoutList(resultSet)));
+                orders.add(buildOrderWithoutList(resultSet));
             }
             return orders;
         } catch (Exception e) {
@@ -115,7 +115,9 @@ private final DataSource dataSource;
         try {
             preparedStatement.setString(1, String.format("%S::order_status", order.getOrderStatus()));
             preparedStatement.setDate(2, Date.valueOf(order.getCreatedAtUtc().toLocalDate()));
-            preparedStatement.setDate(3, Date.valueOf(order.getCompletedAtUtc().toLocalDate()));
+            if (order.getCompletedAtUtc() != null) {
+                preparedStatement.setDate(3, Date.valueOf(order.getCompletedAtUtc().toLocalDate()));
+            }
         } catch (Exception e) {
             throw new RepositoryException(String.format("Order with tax number=%s already exist", order.getId()), e);
         }

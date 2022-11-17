@@ -32,14 +32,6 @@ public class Company {
         this.details = details;
     }
 
-    public Company(Company company) {
-        this.id = company.getId();
-        this.companyName = company.getCompanyName();
-        this.taxNumber = company.getTaxNumber();
-        this.isGovernmentAgency = company.isGovernmentAgency();
-        this.userId = company.getUserId();
-    }
-
     public Long getId() {
         return id;
     }

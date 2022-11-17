@@ -85,7 +85,7 @@ public class DocumentRepository {
         ) {
             List<Document> documents = new ArrayList<>();
             while (resultSet.next()) {
-                documents.add(new Document(buildDocumentsWithoutEntities(resultSet)));
+                documents.add(buildDocumentsWithoutEntities(resultSet));
             }
             return documents;
         } catch (Exception e) {
