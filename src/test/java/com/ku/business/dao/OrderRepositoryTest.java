@@ -30,10 +30,6 @@ public class OrderRepositoryTest {
 
         //given
         List<Order> orders = orderRepository.findAll();
-        for (Order p : orders
-        ) {
-            System.out.println(p);
-        }
 
         //when
         boolean isNotEmpty = (orders.isEmpty());
@@ -47,7 +43,6 @@ public class OrderRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Order order = orderRepository.findById(id);
-        System.out.println(order);
 
         //when
         boolean isIdEqual = (Objects.equals(order.getId(), id));
@@ -63,7 +58,7 @@ public class OrderRepositoryTest {
         Order first = new Order(1001L, LocalDateTime.of(2017, 2, 13, 15, 56), LocalDateTime.of(2019, 8, 13, 15, 56), null, OrderStatus.CREATED);
         orderRepository.save(first);
         Order second = orderRepository.findById(1001L);
-        //orderRepository.delete(1001L);
+        orderRepository.delete(1001L);
 
         //when
         boolean isEqual = (Objects.equals(first.getCreatedAtUtc(), second.getCreatedAtUtc()));
@@ -83,7 +78,7 @@ public class OrderRepositoryTest {
 
         //when
         boolean isEqual = (first.equals(second));
-        // orderRepository.update(first);
+        orderRepository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);

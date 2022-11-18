@@ -28,10 +28,7 @@ public class ContentRepositoryTest {
 
         //given
         List<Content> contents = repository.findAll();
-        for (Content c: contents
-             ) {
-            System.out.println(c);
-        }
+
         //when
         boolean isNotEmpty = (contents.isEmpty());
 
@@ -45,7 +42,6 @@ public class ContentRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Content content = repository.findById(id);
-        System.out.println(content);
 
         //when
         boolean isIdEqual = (Objects.equals(content.getId(), id));
@@ -61,7 +57,7 @@ public class ContentRepositoryTest {
         Content first = new Content(1001L, 255L, new Service(412L, null, null, null), null);
         repository.save(first);
         Content second = repository.findById(1001L);
-        //repository.delete(1025L);
+        repository.delete(1025L);
 
         //when
         boolean isEqual = (Objects.equals(first.getQuantity(), second.getQuantity()));

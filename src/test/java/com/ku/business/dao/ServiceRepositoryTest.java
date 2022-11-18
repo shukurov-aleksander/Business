@@ -28,10 +28,6 @@ public class ServiceRepositoryTest {
 
         //given
         List<Service> services = serviceRepository.findAll();
-        for (Service s: services
-        ) {
-            System.out.println(s);
-        }
 
         //when
         boolean isNotEmpty = (services.isEmpty());
@@ -45,7 +41,6 @@ public class ServiceRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Service service = serviceRepository.findById(id);
-        System.out.println(service);
 
         //when
         boolean isIdEqual = (Objects.equals(service.getId(), id));
@@ -61,7 +56,7 @@ public class ServiceRepositoryTest {
         Service first = new Service(1001L, "Service name", 52542L, "Some Service description");
         serviceRepository.save(first);
         Service second = serviceRepository.findById(1001L);
-        //orderRepository.delete(1001L);
+        serviceRepository.delete(1001L);
 
         //when
         boolean isEqual = (Objects.equals(first.getServiceName(), second.getServiceName()));

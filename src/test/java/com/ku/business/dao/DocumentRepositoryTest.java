@@ -29,10 +29,6 @@ public class DocumentRepositoryTest {
 
         //given
         List<Document> documents = documentRepository.findAll();
-        for (Document d: documents
-             ) {
-            System.out.println(d);
-        }
 
         //when
         boolean isNotEmpty = (documents.isEmpty());
@@ -46,7 +42,6 @@ public class DocumentRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Document document = documentRepository.findById(id);
-        System.out.println(document);
 
         //when
         boolean isIdEqual = (Objects.equals(document.getId(), id));

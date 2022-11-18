@@ -30,10 +30,6 @@ public class StorageRepositoryTest {
 
         //given
         List<Storage> storages = storageRepository.findAll();
-        for (Storage s: storages
-        ) {
-            System.out.println(s);
-        }
 
         //when
         boolean isNotEmpty = (storages.isEmpty());
@@ -47,7 +43,6 @@ public class StorageRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Storage storage = storageRepository.findById(id);
-        System.out.println(storage);
 
         //when
         boolean isIdEqual = (Objects.equals(storage.getId(), id));

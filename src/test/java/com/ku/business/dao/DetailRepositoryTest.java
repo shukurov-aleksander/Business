@@ -27,10 +27,7 @@ public class DetailRepositoryTest {
 
         //given
         List<Detail> details = repository.findAll();
-        for (Detail d: details
-             ) {
-            System.out.println(d);
-        }
+
         //when
         boolean isNotEmpty = (details.isEmpty());
 
@@ -59,7 +56,7 @@ public class DetailRepositoryTest {
         Detail first = new Detail(1025L,new Company(325L,null,"63456345",true,null,null,null), new Order(1L,null,null,null,null),OperationType.PURCHASE);
         repository.save(first);
         Detail second = repository.findById(1025L);
-        //repository.delete(1025L);
+        repository.delete(1025L);
 
         //when
         boolean isEqual = (Objects.equals(first.getOperationType(), second.getOperationType()));
@@ -79,7 +76,7 @@ public class DetailRepositoryTest {
 
         //when
         boolean isEqual = (first.equals(second));
-        //repository.update(first);
+        repository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);

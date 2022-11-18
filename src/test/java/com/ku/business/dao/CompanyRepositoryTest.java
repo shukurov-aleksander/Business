@@ -28,10 +28,6 @@ public class CompanyRepositoryTest {
 
         //given
         List<Company> companies = companyRepository.findAll();
-        for (Company c: companies
-             ) {
-            System.out.println(c);
-        }
 
         //when
         boolean isNotEmpty = (companies.isEmpty());
@@ -45,7 +41,6 @@ public class CompanyRepositoryTest {
         //given
         Long id = 577L;//(long) (Math.random() * (1000 - 1)) + 1;
         Company company = companyRepository.findById(id);
-        System.out.println(company);
 
         //when
         boolean isIdEqual = (Objects.equals(company.getId(), id));
@@ -61,7 +56,7 @@ public class CompanyRepositoryTest {
         Company first = new Company(1004L, "State", "3457579", false, 523L, null, null);
         companyRepository.save(first);
         Company second = companyRepository.findById(1004L);
-      //  companyRepository.delete(1003L);
+        companyRepository.delete(1003L);
 
         //when
         boolean isEqual = (Objects.equals(first.getTaxNumber(), second.getTaxNumber()));
