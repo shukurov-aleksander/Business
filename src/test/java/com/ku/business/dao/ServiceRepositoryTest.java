@@ -16,9 +16,6 @@ public class ServiceRepositoryTest {
     ServiceRepository serviceRepository = new ServiceRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -77,9 +74,9 @@ public class ServiceRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1001L;// (long) (Math.random() * 1000 + 1);
+        long id = 1002L;// (long) (Math.random() * 1000 + 1);
         Service first = serviceRepository.findById(id);
-        serviceRepository.update(new Service(1001L, "Different Service name", 52542L, "Some different Service description"));
+        serviceRepository.update(new Service(1002L, "Different Service name", 52542L, "Some different Service description"));
         Service second = serviceRepository.findById(id);
 
         //when
@@ -99,7 +96,7 @@ public class ServiceRepositoryTest {
         serviceRepository.save(service);
         Service first = serviceRepository.findById(1001L);
         boolean isExist = first.getId() != null;
-        serviceRepository.delete(1001L);
+        serviceRepository.delete(1002L);
         Service second = serviceRepository.findById(1001L);
 
         //when

@@ -12,14 +12,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.IDocumentRepository.*;
+import static com.ku.business.dao.Repository.*;
 
 public class DocumentRepository {
     private final DataSource dataSource;
     public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.order_id, d.document_content,
-            o.id order_order_id, o.order_status order_status, o.created_at_utc order_created_at_utc, 
-            o.completed_at_utc order_completed_at_utc
+            o.id order_id, o.order_status order_status, o.created_at_utc created_at_utc, 
+            o.completed_at_utc completed_at_utc
         FROM documents d
         LEFT JOIN orders o ON d.order_id = o.id
         WHERE d.id = ?
@@ -62,17 +62,17 @@ public class DocumentRepository {
         return document;
     }
 
-    private Document buildDocumentsWithoutEntities(ResultSet resultSet) throws Exception{
+    private Document buildDocumentsWithoutEntities(ResultSet resultSet) throws Exception {
         Document document = new Document();
-        document.setId(resultSet.getLong(DOCUMENT_ID_COLUMN));
-        document.setDocumentContent(resultSet.getString(DOCUMENT_DOCUMENT_CONTENT));
+        document.setId(resultSet.getLong(ID_COLUMN));
+        document.setDocumentContent(resultSet.getString(DOCUMENT_CONTENT_COLUMN));
         return document;
     }
 
     private Order buildOrder(ResultSet resultSet) throws Exception {
         Order order = new Order();
         order.setId(resultSet.getLong(ORDER_ID_COLUMN));
-        order.setCreatedAtUtc((resultSet.getTimestamp(ORDER_CREATE_AT_UTC_COLUMN)).toLocalDateTime());
+        order.setCreatedAtUtc((resultSet.getTimestamp(ORDER_CREATED_AT_UTC_COLUMN)).toLocalDateTime());
         order.setCompletedAtUtc((resultSet.getTimestamp(ORDER_COMPLETED_AT_UTC_COLUMN)).toLocalDateTime());
         order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS_TYPE_COLUMN)));
         return order;
@@ -97,20 +97,23 @@ public class DocumentRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
         ) {
-            preparedStatement.setLong(1, document.getOrderId().getId());
-            preparedStatement.setString(2, document.getDocumentContent());
-            preparedStatement.executeUpdate();
+            makeQueryForInsertOrUpdateDocuments(document, preparedStatement).executeUpdate();
         } catch (Exception e) {
-            throw new RepositoryException("Try to save document with null document content", e);
+            throw new RepositoryException("Try to save document with null document content or order id", e);
         }
+    }
+
+    public PreparedStatement makeQueryForInsertOrUpdateDocuments(Document document, PreparedStatement preparedStatement) throws Exception {
+        preparedStatement.setLong(1, document.getOrderId().getId());
+        preparedStatement.setString(2, document.getDocumentContent());
+        return preparedStatement;
     }
 
     public void update(Document document) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            preparedStatement.setLong(1, document.getOrderId().getId());
-            preparedStatement.setString(2, document.getDocumentContent());
+            makeQueryForInsertOrUpdateDocuments(document, preparedStatement);
             preparedStatement.setLong(3, document.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {

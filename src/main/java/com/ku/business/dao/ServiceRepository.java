@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.IServiceRepository.*;
+import static com.ku.business.dao.Repository.*;
 
 public class ServiceRepository {
     private final DataSource dataSource;
@@ -51,8 +51,8 @@ public class ServiceRepository {
 
     private Service buildService(ResultSet resultSet) throws Exception {
         Service service = new Service();
-        service.setId(resultSet.getLong(SERVICE_ID_COLUMN));
-        service.setSum(resultSet.getLong(SERVICE_SUM_COLUMN));
+        service.setId(resultSet.getLong(ID_COLUMN));
+        service.setSum(resultSet.getLong(SUM_COLUMN));
         service.setServiceName(resultSet.getString(SERVICE_NAME_COLUMN));
         service.setServiceDescription(resultSet.getString(SERVICE_DESCRIPTION_COLUMN));
         return service;
@@ -77,20 +77,16 @@ public class ServiceRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
         ) {
-            updateService(service, preparedStatement).executeUpdate();
+            makeQueryForInsertOrUpdateServices(service, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException("Try to save service with null order content", e);
         }
     }
 
-    public PreparedStatement updateService(Service service, PreparedStatement preparedStatement) {
-        try {
-            preparedStatement.setString(1, service.getServiceName());
-            preparedStatement.setLong(2, service.getSum());
-            preparedStatement.setString(3, service.getServiceDescription());
-        } catch (Exception e) {
-            throw new RepositoryException(String.format("Service with tax number=%s already exist", service.getId()), e);
-        }
+    public PreparedStatement makeQueryForInsertOrUpdateServices(Service service, PreparedStatement preparedStatement) throws Exception {
+        preparedStatement.setString(1, service.getServiceName());
+        preparedStatement.setLong(2, service.getSum());
+        preparedStatement.setString(3, service.getServiceDescription());
         return preparedStatement;
     }
 
@@ -99,7 +95,7 @@ public class ServiceRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
             preparedStatement.setLong(4, service.getId());
-            updateService(service, preparedStatement);
+            makeQueryForInsertOrUpdateServices(service, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Can't update Service with id=%d", service.getId()), e);
@@ -114,7 +110,7 @@ public class ServiceRepository {
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RepositoryException(String.format("Can't find Service with id=%d", id), e);
+            throw new RepositoryException(String.format("Can't delete Service with id=%d. Service is not exist!", id), e);
         }
     }
 }

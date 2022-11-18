@@ -16,9 +16,6 @@ public class ContentRepositoryTest {
     ContentRepository repository = new ContentRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -31,7 +28,10 @@ public class ContentRepositoryTest {
 
         //given
         List<Content> contents = repository.findAll();
-
+        for (Content c: contents
+             ) {
+            System.out.println(c);
+        }
         //when
         boolean isNotEmpty = (contents.isEmpty());
 
@@ -45,6 +45,7 @@ public class ContentRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Content content = repository.findById(id);
+        System.out.println(content);
 
         //when
         boolean isIdEqual = (Objects.equals(content.getId(), id));
@@ -57,10 +58,10 @@ public class ContentRepositoryTest {
     public void testAddToContentTable() {
 
         //given
-        Content first = new Content(1025L, 255L, new Service(412L, null, null, null), null);
+        Content first = new Content(1001L, 255L, new Service(412L, null, null, null), null);
         repository.save(first);
-        Content second = repository.findById(1025L);
-        repository.delete(1025L);
+        Content second = repository.findById(1001L);
+        //repository.delete(1025L);
 
         //when
         boolean isEqual = (Objects.equals(first.getQuantity(), second.getQuantity()));
@@ -75,7 +76,7 @@ public class ContentRepositoryTest {
         //given
         long id = (long) (Math.random() * 1000 + 1);
         Content first = repository.findById(id);
-        repository.update(new Content(1001L, 322L, new Service(965L, null, null, null), null));
+        repository.update(new Content(1002L, 322L, new Service(965L, null, null, null), null));
         Content second = repository.findById(id);
 
         //when
@@ -94,7 +95,7 @@ public class ContentRepositoryTest {
         repository.save(content);
         Content first = repository.findById(1001L);
         boolean isExist = first.getId() != null;
-        repository.delete(1001L);
+        repository.delete(1002L);
         Content second = repository.findById(1001L);
 
         //when

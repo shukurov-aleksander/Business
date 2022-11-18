@@ -10,28 +10,28 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.IDetailRepository.*;
+import static com.ku.business.dao.Repository.*;
 
 public class DetailRepository {
         private final DataSource dataSource;
         public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.operation_type,
-            c.id company_company_id, c.company_name company_name, c.tax_number company_tax_number, c.user_id company_user_id, c.is_government_agency company_is_government_agency,
-            o.id order_order_id, o.order_status order_status, o.created_at_utc order_cr_at_utc, o.completed_at_utc order_com_at_utc
+            c.id company_id, c.company_name company_name, c.tax_number tax_number, c.user_id user_id, c.is_government_agency is_government_agency,
+            o.id order_id, o.order_status order_status, o.created_at_utc created_at_utc, o.completed_at_utc completed_at_utc
         FROM details d
             LEFT JOIN companies c ON d.company_id = c.id
             LEFT JOIN orders o ON d.order_id = o.id
-        WHERE d.id = ?
+        WHERE d.id = ? and d.id IS NOT NULL 
     """;
         public static final String FIND_ALL_QUERY = "SELECT * FROM details";
         public static final String DELETE_BY_ID_QUERY = "DELETE FROM details WHERE id = ?";
         public static final String INSERT_QUERY = """
-        INSERT INTO details (operation_type) 
-        VALUES (?)
+        INSERT INTO details (operation_type, company_id, order_id) 
+        VALUES (?::operation_type_enum, ?, ?)
     """;
         public static final String UPDATE_QUERY = """
         UPDATE details
-        SET operation_type = ? 
+        SET operation_type = ?::operation_type_enum, company_id = ?, order_id = ?  
         WHERE id = ?
     """;
 
@@ -45,9 +45,9 @@ public class DetailRepository {
         ) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    resultSet.next();
-                    return buildDetails(resultSet);
-                }
+                resultSet.next();
+                return buildDetails(resultSet);
+            }
         } catch (Exception s) {
             throw new RepositoryException(String.format("Can't find Detail with id=%d", id), s);
         }
@@ -64,11 +64,11 @@ public class DetailRepository {
         return detail;
     }
 
-    private Detail buildDetailsWithoutEntities(ResultSet resultSet) throws Exception{
-            Detail detail = new Detail();
-            detail.setId(resultSet.getLong(DETAIL_ID_COLUMN));
-            detail.setOperationType(OperationType.valueOf(resultSet.getString(DETAIL_OPERATION_TYPE_COLUMN)));
-            return detail;
+    private Detail buildDetailsWithoutEntities(ResultSet resultSet) throws Exception {
+        Detail detail = new Detail();
+        detail.setId(resultSet.getLong(ID_COLUMN));
+        detail.setOperationType(OperationType.valueOf(resultSet.getString(DETAIL_OPERATION_TYPE_COLUMN)));
+        return detail;
     }
 
     private Company buildCompany(ResultSet resultSet) throws Exception {
@@ -84,7 +84,7 @@ public class DetailRepository {
     private Order buildOrder(ResultSet resultSet) throws Exception {
         Order order = new Order();
         order.setId(resultSet.getLong(ORDER_ID_COLUMN));
-        order.setCreatedAtUtc((resultSet.getTimestamp(ORDER_CREATE_AT_UTC_COLUMN)).toLocalDateTime());
+        order.setCreatedAtUtc((resultSet.getTimestamp(ORDER_CREATED_AT_UTC_COLUMN)).toLocalDateTime());
         order.setCompletedAtUtc((resultSet.getTimestamp(ORDER_COMPLETED_AT_UTC_COLUMN)).toLocalDateTime());
         order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS_TYPE_COLUMN)));
         return order;
@@ -109,19 +109,25 @@ public class DetailRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
         ) {
-            preparedStatement.setString(1, String.format("%S::operation_type", detail.getOperationType()));
-            preparedStatement.executeUpdate();
+            makeQueryForInsertOrUpdateDetails(detail, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException("Try to save detail with null service", e);
         }
+    }
+
+    public PreparedStatement makeQueryForInsertOrUpdateDetails(Detail detail, PreparedStatement preparedStatement) throws Exception {
+        preparedStatement.setString(1, detail.getOperationType().toString());
+        preparedStatement.setLong(2, detail.getCompanyId().getId());
+        preparedStatement.setLong(3, detail.getOrderId().getId());
+        return preparedStatement;
     }
 
     public void update(Detail detail) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            preparedStatement.setString(1, String.format("%S::operation_type", detail.getOperationType()));
-            preparedStatement.setLong(2, detail.getId());
+            makeQueryForInsertOrUpdateDetails(detail, preparedStatement);
+            preparedStatement.setLong(4, detail.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Can't find detail with id=%d", detail.getId()), e);

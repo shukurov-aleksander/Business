@@ -18,9 +18,6 @@ public class OrderRepositoryTest {
     OrderRepository orderRepository = new OrderRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -33,8 +30,8 @@ public class OrderRepositoryTest {
 
         //given
         List<Order> orders = orderRepository.findAll();
-        for (Order p: orders
-             ) {
+        for (Order p : orders
+        ) {
             System.out.println(p);
         }
 
@@ -63,7 +60,7 @@ public class OrderRepositoryTest {
     public void testSaveToTableOrder() throws RepositoryException {
 
         //given
-        Order first = new Order(1001L, LocalDateTime.of(2017, 2, 13, 15, 56), null, null, OrderStatus.CREATED);
+        Order first = new Order(1001L, LocalDateTime.of(2017, 2, 13, 15, 56), LocalDateTime.of(2019, 8, 13, 15, 56), null, OrderStatus.CREATED);
         orderRepository.save(first);
         Order second = orderRepository.findById(1001L);
         //orderRepository.delete(1001L);
@@ -79,14 +76,14 @@ public class OrderRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1002L;// (long) (Math.random() * 1000 + 1);
+        long id = 1001L;// (long) (Math.random() * 1000 + 1);
         Order first = orderRepository.findById(id);
-        orderRepository.update(new Order(1002L, LocalDateTime.of(2017, 2, 13, 15, 56), null, null, OrderStatus.CREATED));
+        orderRepository.update(new Order(1001L, LocalDateTime.of(2016, 6, 28, 5, 13), LocalDateTime.of(2018, 8, 12, 12, 30), null, OrderStatus.CREATED));
         Order second = orderRepository.findById(id);
 
         //when
         boolean isEqual = (first.equals(second));
-        orderRepository.update(first);
+        // orderRepository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);
@@ -101,7 +98,7 @@ public class OrderRepositoryTest {
         orderRepository.save(order);
         Order first = orderRepository.findById(1002L);
         boolean isExist = first.getId() != null;
-        orderRepository.delete(1002L);
+        orderRepository.delete(1001L);
         Order second = orderRepository.findById(1002L);
 
         //when

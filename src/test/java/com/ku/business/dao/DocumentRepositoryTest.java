@@ -17,9 +17,6 @@ public class DocumentRepositoryTest {
     DocumentRepository documentRepository = new DocumentRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -49,6 +46,7 @@ public class DocumentRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Document document = documentRepository.findById(id);
+        System.out.println(document);
 
         //when
         boolean isIdEqual = (Objects.equals(document.getId(), id));
@@ -77,7 +75,7 @@ public class DocumentRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1002L;// (long) (Math.random() * 1000 + 1);
+        long id = 1003L;// (long) (Math.random() * 1000 + 1);
         Document first = documentRepository.findById(id);
         documentRepository.update(new Document(id, new Order(285L, null, null, null, null), "Some another content"));
         Document second = documentRepository.findById(id);
@@ -99,7 +97,7 @@ public class DocumentRepositoryTest {
         documentRepository.save(document);
         Document first = documentRepository.findById(1002L);
         boolean isExist = first.getId() != null;
-        documentRepository.delete(1002L);
+        documentRepository.delete(1003L);
         Document second = documentRepository.findById(1002L);
 
         //when

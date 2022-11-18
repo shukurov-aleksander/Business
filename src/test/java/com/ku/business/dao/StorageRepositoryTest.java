@@ -18,9 +18,6 @@ public class StorageRepositoryTest {
     StorageRepository storageRepository = new StorageRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -79,9 +76,9 @@ public class StorageRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1001L;// (long) (Math.random() * 1000 + 1);
+        long id = 1002L;// (long) (Math.random() * 1000 + 1);
         Storage first = storageRepository.findById(id);
-        storageRepository.update(new Storage(1001L, 51542141, new Company(643L,"Other Company name","fas542",false,543L,null,null), new Service(523L, "Different Service name", 45234L, "Some different Service description")));
+        storageRepository.update(new Storage(1002L, 51542141, new Company(643L, "Other Company name", "fas542", false, 543L, null, null), new Service(523L, "Different Service name", 45234L, "Some different Service description")));
         Storage second = storageRepository.findById(id);
 
         //when
@@ -97,11 +94,11 @@ public class StorageRepositoryTest {
     public void testDeleteFromTable() throws RepositoryException {
 
         //given
-        Storage storage = new Storage(1001L, 51542141, new Company(643L,"Other Company name","fas542",false,543L,null,null), new Service(523L, "Different Service name", 45234L, "Some different Service description"));
+        Storage storage = new Storage(1001L, 51542141, new Company(643L, "Other Company name", "fas542", false, 543L, null, null), new Service(523L, "Different Service name", 45234L, "Some different Service description"));
         storageRepository.save(storage);
         Storage first = storageRepository.findById(1001L);
         boolean isExist = first.getId() != null;
-        storageRepository.delete(1001L);
+        storageRepository.delete(1002L);
         Storage second = storageRepository.findById(1001L);
 
         //when

@@ -15,9 +15,6 @@ public class DetailRepositoryTest {
     DetailRepository repository = new DetailRepository(getConnection());
 
     public DataSource getConnection() {
-        this.dataSource.setServerNames(new String[]{
-                "Local Business database"
-        });
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
         this.dataSource.setDatabaseName(this.dataSource.getDatabaseName());
         this.dataSource.setUser("postgres");
@@ -30,7 +27,10 @@ public class DetailRepositoryTest {
 
         //given
         List<Detail> details = repository.findAll();
-
+        for (Detail d: details
+             ) {
+            System.out.println(d);
+        }
         //when
         boolean isNotEmpty = (details.isEmpty());
 
@@ -44,7 +44,7 @@ public class DetailRepositoryTest {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Detail detail = repository.findById(id);
-
+        System.out.println(detail);
         //when
         boolean isIdEqual = (Objects.equals(detail.getId(), id));
 
@@ -56,10 +56,10 @@ public class DetailRepositoryTest {
     public void testAddToTableDetails() {
 
         //given
-        Detail first = new Detail(1025L,new Company(325L,null,null,true,null,null,null), new Order(532L,null,null,null,null),OperationType.PURCHASE);
+        Detail first = new Detail(1025L,new Company(325L,null,"63456345",true,null,null,null), new Order(1L,null,null,null,null),OperationType.PURCHASE);
         repository.save(first);
         Detail second = repository.findById(1025L);
-        repository.delete(1025L);
+        //repository.delete(1025L);
 
         //when
         boolean isEqual = (Objects.equals(first.getOperationType(), second.getOperationType()));
@@ -72,14 +72,14 @@ public class DetailRepositoryTest {
     public void testUpdateValueInTableDetails() {
 
         //given
-        long id = 1001L;//(long) (Math.random() * 1000 + 1);
+        long id = 841L;//(long) (Math.random() * 1000 + 1);
         Detail first = repository.findById(id);
-        repository.update(new Detail(1001L,new Company(333L,null,null,false,null,null,null), new Order(698L,null,null,null,null),OperationType.BARTER));
+        repository.update(new Detail(841L,new Company(333L,null,null,false,null,null,null), new Order(698L,null,null,null,null),OperationType.BARTER));
         Detail second = repository.findById(id);
 
         //when
         boolean isEqual = (first.equals(second));
-        repository.update(first);
+        //repository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);
@@ -93,7 +93,7 @@ public class DetailRepositoryTest {
         repository.save(detail);
         Detail first = repository.findById(1001L);
         boolean isExist = first.getId() != null;
-        repository.delete(1001L);
+        repository.delete(841L);
         Detail second = repository.findById(1001L);
 
         //when
