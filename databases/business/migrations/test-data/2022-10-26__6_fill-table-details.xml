@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>fill in the table "details" with test data</comment>
+        <sql>
+            WITH series AS (SELECT GENERATE_SERIES(1, 1000) sery)
+            INSERT INTO details (company_id, order_id, operation_type)
+            SELECT FLOOR(RANDOM() * ((SELECT COUNT(*) FROM companies) - 1) + 1),
+                   FLOOR(RANDOM() * ((SELECT COUNT(*) FROM orders) - 1) + 1),
+                   CASE
+                       WHEN s.sery % 4 = 0 THEN 'REMITTANCE'::operation_type_enum
+                       WHEN s.sery % 3 = 0  THEN 'BARTER'::operation_type_enum
+                       WHEN s.sery % 2 = 0  THEN 'OUTSOURCING'::operation_type_enum
+                       ELSE 'PURCHASE'::operation_type_enum
+                   END
+            FROM series s ON CONFLICT DO NOTHING
+        </sql>
+    </changeSet>
+</databaseChangeLog>
