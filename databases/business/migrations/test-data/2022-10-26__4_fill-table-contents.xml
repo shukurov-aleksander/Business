@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>fill in the table "contents" with test data</comment>
+        <sql>
+            INSERT INTO contents (quantity, service_id)
+            SELECT FLOOR(RANDOM() * (20000 - 1) + 1),
+                   FLOOR(RANDOM() * ((SELECT COUNT(*) FROM services) - 1) + 1)
+            FROM (SELECT GENERATE_SERIES(1, 1000)) AS series
+        </sql>
+    </changeSet>
+</databaseChangeLog>

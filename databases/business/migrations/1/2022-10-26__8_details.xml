@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>create table "details"</comment>
+        <createTable tableName="details">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="company_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="operation_type" type="operation_type_enum">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <comment>add foreign key to "company_id" column</comment>
+        <sql>
+            ALTER TABLE details
+                ADD CONSTRAINT fk_detail_company FOREIGN KEY (company_id) REFERENCES companies (id)
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE details DROP CONSTRAINT fk_detail_company
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="Aleksander.shukurov@gmail.com">
+        <comment>add foreign key to "order_id" column</comment>
+        <sql>
+            ALTER TABLE details
+                ADD CONSTRAINT fk_detail_order FOREIGN KEY (order_id) REFERENCES orders (id)
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE details DROP CONSTRAINT fk_detail_order
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

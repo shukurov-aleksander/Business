@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>create type "operation_type_enum"</comment>
+        <sql>
+            CREATE TYPE operation_type_enum AS ENUM ('PURCHASE', 'REMITTANCE', 'BARTER','OUTSOURCING');
+        </sql>
+        <rollback>
+            <sql>
+                DROP TYPE operation_type_enum
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <comment>create type "order_status_enum"</comment>
+        <sql>
+            CREATE TYPE order_status_enum AS ENUM ('CREATED', 'PROCESSING', 'COMPLETED');
+        </sql>
+        <rollback>
+            <sql>
+                DROP TYPE order_status_enum
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
