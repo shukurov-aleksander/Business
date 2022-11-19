@@ -73,7 +73,7 @@ public class Document {
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {")
                 .append("id=").append(getId())
-                .append(", orderId=").append(getOrderId().toString())
+                .append(", orderId=").append(getOrderId())
                 .append(" , documentContent='").append(getDocumentContent())
                 .append("'}");
         return  stringBuilder.toString();

@@ -164,18 +164,18 @@ public class Company {
                 .append(", storages contains [");
         if (getStorages() != null && !getStorages().isEmpty()) {
             for (Storage storage: storages) {
-                stringBuilder.append("detail storageId {").append(storage.getId()).append("}, ");
+                stringBuilder.append("{id=").append(storage.getId()).append("}, ");
             }
             stringBuilder.setLength(stringBuilder.length()-2);
         }
         stringBuilder.append("], details contains [");
         if (getDetails() != null && !getDetails().isEmpty()) {
             for (Detail detail: details) {
-                stringBuilder.append("detail detailId {").append(detail.getId()).append("}, ");
+                stringBuilder.append("{id=").append(detail.getId()).append("}, ");
             }
-            stringBuilder.setLength(stringBuilder.length()-3);
+            stringBuilder.setLength(stringBuilder.length()-2);
         }
-        stringBuilder.append("}]}");
+        stringBuilder.append("]}");
         return stringBuilder.toString();
     }
 }
