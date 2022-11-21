@@ -1,9 +1,22 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "storages", schema = "public")
 public class Storage {
+    @Id
+    @Column(name = "id")
     private Long id;
     private Integer quantity;
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "company_id")
     private Company companyId;
+    @OneToOne
+    @JoinColumn(name="service_id")
+
     private Service serviceId;
 
     public Storage() {

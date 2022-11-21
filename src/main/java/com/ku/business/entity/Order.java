@@ -1,13 +1,28 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "orders", schema = "public")
 public class Order {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @Column
     private OrderStatus orderStatus;
+    @Column
     private LocalDateTime createdAtUtc;
+    @Column
     private LocalDateTime completedAtUtc;
+    @ManyToMany
+    @JoinTable(
+            name = "order_content_links",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id")
+    )
     private List<Content> contents;
 
     public Order() {

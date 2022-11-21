@@ -1,14 +1,34 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "companies")
 public class Company {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @Column(name = "company_name")
     private String companyName;
+    @Column(name = "tax_number", unique = true, nullable = false)
     private String taxNumber;
+    @Column(name = "is_government_agency")
     private Boolean isGovernmentAgency;
+    @Column(name = "user_id")
     private Long userId;
+    @OneToMany(
+            mappedBy = "companyId",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
     private List<Storage> storages;
+    @OneToMany(
+            mappedBy = "companyId",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
     private List<Detail> details;
 
     public Company() {

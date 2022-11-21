@@ -1,11 +1,26 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "contents", schema = "public")
 public class Content {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @Column
     private Long quantity;
+    @OneToOne
+    @JoinColumn(name="service_id")
     private Service serviceId;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "order_content_links",
+            joinColumns = @JoinColumn(name = "content_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
     private List<Order> orders;
 
     public Content() {

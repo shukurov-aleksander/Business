@@ -1,9 +1,17 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "services", schema = "public")
 public class Service {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @Column
     private String serviceName;
     private Long sum;
+    @Column
     private String serviceDescription;
 
     public Service() {

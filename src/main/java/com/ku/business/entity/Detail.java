@@ -1,9 +1,22 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "details", schema = "public")
 public class Detail {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "company_id")
     private Company companyId;
+    @OneToOne
+    @JoinColumn(name="order_id")
     private Order orderId;
+    @Column
     private OperationType operationType;
 
     public Detail() {

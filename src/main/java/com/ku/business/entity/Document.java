@@ -1,8 +1,17 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "documents", schema = "public")
 public class Document {
+    @Id
+    @Column(name = "id")
     private Long id;
+    @OneToOne
+    @JoinColumn(name="order_id", nullable = false)
     private Order orderId;
+    @Column(nullable = false)
     private String documentContent;
 
     public Document() {
