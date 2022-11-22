@@ -11,11 +11,11 @@ public class Order {
     @Id
     @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "order_status")
     private OrderStatus orderStatus;
-    @Column
+    @Column(name = "created_at_utc")
     private LocalDateTime createdAtUtc;
-    @Column
+    @Column(name = "completed_at_utc")
     private LocalDateTime completedAtUtc;
     @ManyToMany
     @JoinTable(

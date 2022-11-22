@@ -8,10 +8,10 @@ public class Service {
     @Id
     @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "service_name")
     private String serviceName;
     private Long sum;
-    @Column
+    @Column(name = "service_description")
     private String serviceDescription;
 
     public Service() {

@@ -16,7 +16,7 @@ public class Detail {
     @OneToOne
     @JoinColumn(name="order_id")
     private Order orderId;
-    @Column
+    @Column(name = "operation_type")
     private OperationType operationType;
 
     public Detail() {
