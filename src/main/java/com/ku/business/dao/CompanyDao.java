@@ -1,52 +1,81 @@
 package com.ku.business.dao;
 
+import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Company;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class CompanyDao implements Dao<Long, Company>{
+public class CompanyDao {
     private final SessionFactory sessionFactory;
 
     public CompanyDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
     public Company findById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.find(Company.class,id);
-    }
-
-    @Override
-    public List<Company> findAll() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createNativeQuery("SELECT * FROM companies", Company.class).getResultList();
-    }
-
-    @Override
-    public void save(Company company) {
-       try (Session session = sessionFactory.getCurrentSession()
-       ) {
-            session.persist(company);
-       }
-    }
-
-    @Override
-    public void update(Company company) {
-        try (Session session = sessionFactory.getCurrentSession()
-        ) {
-            session.merge(company);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Company.class, id);
         }
     }
 
-    @Override
-    public void delete(Long id) {
-        try (Session session = sessionFactory.getCurrentSession()
+    public List<Company> findAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()
         ) {
+            return session.createQuery("SELECT c from Company c", Company.class).list();
+        }
+    }
+
+    public void save(Company company) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+            // save the student object
+            session.persist(company);
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public void update(Company company) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+            // save the student object
+            session.merge(company);
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Long id) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+            // save the student object
             session.remove(id);
-            session.flush();
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
         }
     }
 }

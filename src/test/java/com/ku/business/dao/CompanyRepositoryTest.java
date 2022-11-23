@@ -28,6 +28,10 @@ public class CompanyRepositoryTest {
 
         //given
         List<Company> companies = companyRepository.findAll();
+        for (Company c: companies
+             ) {
+            System.out.println(c);
+        }
 
         //when
         boolean isNotEmpty = (companies.isEmpty());

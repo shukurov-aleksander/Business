@@ -3,20 +3,23 @@ package com.ku.business.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "details", schema = "public")
+@Table(name = "details")
 public class Detail {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @ManyToOne(
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(name = "company_id")
     private Company companyId;
     @OneToOne
     @JoinColumn(name="order_id")
     private Order orderId;
+
     @Column(name = "operation_type")
+    @Enumerated(EnumType.ORDINAL)
     private OperationType operationType;
 
     public Detail() {
@@ -52,7 +55,6 @@ public class Detail {
     public void setOrderId(Order orderId) {
         this.orderId = orderId;
     }
-
     public OperationType getOperationType() {
         return operationType;
     }

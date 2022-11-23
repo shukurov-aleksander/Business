@@ -3,9 +3,10 @@ package com.ku.business.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "services", schema = "public")
+@Table(name = "services")
 public class Service {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "service_name")

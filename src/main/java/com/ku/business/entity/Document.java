@@ -3,9 +3,10 @@ package com.ku.business.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "documents", schema = "public")
+@Table(name = "documents")
 public class Document {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @OneToOne

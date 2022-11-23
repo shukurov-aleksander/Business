@@ -8,11 +8,12 @@ import java.util.List;
 @Table(name = "companies")
 public class Company {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "company_name")
     private String companyName;
-    @Column(name = "tax_number", unique = true, nullable = false)
+    @Column(name = "tax_number")
     private String taxNumber;
     @Column(name = "is_government_agency")
     private Boolean isGovernmentAgency;
@@ -20,14 +21,12 @@ public class Company {
     private Long userId;
     @OneToMany(
             mappedBy = "companyId",
-            cascade = CascadeType.MERGE,
-            orphanRemoval = true
+            fetch = FetchType.EAGER
     )
     private List<Storage> storages;
     @OneToMany(
             mappedBy = "companyId",
-            cascade = CascadeType.MERGE,
-            orphanRemoval = true
+            fetch = FetchType.EAGER
     )
     private List<Detail> details;
 
@@ -133,20 +132,6 @@ public class Company {
         if (getUserId() == null) {
             if (aThat.getUserId() != null) {return false;}
         } else if (!getUserId().equals(aThat.getUserId())) {return false;}
-
-        if ((getStorages() == null && aThat.getStorages() != null) || (getStorages() != null && aThat.getStorages() == null)) {return false;}
-        else if (getStorages() != null && aThat.getStorages() != null) {
-            for (int i = 0; i < getStorages().size(); i++) {
-                if (!getStorages().get(i).getId().equals(aThat.getStorages().get(i).getId())) {return false;}
-            }
-        }
-
-        if ((getDetails() == null && aThat.getDetails() != null) || (getDetails() != null && aThat.getDetails() == null)) {return false;}
-        else if (getDetails() != null && aThat.getDetails() != null) {
-            for (int i = 0; i < getDetails().size(); i++) {
-                if (!getDetails().get(i).getId().equals(aThat.getDetails().get(i).getId())) {return false;}
-            }
-        }
         return true;
     }
 
@@ -159,16 +144,6 @@ public class Company {
         result = prime * result + (companyName == null ? 0 : companyName.hashCode());
         result = prime * result + (taxNumber == null ? 0 : taxNumber.hashCode());
         result = prime * result + (userId == null ? 0 : userId.hashCode());
-        if (storages != null) {
-            for (Storage storage : storages) {
-                result = prime * result + (storage != null && storage.getId() != null ? (storage.getId().hashCode()) : 0);
-            }
-        }
-        if (details != null) {
-            for (Detail detail : details) {
-                result = prime * result + (detail != null && detail.getId() != null ? (detail.getId().hashCode()) : 0);
-            }
-        }
         return result;
     }
 
@@ -184,14 +159,14 @@ public class Company {
                 .append(", storages contains [");
         if (getStorages() != null && !getStorages().isEmpty()) {
             for (Storage storage: storages) {
-                stringBuilder.append("{id=").append(storage).append("}, ");
+                stringBuilder.append("{id=").append(storage.getId()).append("}, ");
             }
             stringBuilder.setLength(stringBuilder.length()-2);
         }
         stringBuilder.append("], details contains [");
         if (getDetails() != null && !getDetails().isEmpty()) {
             for (Detail detail: details) {
-                stringBuilder.append("{id=").append(detail).append("}, ");
+                stringBuilder.append("{id=").append(detail.getId()).append("}, ");
             }
             stringBuilder.setLength(stringBuilder.length()-2);
         }

@@ -3,14 +3,15 @@ package com.ku.business.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "storages", schema = "public")
+@Table(name = "storages")
 public class Storage {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     private Integer quantity;
     @ManyToOne(
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(name = "company_id")
     private Company companyId;

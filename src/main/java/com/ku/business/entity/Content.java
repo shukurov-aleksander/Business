@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "contents", schema = "public")
+@Table(name = "contents")
 public class Content {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column
