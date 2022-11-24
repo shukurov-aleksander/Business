@@ -11,7 +11,7 @@ public class Storage {
     private Long id;
     private Integer quantity;
     @ManyToOne(
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "company_id")
     private Company companyId;

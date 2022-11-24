@@ -10,7 +10,7 @@ public class Detail {
     @Column(name = "id")
     private Long id;
     @ManyToOne(
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "company_id")
     private Company companyId;
@@ -18,8 +18,8 @@ public class Detail {
     @JoinColumn(name="order_id")
     private Order orderId;
 
-    @Column(name = "operation_type")
     @Enumerated(EnumType.ORDINAL)
+    @Column(name = "operation_type")
     private OperationType operationType;
 
     public Detail() {
@@ -55,6 +55,7 @@ public class Detail {
     public void setOrderId(Order orderId) {
         this.orderId = orderId;
     }
+
     public OperationType getOperationType() {
         return operationType;
     }

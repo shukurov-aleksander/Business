@@ -20,13 +20,11 @@ public class Company {
     @Column(name = "user_id")
     private Long userId;
     @OneToMany(
-            mappedBy = "companyId",
-            fetch = FetchType.EAGER
+            mappedBy = "companyId"
     )
     private List<Storage> storages;
     @OneToMany(
-            mappedBy = "companyId",
-            fetch = FetchType.EAGER
+            mappedBy = "companyId"
     )
     private List<Detail> details;
 
