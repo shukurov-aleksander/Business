@@ -18,8 +18,8 @@ public class Detail {
     @JoinColumn(name="order_id")
     private Order orderId;
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "operation_type")
+    @Convert(converter = OperationTypeConverter.class)
     private OperationType operationType;
 
     public Detail() {

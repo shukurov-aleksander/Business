@@ -9,17 +9,17 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class CompanyDao {
-    public static final String FIND_BY_ID_FIRST_QUERY = """
-        SELECT distinct c
+    public static final String FIND_BY_ID_QUERY = """
+        SELECT DISTINCT c
         FROM Company c
             LEFT JOIN FETCH c.storages
         WHERE c.id = :id
     """;
     public static final String FIND_BY_ID_SECOND_QUERY = """
-        SELECT distinct c
+        SELECT DISTINCT c
         FROM Company c
             LEFT JOIN FETCH c.details
-        WHERE c in :company
+        WHERE c.id = :id
     """;
 
     private final SessionFactory sessionFactory;
@@ -31,15 +31,15 @@ public class CompanyDao {
     public Company findById(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()
         ) {
-            Company company = session.createQuery(FIND_BY_ID_FIRST_QUERY, Company.class).setParameter("id",id).getSingleResult();
-            return session.createQuery(FIND_BY_ID_SECOND_QUERY, Company.class).setParameter("company",company).getSingleResult();
+            session.createQuery(FIND_BY_ID_QUERY, Company.class).setParameter("id",id).getSingleResult();
+            return session.createQuery(FIND_BY_ID_SECOND_QUERY, Company.class).setParameter("id",id).getSingleResult();
         }
     }
 
     public List<Company> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()
         ) {
-            return session.createQuery("SELECT (id, companyName, taxNumber, userId, isGovernmentAgency) from Company", Company.class).list();
+            return session.createQuery("from Company", Company.class).list();
         }
     }
 
