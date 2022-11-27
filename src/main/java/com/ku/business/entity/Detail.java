@@ -19,7 +19,8 @@ public class Detail {
     private Order orderId;
 
     @Column(name = "operation_type")
-    @Convert(converter = OperationTypeConverter.class)
+    //@Convert(converter = OperationTypeConverter.class)
+    @Enumerated(EnumType.ORDINAL)
     private OperationType operationType;
 
     public Detail() {

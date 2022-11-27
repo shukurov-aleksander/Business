@@ -13,11 +13,6 @@ public class CompanyDao {
         SELECT DISTINCT c
         FROM Company c
             LEFT JOIN FETCH c.storages
-        WHERE c.id = :id
-    """;
-    public static final String FIND_BY_ID_SECOND_QUERY = """
-        SELECT DISTINCT c
-        FROM Company c
             LEFT JOIN FETCH c.details
         WHERE c.id = :id
     """;
@@ -31,8 +26,7 @@ public class CompanyDao {
     public Company findById(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()
         ) {
-            session.createQuery(FIND_BY_ID_QUERY, Company.class).setParameter("id",id).getSingleResult();
-            return session.createQuery(FIND_BY_ID_SECOND_QUERY, Company.class).setParameter("id",id).getSingleResult();
+            return session.createQuery(FIND_BY_ID_QUERY, Company.class).setParameter("id",id).getSingleResult();
         }
     }
 

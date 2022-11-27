@@ -12,7 +12,7 @@ public class Document {
     @OneToOne
     @JoinColumn(name="order_id", nullable = false)
     private Order orderId;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "document_content")
     private String documentContent;
 
     public Document() {
