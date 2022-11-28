@@ -1,6 +1,7 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.*;
+import com.ku.business.repository.jdbc.DetailRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;

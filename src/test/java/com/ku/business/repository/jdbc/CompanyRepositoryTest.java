@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Company;
 import com.ku.business.exception.RepositoryException;

@@ -1,21 +1,20 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
-import com.ku.business.entity.Order;
-import com.ku.business.entity.OrderStatus;
+import com.ku.business.entity.Service;
 import com.ku.business.exception.RepositoryException;
+import com.ku.business.repository.jdbc.ServiceRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class OrderRepositoryTest {
+public class ServiceRepositoryTest {
     public PGSimpleDataSource dataSource = new PGSimpleDataSource();
-    OrderRepository orderRepository = new OrderRepository(getConnection());
+    ServiceRepository serviceRepository = new ServiceRepository(getConnection());
 
     public DataSource getConnection() {
         this.dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres?characterEncoding=utf8");
@@ -29,10 +28,10 @@ public class OrderRepositoryTest {
     public void testGetListOfOrders() throws RepositoryException {
 
         //given
-        List<Order> orders = orderRepository.findAll();
+        List<Service> services = serviceRepository.findAll();
 
         //when
-        boolean isNotEmpty = (orders.isEmpty());
+        boolean isNotEmpty = (services.isEmpty());
 
         //then
         Assertions.assertFalse(isNotEmpty);
@@ -42,10 +41,10 @@ public class OrderRepositoryTest {
     public void testReturnOrderById() throws RepositoryException {
         //given
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
-        Order order = orderRepository.findById(id);
+        Service service = serviceRepository.findById(id);
 
         //when
-        boolean isIdEqual = (Objects.equals(order.getId(), id));
+        boolean isIdEqual = (Objects.equals(service.getId(), id));
 
         //then
         Assertions.assertTrue(isIdEqual);
@@ -55,13 +54,13 @@ public class OrderRepositoryTest {
     public void testSaveToTableOrder() throws RepositoryException {
 
         //given
-        Order first = new Order(1001L, LocalDateTime.of(2017, 2, 13, 15, 56), LocalDateTime.of(2019, 8, 13, 15, 56), null, OrderStatus.CREATED);
-        orderRepository.save(first);
-        Order second = orderRepository.findById(1001L);
-        orderRepository.delete(1001L);
+        Service first = new Service(1001L, "Service name", 52542L, "Some Service description");
+        serviceRepository.save(first);
+        Service second = serviceRepository.findById(1001L);
+        serviceRepository.delete(1001L);
 
         //when
-        boolean isEqual = (Objects.equals(first.getCreatedAtUtc(), second.getCreatedAtUtc()));
+        boolean isEqual = (Objects.equals(first.getServiceName(), second.getServiceName()));
 
         //then
         Assertions.assertTrue(isEqual);
@@ -71,14 +70,14 @@ public class OrderRepositoryTest {
     public void testUpdateValueInTable() throws RepositoryException {
 
         //given
-        long id = 1001L;// (long) (Math.random() * 1000 + 1);
-        Order first = orderRepository.findById(id);
-        orderRepository.update(new Order(1001L, LocalDateTime.of(2016, 6, 28, 5, 13), LocalDateTime.of(2018, 8, 12, 12, 30), null, OrderStatus.CREATED));
-        Order second = orderRepository.findById(id);
+        long id = 1002L;// (long) (Math.random() * 1000 + 1);
+        Service first = serviceRepository.findById(id);
+        serviceRepository.update(new Service(1002L, "Different Service name", 52542L, "Some different Service description"));
+        Service second = serviceRepository.findById(id);
 
         //when
         boolean isEqual = (first.equals(second));
-        orderRepository.update(first);
+        serviceRepository.update(first);
 
         //then
         Assertions.assertFalse(isEqual);
@@ -89,12 +88,12 @@ public class OrderRepositoryTest {
     public void testDeleteFromTable() throws RepositoryException {
 
         //given
-        Order order = new Order(1001L, LocalDateTime.of(2017, 2, 13, 15, 56), null, null, OrderStatus.CREATED);
-        orderRepository.save(order);
-        Order first = orderRepository.findById(1002L);
+        Service service = new Service(1001L, "Different Service name", 52542L, "Some different Service description");
+        serviceRepository.save(service);
+        Service first = serviceRepository.findById(1001L);
         boolean isExist = first.getId() != null;
-        orderRepository.delete(1001L);
-        Order second = orderRepository.findById(1002L);
+        serviceRepository.delete(1002L);
+        Service second = serviceRepository.findById(1001L);
 
         //when
         boolean isExistAfterDelete = second.getId() != null;

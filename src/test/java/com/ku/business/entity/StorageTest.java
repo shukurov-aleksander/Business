@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StorageTest {
     @Test
@@ -17,7 +19,7 @@ public class StorageTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);
@@ -42,7 +44,7 @@ public class StorageTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);
@@ -67,7 +69,7 @@ public class StorageTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);

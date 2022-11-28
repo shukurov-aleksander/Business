@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Company;
 import com.ku.business.entity.Service;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class StorageRepository {
     private final DataSource dataSource;

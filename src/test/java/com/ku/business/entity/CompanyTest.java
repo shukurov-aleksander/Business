@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CompanyTest {
 
@@ -18,7 +20,7 @@ public class CompanyTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company first = new Company(null, "Bank", "124325", true, 1L, null, details);
@@ -41,7 +43,7 @@ public class CompanyTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company first = new Company(null, "Bank", "124325", true, 1L, null, details);
@@ -58,7 +60,7 @@ public class CompanyTest {
     public void testHashCodeCollisionForDifferentObjects() {
         //given
         List<Storage> storages = new ArrayList<>();
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         Company first = new Company(1L, "Bank", "124325", true, 1L, null, details);
         Company second = new Company(1L, "Bank", "124325", true, 1L, storages, null);
 
@@ -81,7 +83,7 @@ public class CompanyTest {
         storages.add(secondStorage);
         Detail firstDetail = new Detail(null, null, null, null);
         Detail secondDetail = new Detail(1L, null, null, null);
-        List<Detail> details = new ArrayList<>();
+        Set<Detail> details = new HashSet<>();
         details.add(firstDetail);
         details.add(secondDetail);
         Company company = new Company(null, "Bank", "124325", true, 1L, storages, details);

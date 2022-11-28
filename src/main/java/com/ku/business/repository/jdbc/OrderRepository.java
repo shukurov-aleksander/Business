@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Content;
 import com.ku.business.entity.Order;
@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class OrderRepository {
 private final DataSource dataSource;

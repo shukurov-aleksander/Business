@@ -16,7 +16,7 @@ public class Content {
     @OneToOne
     @JoinColumn(name="service_id")
     private Service serviceId;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "order_content_links",
             joinColumns = @JoinColumn(name = "content_id"),

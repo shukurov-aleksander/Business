@@ -13,6 +13,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
     @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     @Column(name = "created_at_utc")
     private LocalDateTime createdAtUtc;
@@ -23,6 +24,7 @@ public class Order {
             name = "order_content_links",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "content_id")
+
     )
     private List<Content> contents;
 

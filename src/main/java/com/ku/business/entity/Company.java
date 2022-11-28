@@ -1,12 +1,18 @@
 package com.ku.business.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "companies")
+@FetchProfile(name = "WithStorages", fetchOverrides = {
+        @FetchProfile.FetchOverride(
+                entity = Storage.class,association = "companyId", mode = FetchMode.JOIN)
+})
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +27,14 @@ public class Company {
     @Column(name = "user_id")
     private Long userId;
     @OneToMany(
-            mappedBy = "companyId"
+            mappedBy = "companyId",
+            fetch = FetchType.LAZY
     )
     private List<Storage> storages;
     @OneToMany(
             mappedBy = "companyId"
+            ,
+            fetch = FetchType.LAZY
     )
     private Set<Detail> details;
 

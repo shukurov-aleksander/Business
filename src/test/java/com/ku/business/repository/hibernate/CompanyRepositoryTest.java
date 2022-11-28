@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.hibernate;
 
 import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Company;
@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Objects;
 
-class CompanyDaoTest {
+class CompanyRepositoryTest {
 
-    @RepeatedTest(100)
+    @RepeatedTest(1)
     void findById() {
         //given
-        CompanyDao companyDao = new CompanyDao(HibernateUtil.getSessionFactory());
+        CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
-        Company company = companyDao.findById(id);
+        Company company = companyRepository.findById(id);
 
         //when
         boolean isIdEqual = (Objects.equals(company.getId(), id));
@@ -29,8 +29,8 @@ class CompanyDaoTest {
 
     @Test
     void findAll() {
-            CompanyDao companyDao = new CompanyDao(HibernateUtil.getSessionFactory());
-            List<Company> companies = companyDao.findAll();
+            CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
+            List<Company> companies = companyRepository.findAll();
              for (Company c: companies
                           ) {
                      System.out.println(c);
@@ -48,8 +48,8 @@ class CompanyDaoTest {
     void save() {
         //given
         Company first = new Company(1004L, "Bank", "389665779", true, 324L, null, null);
-        CompanyDao companyDao = new CompanyDao(HibernateUtil.getSessionFactory());
-        companyDao.save(first);
+        CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
+        companyRepository.save(first);
        // Company second = companyRepository.findById(1004L);
        // companyRepository.delete(1003L);
 

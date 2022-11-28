@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Company;
 import com.ku.business.entity.Detail;
@@ -11,9 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class CompanyRepository {
     private final DataSource dataSource;
@@ -58,7 +60,7 @@ public class CompanyRepository {
     private Company buildCompany(ResultSet resultSet) {
         try {
             List<Storage> storages = new ArrayList<>();
-            List<Detail> details = new ArrayList<>();
+            Set<Detail> details = new HashSet<>();
             resultSet.next();
             Company company = buildCompanyWithoutEntities(resultSet);
             do {

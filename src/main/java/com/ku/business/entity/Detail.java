@@ -16,20 +16,19 @@ public class Detail {
     private Company companyId;
     @OneToOne
     @JoinColumn(name="order_id")
-    private Order orderId;
+    private Order order;
 
     @Column(name = "operation_type")
-    //@Convert(converter = OperationTypeConverter.class)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private OperationType operationType;
 
     public Detail() {
     }
 
-    public Detail(Long id, Company companyId, Order orderId, OperationType operationType) {
+    public Detail(Long id, Company companyId, Order order, OperationType operationType) {
         this.id = id;
         this.companyId = companyId;
-        this.orderId = orderId;
+        this.order = order;
         this.operationType = operationType;
     }
 
@@ -49,12 +48,12 @@ public class Detail {
         this.companyId = companyId;
     }
 
-    public Order getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Order orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order orderId) {
+        this.order = orderId;
     }
 
     public OperationType getOperationType() {
@@ -81,9 +80,9 @@ public class Detail {
 
         if (getOperationType() != aThat.getOperationType()) {return false;}
 
-        if (getOrderId() == null) {
-            if (aThat.getOrderId() != null) {return false;}
-        } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
+        if (getOrder() == null) {
+            if (aThat.getOrder() != null) {return false;}
+        } else if (!getOrder().equals(aThat.getOrder())) {return false;}
         return true;
     }
 
@@ -93,7 +92,7 @@ public class Detail {
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (companyId == null ? 0 : companyId.hashCode());
-        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
+        result = prime * result + (order == null ? 0 : order.hashCode());
         result = prime * result + (operationType == null ? 0 : operationType.hashCode());
         return result;
     }
@@ -104,7 +103,7 @@ public class Detail {
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {id=").append(getId())
                 .append(", companyId=").append(getCompanyId())
-                .append(", orderId=").append(getOrderId())
+                .append(", orderId=").append(getOrder())
                 .append(", operationType=").append(getOperationType())
                 .append("}");
         return  stringBuilder.toString();
