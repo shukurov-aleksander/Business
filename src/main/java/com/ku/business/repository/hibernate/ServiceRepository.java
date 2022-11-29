@@ -1,70 +1,66 @@
 package com.ku.business.repository.hibernate;
 
 import com.ku.business.HibernateUtil;
-import com.ku.business.entity.Company;
+import com.ku.business.entity.Service;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class CompanyRepository {
+public class ServiceRepository {
     public static final String FIND_BY_ID_QUERY = """
-        FROM Company c
-            LEFT JOIN FETCH c.storages
-            LEFT JOIN FETCH c.details
-        WHERE c.id = :id
+        FROM Service s
+        WHERE s.id = :id
     """;
-    public static final String FIND_ALL_QUERY = "FROM Company";
+    public static final String FIND_ALL_QUERY = "FROM Service";
 
     private final SessionFactory sessionFactory;
 
-    public CompanyRepository(SessionFactory sessionFactory) {
+    public ServiceRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public Company findById(Long id) {
+    public Service findById(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery(FIND_BY_ID_QUERY, Company.class)
+            return session.createQuery(FIND_BY_ID_QUERY, Service.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (Exception s) {
-            throw new RepositoryException(String.format("Can't find company with id=%d!", id), s);
+            throw new RepositoryException(String.format("Can't find service with id=%d!", id), s);
         }
     }
 
-    public List<Company> findAll() {
+    public List<Service> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Company> companies = session.createQuery(FIND_ALL_QUERY, Company.class).list();
-            session.enableFetchProfile("WithStorages");
-            return companies;
+            return session.createQuery(FIND_ALL_QUERY, Service.class).list();
         } catch (Exception e) {
-            throw new RepositoryException("Table companies is empty!", e);
+            throw new RepositoryException("Table services is empty!", e);
         }
     }
 
-    public void save(Company company) {
+    public void save(Service service) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(company);
+                session.persist(service);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Failed to save Company where id = %d! Company with tax number=%s already exist.", company.getId(),company.getTaxNumber()), e);
+                throw new RepositoryException(String.format("Failed to save service where id = %d!", service.getId()), e);
             }
         }
     }
 
-    public void update(Company company) {
+    public void update(Service service) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.merge(company);
+                session.merge(service);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't update company with id=%d. This company is not exist!", company.getId()), e);
+                throw new RepositoryException(String.format("Can't update service with id=%d. This service is not exist!", service.getId()), e);
             }
         }
     }
@@ -77,7 +73,7 @@ public class CompanyRepository {
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete company with id=%d. This company is not exist!", id), e);
+                throw new RepositoryException(String.format("Can't delete service with id=%d. This service is not exist!", id), e);
             }
         }
     }

@@ -9,10 +9,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "companies")
-@FetchProfile(name = "WithStorages", fetchOverrides = {
-        @FetchProfile.FetchOverride(
-                entity = Storage.class,association = "companyId", mode = FetchMode.JOIN)
-})
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +28,7 @@ public class Company {
     )
     private List<Storage> storages;
     @OneToMany(
-            mappedBy = "companyId"
-            ,
+            mappedBy = "companyId",
             fetch = FetchType.LAZY
     )
     private Set<Detail> details;
@@ -164,21 +159,7 @@ public class Company {
                 .append(", taxNumber=").append(getTaxNumber())
                 .append(", isGovernmentAgency=").append(isGovernmentAgency())
                 .append(", uerId=").append(getUserId())
-                .append(", storages contains [");
-        if (getStorages() != null && !getStorages().isEmpty()) {
-            for (Storage storage: storages) {
-                stringBuilder.append("{id=").append(storage.getId()).append("}, ");
-            }
-            stringBuilder.setLength(stringBuilder.length()-2);
-        }
-        stringBuilder.append("], details contains [");
-        if (getDetails() != null && !getDetails().isEmpty()) {
-            for (Detail detail: details) {
-                stringBuilder.append("{id=").append(detail.getId()).append("}, ");
-            }
-            stringBuilder.setLength(stringBuilder.length()-2);
-        }
-        stringBuilder.append("]}");
+                .append("}");
         return stringBuilder.toString();
     }
 }

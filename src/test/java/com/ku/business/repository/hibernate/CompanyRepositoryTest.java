@@ -14,9 +14,9 @@ class CompanyRepositoryTest {
     @RepeatedTest(1)
     void findById() {
         //given
-        CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
+        CompanyRepository repository = new CompanyRepository(HibernateUtil.getSessionFactory());
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
-        Company company = companyRepository.findById(id);
+        Company company = repository.findById(id);
 
         //when
         boolean isIdEqual = (Objects.equals(company.getId(), id));
@@ -29,11 +29,11 @@ class CompanyRepositoryTest {
 
     @Test
     void findAll() {
-            CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
-            List<Company> companies = companyRepository.findAll();
+            CompanyRepository repository = new CompanyRepository(HibernateUtil.getSessionFactory());
+            List<Company> companies = repository.findAll();
              for (Company c: companies
                           ) {
-                     System.out.println(c);
+                     System.out.println(c.toString());
                  }
 
             //when
@@ -47,24 +47,52 @@ class CompanyRepositoryTest {
     @Test
     void save() {
         //given
-        Company first = new Company(1004L, "Bank", "389665779", true, 324L, null, null);
-        CompanyRepository companyRepository = new CompanyRepository(HibernateUtil.getSessionFactory());
-        companyRepository.save(first);
-       // Company second = companyRepository.findById(1004L);
-       // companyRepository.delete(1003L);
+        Company first = new Company(1001L, "Bank", "76765779", false, 235L, null, null);
+        CompanyRepository repository = new CompanyRepository(HibernateUtil.getSessionFactory());
+        repository.save(first);
+        Company second = repository.findById(1001L);
+        repository.delete(1001L);
 
         //when
-       // boolean isEqual = (Objects.equals(first.getTaxNumber(), second.getTaxNumber()));
+        boolean isEqual = (Objects.equals(first.getTaxNumber(), second.getTaxNumber()));
 
         //then
-       // Assertions.assertTrue(isEqual);
+        Assertions.assertTrue(isEqual);
     }
 
     @Test
     void update() {
+        //given
+        CompanyRepository repository = new CompanyRepository(HibernateUtil.getSessionFactory());
+        long id = (long) (Math.random() * 1000 + 1);
+        Company first = repository.findById(id);
+        repository.update(new Company(1001L, "Bank", "76765779", false, 235L, null, null));
+        Company second = repository.findById(id);
+
+        //when
+        boolean isEqual = (first.equals(second));
+        repository.update(first);
+
+        //then
+        Assertions.assertFalse(isEqual);
     }
 
     @Test
     void delete() {
+
+        //given
+        CompanyRepository repository = new CompanyRepository(HibernateUtil.getSessionFactory());
+        Company company = new Company(1005L, "ENEKA", "333444999", false, 342L, null, null);
+        repository.save(company);
+        Company first = repository.findById(1005L);
+        boolean isExist = first.getId() != null;
+        repository.delete(1005L);
+        Company second = repository.findById(1005L);
+
+        //when
+        boolean isExistAfterDelete = second.getId() != null;
+
+        //then
+        Assertions.assertNotEquals(isExist, isExistAfterDelete);
     }
 }

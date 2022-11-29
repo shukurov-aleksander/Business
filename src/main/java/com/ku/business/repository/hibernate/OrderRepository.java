@@ -1,70 +1,68 @@
 package com.ku.business.repository.hibernate;
 
 import com.ku.business.HibernateUtil;
-import com.ku.business.entity.Company;
+import com.ku.business.entity.Document;
+import com.ku.business.entity.Order;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class CompanyRepository {
+public class OrderRepository {
     public static final String FIND_BY_ID_QUERY = """
-        FROM Company c
-            LEFT JOIN FETCH c.storages
-            LEFT JOIN FETCH c.details
-        WHERE c.id = :id
+       FROM Order o
+           LEFT JOIN FETCH o.contents
+       WHERE o.id = :id
     """;
-    public static final String FIND_ALL_QUERY = "FROM Company";
+    public static final String FIND_ALL_QUERY = "FROM Order";
 
     private final SessionFactory sessionFactory;
 
-    public CompanyRepository(SessionFactory sessionFactory) {
+    public OrderRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public Company findById(Long id) {
+    public Order findById(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery(FIND_BY_ID_QUERY, Company.class)
+            return session.createQuery(FIND_BY_ID_QUERY, Order.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (Exception s) {
-            throw new RepositoryException(String.format("Can't find company with id=%d!", id), s);
+            throw new RepositoryException(String.format("Can't find order with id=%d!", id), s);
         }
     }
 
-    public List<Company> findAll() {
+    public List<Order> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Company> companies = session.createQuery(FIND_ALL_QUERY, Company.class).list();
-            session.enableFetchProfile("WithStorages");
-            return companies;
+            return session.createQuery(FIND_ALL_QUERY, Order.class).list();
         } catch (Exception e) {
-            throw new RepositoryException("Table companies is empty!", e);
+            throw new RepositoryException("Table orders is empty!", e);
         }
     }
 
-    public void save(Company company) {
+    public void save(Order order) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(company);
+                session.persist(order);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Failed to save Company where id = %d! Company with tax number=%s already exist.", company.getId(),company.getTaxNumber()), e);
+                throw new RepositoryException(String.format("Failed to save order where id = %d!", order.getId()), e);
             }
         }
     }
 
-    public void update(Company company) {
+    public void update(Order order) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.merge(company);
+                session.merge(order);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't update company with id=%d. This company is not exist!", company.getId()), e);
+                throw new RepositoryException(String.format("Can't update order with id=%d. This order is not exist!", order.getId()), e);
             }
         }
     }
@@ -77,7 +75,7 @@ public class CompanyRepository {
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete company with id=%d. This company is not exist!", id), e);
+                throw new RepositoryException(String.format("Can't delete order with id=%d. This order is not exist!", id), e);
             }
         }
     }
