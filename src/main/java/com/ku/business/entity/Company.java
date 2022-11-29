@@ -1,8 +1,6 @@
 package com.ku.business.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.FetchProfile;
 
 import java.util.List;
 import java.util.Set;
@@ -23,12 +21,12 @@ public class Company {
     @Column(name = "user_id")
     private Long userId;
     @OneToMany(
-            mappedBy = "companyId",
+            mappedBy = "company",
             fetch = FetchType.LAZY
     )
     private List<Storage> storages;
     @OneToMany(
-            mappedBy = "companyId",
+            mappedBy = "company",
             fetch = FetchType.LAZY
     )
     private Set<Detail> details;

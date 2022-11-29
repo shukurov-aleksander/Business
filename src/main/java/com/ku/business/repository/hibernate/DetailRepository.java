@@ -11,8 +11,8 @@ import java.util.List;
 public class DetailRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Detail d
-            LEFT JOIN FETCH d.companies
-            LEFT JOIN FETCH d.orders
+            LEFT JOIN FETCH d.company
+            LEFT JOIN FETCH d.order
         WHERE d.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Detail";

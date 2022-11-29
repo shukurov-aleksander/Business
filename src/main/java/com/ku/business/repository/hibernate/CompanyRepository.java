@@ -36,7 +36,6 @@ public class CompanyRepository {
     public List<Company> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             List<Company> companies = session.createQuery(FIND_ALL_QUERY, Company.class).list();
-            session.enableFetchProfile("WithStorages");
             return companies;
         } catch (Exception e) {
             throw new RepositoryException("Table companies is empty!", e);
@@ -73,7 +72,7 @@ public class CompanyRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(id);
+                session.remove(findById(id));
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

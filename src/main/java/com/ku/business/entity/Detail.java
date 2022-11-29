@@ -13,7 +13,7 @@ public class Detail {
             fetch = FetchType.LAZY
     )
     @JoinColumn(name = "company_id")
-    private Company companyId;
+    private Company company;
     @OneToOne
     @JoinColumn(name="order_id")
     private Order order;
@@ -25,9 +25,9 @@ public class Detail {
     public Detail() {
     }
 
-    public Detail(Long id, Company companyId, Order order, OperationType operationType) {
+    public Detail(Long id, Company company, Order order, OperationType operationType) {
         this.id = id;
-        this.companyId = companyId;
+        this.company = company;
         this.order = order;
         this.operationType = operationType;
     }
@@ -40,12 +40,12 @@ public class Detail {
         this.id = id;
     }
 
-    public Company getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company companyId) {
+        this.company = companyId;
     }
 
     public Order getOrder() {
@@ -74,9 +74,9 @@ public class Detail {
             if (aThat.getId() != null) {return false;}
         } else if (!getId().equals(aThat.getId())) {return false;}
 
-        if (getCompanyId() == null) {
-            if (aThat.getCompanyId() != null) {return false;}
-        } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
+        if (getCompany() == null) {
+            if (aThat.getCompany() != null) {return false;}
+        } else if (!getCompany().equals(aThat.getCompany())) {return false;}
 
         if (getOperationType() != aThat.getOperationType()) {return false;}
 
@@ -91,7 +91,7 @@ public class Detail {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
+        result = prime * result + (company == null ? 0 : company.hashCode());
         result = prime * result + (order == null ? 0 : order.hashCode());
         result = prime * result + (operationType == null ? 0 : operationType.hashCode());
         return result;
@@ -102,8 +102,8 @@ public class Detail {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {id=").append(getId())
-                .append(", companyId=").append(getCompanyId())
-                .append(", orderId=").append(getOrder())
+                .append(", company=").append(getCompany())
+                .append(", order=").append(getOrder())
                 .append(", operationType=").append(getOperationType())
                 .append("}");
         return  stringBuilder.toString();

@@ -59,10 +59,10 @@ public class StorageRepository {
             resultSet.next();
             Storage storage = buildStorageWithoutEntities(resultSet);
             if (resultSet.getString(COMPANY_ID_COLUMN) != null) {
-                storage.setCompanyId(buildCompany(resultSet));
+                storage.setCompany(buildCompany(resultSet));
             }
             if (resultSet.getString(SERVICE_ID_COLUMN) != null) {
-                storage.setServiceId(buildService(resultSet));
+                storage.setService(buildService(resultSet));
             }
             return storage;
         } catch (Exception s) {
@@ -125,14 +125,14 @@ public class StorageRepository {
         ) {
             makeQueryForInsertOrUpdateStorages(storage, preparedStatement).executeUpdate();
         } catch (Exception e) {
-            throw new RepositoryException(String.format("Storage with company_id=%s already exist", storage.getCompanyId()), e);
+            throw new RepositoryException(String.format("Storage with company_id=%s already exist", storage.getCompany()), e);
         }
     }
 
     public PreparedStatement makeQueryForInsertOrUpdateStorages(Storage storage, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setLong(1, storage.getQuantity());
-        preparedStatement.setLong(2, storage.getCompanyId().getId());
-        preparedStatement.setLong(3, storage.getServiceId().getId());
+        preparedStatement.setLong(2, storage.getCompany().getId());
+        preparedStatement.setLong(3, storage.getService().getId());
         return preparedStatement;
     }
 

@@ -12,7 +12,7 @@ public class ContentRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Content c
             LEFT JOIN FETCH c.orders
-            LEFT JOIN FETCH c.services
+            LEFT JOIN FETCH c.service
         WHERE c.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Content";

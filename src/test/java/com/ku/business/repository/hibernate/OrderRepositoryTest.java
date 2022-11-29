@@ -40,6 +40,7 @@ public class OrderRepositoryTest {
         OrderRepository repository = new OrderRepository(HibernateUtil.getSessionFactory());
         Long id = (long) (Math.random() * (1000 - 1)) + 1;
         Order order = repository.findById(id);
+        System.out.println(order);
 
         //when
         boolean isIdEqual = (Objects.equals(order.getId(), id));

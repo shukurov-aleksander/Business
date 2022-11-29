@@ -11,7 +11,7 @@ import java.util.List;
 public class DocumentRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Document d
-            LEFT JOIN FETCH d.orders
+            LEFT JOIN FETCH d.order
         WHERE d.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Document";

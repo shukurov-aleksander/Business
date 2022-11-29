@@ -15,7 +15,7 @@ public class Content {
     private Long quantity;
     @OneToOne
     @JoinColumn(name="service_id")
-    private Service serviceId;
+    private Service service;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "order_content_links",
@@ -27,10 +27,10 @@ public class Content {
     public Content() {
     }
 
-    public Content(Long id, Long quantity, Service serviceId, List<Order> orders) {
+    public Content(Long id, Long quantity, Service service, List<Order> orders) {
         this.id = id;
         this.quantity = quantity;
-        this.serviceId = serviceId;
+        this.service = service;
         this.orders = orders;
     }
 
@@ -50,12 +50,12 @@ public class Content {
         this.quantity = quantity;
     }
 
-    public Service getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceId(Service serviceId) {
-        this.serviceId = serviceId;
+    public void setService(Service serviceId) {
+        this.service = serviceId;
     }
 
     public List<Order> getOrders() {
@@ -81,16 +81,9 @@ public class Content {
             if (aThat.getQuantity() != null) {return false;}
         } else if (!getQuantity().equals(aThat.getQuantity())) {return false;}
 
-        if (getServiceId() == null) {
-            if (aThat.getServiceId() != null) {return false;}
-        } else if (!getServiceId().equals(aThat.getServiceId())) {return false;}
-
-        if ((getOrders() == null && aThat.getOrders() != null) || (getOrders() != null && aThat.getOrders() == null)) {return false;}
-        else if (getOrders() != null && aThat.getOrders() != null) {
-            for (int i = 0; i < getOrders().size(); i++) {
-                if (!getOrders().get(i).getId().equals(aThat.getOrders().get(i).getId())) {return false;}
-            }
-        }
+        if (getService() == null) {
+            if (aThat.getService() != null) {return false;}
+        } else if (!getService().equals(aThat.getService())) {return false;}
         return true;
     }
 
@@ -100,12 +93,7 @@ public class Content {
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
-        result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
-        if(orders != null) {
-            for (Order order : orders) {
-                result = prime * result + (order != null && order.getId() != null ?  (order.getId().hashCode()) : 0);
-            }
-        }
+        result = prime * result + (service == null ? 0 : service.hashCode());
         return result;
     }
 
@@ -115,15 +103,8 @@ public class Content {
        stringBuilder.append(getClass().getSimpleName())
                .append(" {id=").append(getId())
                .append(", quantity=").append(getQuantity())
-               .append(", serviceID=").append(getServiceId())
-               .append(" contains [");
-        if (getOrders() != null && !getOrders().isEmpty()) {
-            for (Order order: orders) {
-                stringBuilder.append("{orderID=").append(order.getId()).append("}, ");
-            }
-            stringBuilder.setLength(stringBuilder.length()-2);
-        }
-                stringBuilder.append("]}");
+               .append(", service=").append(getService())
+               .append("}");
         return stringBuilder.toString();
     }
 }

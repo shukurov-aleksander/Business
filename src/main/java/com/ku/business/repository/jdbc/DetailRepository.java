@@ -56,7 +56,7 @@ public class DetailRepository {
     private Detail buildDetails(ResultSet resultSet) throws Exception {
         Detail detail = buildDetailsWithoutEntities(resultSet);
         if (resultSet.getString(COMPANY_ID_COLUMN) != null) {
-            detail.setCompanyId(buildCompany(resultSet));
+            detail.setCompany(buildCompany(resultSet));
         }
         if (resultSet.getString(ORDER_ID_COLUMN) != null) {
             detail.setOrder(buildOrder(resultSet));
@@ -117,7 +117,7 @@ public class DetailRepository {
 
     public PreparedStatement makeQueryForInsertOrUpdateDetails(Detail detail, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, detail.getOperationType().toString());
-        preparedStatement.setLong(2, detail.getCompanyId().getId());
+        preparedStatement.setLong(2, detail.getCompany().getId());
         preparedStatement.setLong(3, detail.getOrder().getId());
         return preparedStatement;
     }

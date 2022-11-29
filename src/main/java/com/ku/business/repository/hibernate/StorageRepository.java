@@ -11,8 +11,8 @@ import java.util.List;
 public class StorageRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Storage s
-            LEFT JOIN FETCH s.companies
-            LEFT JOIN FETCH s.services
+            LEFT JOIN FETCH s.company
+            LEFT JOIN FETCH s.service
         WHERE s.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Storage";

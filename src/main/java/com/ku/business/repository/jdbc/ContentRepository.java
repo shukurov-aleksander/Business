@@ -62,7 +62,7 @@ public class ContentRepository {
             resultSet.next();
             Content content = buildContentWithoutEntities(resultSet);
             if (resultSet.getString(SERVICE_ID_COLUMN) != null) {
-                content.setServiceId(buildService(resultSet));
+                content.setService(buildService(resultSet));
             }
             do {
                 if (resultSet.getString(ORDER_ID_COLUMN) != null && !orders.contains(buildOrder(resultSet))) {
@@ -133,7 +133,7 @@ public class ContentRepository {
 
     public PreparedStatement makeQueryForInsertOrUpdateContents(Content content, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setLong(1, content.getQuantity());
-        preparedStatement.setLong(2, content.getServiceId().getId());
+        preparedStatement.setLong(2, content.getService().getId());
         return preparedStatement;
     }
 

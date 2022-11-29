@@ -10,17 +10,17 @@ public class Document {
     @Column(name = "id")
     private Long id;
     @OneToOne
-    @JoinColumn(name="order_id", nullable = false)
-    private Order orderId;
-    @Column(nullable = false, name = "document_content")
+    @JoinColumn(name="order_id")
+    private Order order;
+    @Column( name = "document_content")
     private String documentContent;
 
     public Document() {
     }
 
-    public Document(Long id, Order orderId, String documentContent) {
+    public Document(Long id, Order order, String documentContent) {
         this.id = id;
-        this.orderId = orderId;
+        this.order = order;
         this.documentContent = documentContent;
     }
 
@@ -32,12 +32,12 @@ public class Document {
         this.id = id;
     }
 
-    public Order getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Order orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order orderId) {
+        this.order = orderId;
     }
 
     public String getDocumentContent() {
@@ -58,9 +58,9 @@ public class Document {
             if (aThat.getId() != null) {return false;}
         } else if (!getId().equals(aThat.getId())) {return false;}
 
-        if (getOrderId() == null) {
-            if (aThat.getOrderId() != null) {return false;}
-        } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
+        if (getOrder() == null) {
+            if (aThat.getOrder() != null) {return false;}
+        } else if (!getOrder().equals(aThat.getOrder())) {return false;}
 
         if (getDocumentContent() == null) {
             if (aThat.getDocumentContent() != null) {return false;}
@@ -73,7 +73,7 @@ public class Document {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
+        result = prime * result + (order == null ? 0 : order.hashCode());
         result = prime * result + (documentContent == null ? 0 : documentContent.hashCode());
         return result;
     }
@@ -83,7 +83,7 @@ public class Document {
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {")
                 .append("id=").append(getId())
-                .append(", orderId=").append(getOrderId())
+                .append(", orderId=").append(getOrder())
                 .append(" , documentContent='").append(getDocumentContent())
                 .append("'}");
         return  stringBuilder.toString();
