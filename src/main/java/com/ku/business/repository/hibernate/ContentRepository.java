@@ -71,11 +71,11 @@ public class ContentRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(id);
+                session.remove(findById(id));
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete content with id=%d. This company is not exist!", id), e);
+                throw new RepositoryException(String.format("Can't delete content with id=%d. This content is not exist!", id), e);
             }
         }
     }

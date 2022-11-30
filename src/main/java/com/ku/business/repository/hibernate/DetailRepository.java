@@ -16,7 +16,9 @@ public class DetailRepository {
         WHERE d.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Detail";
-
+    public static final String INSERT_QUERY = """
+        insert into Detail (operationType) (?\\:\\:operation_type_enum)
+    """;
     private final SessionFactory sessionFactory;
 
     public DetailRepository(SessionFactory sessionFactory) {
@@ -45,7 +47,9 @@ public class DetailRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(detail);
+                session.createQuery(INSERT_QUERY, Detail.class)
+                        .setParameter(1,detail.getOperationType().toString())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -71,7 +75,7 @@ public class DetailRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(id);
+                session.remove(findById(id));
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

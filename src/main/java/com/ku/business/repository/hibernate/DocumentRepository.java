@@ -70,7 +70,7 @@ public class DocumentRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(id);
+                session.remove(findById(id));
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

@@ -13,7 +13,7 @@ public class Content {
     private Long id;
     @Column
     private Long quantity;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="service_id")
     private Service service;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -103,7 +103,6 @@ public class Content {
        stringBuilder.append(getClass().getSimpleName())
                .append(" {id=").append(getId())
                .append(", quantity=").append(getQuantity())
-               .append(", service=").append(getService())
                .append("}");
         return stringBuilder.toString();
     }

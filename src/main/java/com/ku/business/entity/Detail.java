@@ -14,7 +14,7 @@ public class Detail {
     )
     @JoinColumn(name = "company_id")
     private Company company;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
 
@@ -102,8 +102,6 @@ public class Detail {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {id=").append(getId())
-                .append(", company=").append(getCompany())
-                .append(", order=").append(getOrder())
                 .append(", operationType=").append(getOperationType())
                 .append("}");
         return  stringBuilder.toString();
