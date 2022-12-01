@@ -71,7 +71,8 @@ public class ContentRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(findById(id));
+                Content content = session.getReference(Content.class, id);
+                session.remove(content);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

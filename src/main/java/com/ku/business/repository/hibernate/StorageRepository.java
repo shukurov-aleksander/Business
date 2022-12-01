@@ -71,7 +71,8 @@ public class StorageRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(findById(id));
+                Storage storage = session.getReference(Storage.class, id);
+                session.remove(storage);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

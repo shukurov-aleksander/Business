@@ -69,7 +69,8 @@ public class ServiceRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(findById(id));
+                Service service = session.getReference(Service.class, id);
+                session.remove(service);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

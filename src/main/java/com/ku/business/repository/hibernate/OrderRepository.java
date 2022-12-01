@@ -1,7 +1,6 @@
 package com.ku.business.repository.hibernate;
 
 import com.ku.business.HibernateUtil;
-import com.ku.business.entity.Document;
 import com.ku.business.entity.Order;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -71,7 +70,8 @@ public class OrderRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(id);
+                Order order = session.getReference(Order.class, id);
+                session.remove(order);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

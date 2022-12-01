@@ -72,7 +72,8 @@ public class CompanyRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(findById(id));
+                Company company = session.getReference(Company.class, id);
+                session.remove(company);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();

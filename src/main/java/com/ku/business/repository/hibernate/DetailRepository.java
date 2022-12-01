@@ -17,7 +17,13 @@ public class DetailRepository {
     """;
     public static final String FIND_ALL_QUERY = "FROM Detail";
     public static final String INSERT_QUERY = """
-        insert into Detail (operationType) (?\\:\\:operation_type_enum)
+        INSERT INTO details(operation_type)
+                VALUES(:type\\:\\:operation_type_enum)
+    """;
+    public static final String UPDATE_QUERY = """
+        UPDATE details
+        SET operation_type = :type\\:\\:operation_type_enum
+        WHERE id = :id
     """;
     private final SessionFactory sessionFactory;
 
@@ -48,7 +54,7 @@ public class DetailRepository {
             try {
                 session.beginTransaction();
                 session.createQuery(INSERT_QUERY, Detail.class)
-                        .setParameter(1,detail.getOperationType().toString())
+                        .setParameter("type",detail.getOperationType().toString())
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
@@ -62,7 +68,10 @@ public class DetailRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.merge(detail);
+                session.createQuery(UPDATE_QUERY, Detail.class)
+                        .setParameter("type",detail.getOperationType().toString())
+                        .setParameter("id",detail.getId())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -75,7 +84,8 @@ public class DetailRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             try {
                 session.beginTransaction();
-                session.remove(findById(id));
+                Detail detail = session.getReference(Detail.class, id);
+                session.remove(detail);
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
