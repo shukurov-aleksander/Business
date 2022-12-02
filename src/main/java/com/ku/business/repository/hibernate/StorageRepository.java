@@ -1,6 +1,5 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Storage;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -16,7 +15,10 @@ public class StorageRepository {
         WHERE s.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Storage";
-
+    public static final String INSERT_QUERY = """
+        INSERT INTO Storages (quantity, company_id, service_id) 
+        VALUES(:quantity, :companyId, :serviceId) 
+    """;
     private final SessionFactory sessionFactory;
 
     public StorageRepository(SessionFactory sessionFactory) {
@@ -24,7 +26,7 @@ public class StorageRepository {
     }
 
     public Storage findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Storage.class)
                     .setParameter("id", id)
                     .getSingleResult();
@@ -34,7 +36,7 @@ public class StorageRepository {
     }
 
     public List<Storage> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Storage.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table storages is empty!", e);
@@ -42,10 +44,14 @@ public class StorageRepository {
     }
 
     public void save(Storage storage) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(storage);
+                session.createNativeQuery(INSERT_QUERY, Storage.class)
+                        .setParameter("quantity", storage.getQuantity())
+                        .setParameter("companyId", storage.getCompany().getId())
+                        .setParameter("serviceId", storage.getService().getId())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -55,7 +61,7 @@ public class StorageRepository {
     }
 
     public void update(Storage storage) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 session.merge(storage);
@@ -68,7 +74,7 @@ public class StorageRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Storage storage = session.getReference(Storage.class, id);

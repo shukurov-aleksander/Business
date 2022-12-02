@@ -1,6 +1,5 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Company;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -16,6 +15,10 @@ public class CompanyRepository {
         WHERE c.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Company";
+    public static final String INSERT_QUERY = """
+        INSERT INTO companies (company_name, tax_number, user_id, is_government_agency) 
+        VALUES(:companyName, :taxNumber, :userId, :isGovernmentAgency) 
+    """;
 
     private final SessionFactory sessionFactory;
 
@@ -24,7 +27,7 @@ public class CompanyRepository {
     }
 
     public Company findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Company.class)
                     .setParameter("id", id)
                     .getSingleResult();
@@ -34,19 +37,23 @@ public class CompanyRepository {
     }
 
     public List<Company> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Company> companies = session.createQuery(FIND_ALL_QUERY, Company.class).list();
-            return companies;
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(FIND_ALL_QUERY, Company.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table companies is empty!", e);
         }
     }
 
     public void save(Company company) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(company);
+                session.createNativeQuery(INSERT_QUERY, Company.class)
+                        .setParameter("companyName", company.getCompanyName())
+                        .setParameter("taxNumber", company.getTaxNumber())
+                        .setParameter("userId", company.getUserId())
+                        .setParameter("isGovernmentAgency", company.isGovernmentAgency())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -56,7 +63,7 @@ public class CompanyRepository {
     }
 
     public void update(Company company) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 session.merge(company);
@@ -69,7 +76,7 @@ public class CompanyRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Company company = session.getReference(Company.class, id);

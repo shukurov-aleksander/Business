@@ -1,6 +1,5 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Service;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -14,7 +13,10 @@ public class ServiceRepository {
         WHERE s.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Service";
-
+    public static final String INSERT_QUERY = """
+        INSERT INTO services (service_name, sum, service_description) 
+        VALUES(:serviceName, :sum, :serviceDescription) 
+    """;
     private final SessionFactory sessionFactory;
 
     public ServiceRepository(SessionFactory sessionFactory) {
@@ -22,7 +24,7 @@ public class ServiceRepository {
     }
 
     public Service findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Service.class)
                     .setParameter("id", id)
                     .getSingleResult();
@@ -32,7 +34,7 @@ public class ServiceRepository {
     }
 
     public List<Service> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Service.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table services is empty!", e);
@@ -40,10 +42,14 @@ public class ServiceRepository {
     }
 
     public void save(Service service) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(service);
+                session.createNativeQuery(INSERT_QUERY, Service.class)
+                        .setParameter("serviceName", service.getServiceName())
+                        .setParameter("sum", service.getSum())
+                        .setParameter("serviceDescription", service.getServiceDescription())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -53,7 +59,7 @@ public class ServiceRepository {
     }
 
     public void update(Service service) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 session.merge(service);
@@ -66,7 +72,7 @@ public class ServiceRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Service service = session.getReference(Service.class, id);

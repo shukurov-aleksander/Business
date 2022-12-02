@@ -1,6 +1,5 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Content;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -16,7 +15,10 @@ public class ContentRepository {
         WHERE c.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Content";
-
+    public static final String INSERT_QUERY = """
+        INSERT INTO contents (quantity, service_id) 
+        VALUES(:quantity, :serviceId) 
+    """;
     private final SessionFactory sessionFactory;
 
     public ContentRepository(SessionFactory sessionFactory) {
@@ -24,7 +26,7 @@ public class ContentRepository {
     }
 
     public Content findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Content.class)
                     .setParameter("id", id)
                     .getSingleResult();
@@ -34,7 +36,7 @@ public class ContentRepository {
     }
 
     public List<Content> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Content.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table content is empty!", e);
@@ -42,10 +44,13 @@ public class ContentRepository {
     }
 
     public void save(Content content) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(content);
+                session.createNativeQuery(INSERT_QUERY, Content.class)
+                        .setParameter("quantity", content.getQuantity())
+                        .setParameter("serviceId", content.getService().getId())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -55,7 +60,7 @@ public class ContentRepository {
     }
 
     public void update(Content content) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 session.merge(content);
@@ -68,7 +73,7 @@ public class ContentRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Content content = session.getReference(Content.class, id);

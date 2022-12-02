@@ -15,7 +15,10 @@ public class DocumentRepository {
         WHERE d.id = :id
     """;
     public static final String FIND_ALL_QUERY = "FROM Document";
-
+    public static final String INSERT_QUERY = """
+        INSERT INTO documents (order_id, document_content) 
+        VALUES(:orderId, :documentContent) 
+    """;
     private final SessionFactory sessionFactory;
 
     public DocumentRepository(SessionFactory sessionFactory) {
@@ -33,7 +36,7 @@ public class DocumentRepository {
     }
 
     public List<Document> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Document.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table documents is empty!", e);
@@ -41,10 +44,13 @@ public class DocumentRepository {
     }
 
     public void save(Document document) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.persist(document);
+                session.createNativeQuery(INSERT_QUERY, Document.class)
+                        .setParameter("orderId", document.getOrder().getId())
+                        .setParameter("documentContent", document.getDocumentContent())
+                        .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
@@ -54,7 +60,7 @@ public class DocumentRepository {
     }
 
     public void update(Document document) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 session.merge(document);
@@ -67,7 +73,7 @@ public class DocumentRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Document document = session.getReference(Document.class, id);

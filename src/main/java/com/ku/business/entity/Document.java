@@ -9,7 +9,7 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
     @Column( name = "document_content")
@@ -77,14 +77,13 @@ public class Document {
         result = prime * result + (documentContent == null ? 0 : documentContent.hashCode());
         return result;
     }
-    @Override
+        @Override
     public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {")
                 .append("id=").append(getId())
-                .append(", orderId=").append(getOrder())
-                .append(" , documentContent='").append(getDocumentContent())
+                .append(", documentContent='").append(getDocumentContent())
                 .append("'}");
         return  stringBuilder.toString();
     }

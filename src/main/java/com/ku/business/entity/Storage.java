@@ -15,7 +15,7 @@ public class Storage {
     )
     @JoinColumn(name = "company_id")
     private Company company;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="service_id")
 
     private Service service;

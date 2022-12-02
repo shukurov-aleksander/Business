@@ -1,6 +1,5 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Detail;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
@@ -17,12 +16,12 @@ public class DetailRepository {
     """;
     public static final String FIND_ALL_QUERY = "FROM Detail";
     public static final String INSERT_QUERY = """
-        INSERT INTO details(operation_type)
-                VALUES(:type\\:\\:operation_type_enum)
+        INSERT INTO details (operation_type, company_id, order_id) 
+        VALUES(cast(:operationType AS operation_type_enum), :companyId, :orderId) 
     """;
     public static final String UPDATE_QUERY = """
         UPDATE details
-        SET operation_type = :type\\:\\:operation_type_enum
+        SET operation_type = cast(:operationType AS operation_type_enum), company_id = :companyId, order_id = :orderId 
         WHERE id = :id
     """;
     private final SessionFactory sessionFactory;
@@ -32,7 +31,7 @@ public class DetailRepository {
     }
 
     public Detail findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Detail.class)
                     .setParameter("id", id)
                     .getSingleResult();
@@ -42,19 +41,21 @@ public class DetailRepository {
     }
 
     public List<Detail> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_ALL_QUERY, Detail.class).list();
         } catch (Exception e) {
             throw new RepositoryException("Table details is empty!", e);
         }
     }
 
-    public void save(Detail detail) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    public boolean save(Detail detail) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createQuery(INSERT_QUERY, Detail.class)
-                        .setParameter("type",detail.getOperationType().toString())
+                session.createNativeQuery(INSERT_QUERY, Detail.class)
+                        .setParameter("operationType", detail.getOperationType().toString())
+                        .setParameter("companyId", detail.getCompany().getId())
+                        .setParameter("orderId", detail.getOrder().getId())
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
@@ -62,15 +63,18 @@ public class DetailRepository {
                 throw new RepositoryException(String.format("Failed to save detail where id = %d!", detail.getId()), e);
             }
         }
+        return true;
     }
 
     public void update(Detail detail) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createQuery(UPDATE_QUERY, Detail.class)
-                        .setParameter("type",detail.getOperationType().toString())
-                        .setParameter("id",detail.getId())
+                session.createNativeQuery(UPDATE_QUERY, Detail.class)
+                        .setParameter("operationType", detail.getOperationType().toString())
+                        .setParameter("companyId", detail.getCompany().getId())
+                        .setParameter("orderId", detail.getOrder().getId())
+                        .setParameter("id", detail.getId())
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
@@ -81,7 +85,7 @@ public class DetailRepository {
     }
 
     public void delete(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
                 Detail detail = session.getReference(Detail.class, id);
