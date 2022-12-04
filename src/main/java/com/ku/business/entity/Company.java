@@ -1,6 +1,13 @@
 package com.ku.business.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GenerationType;
 
 import java.util.List;
 import java.util.Set;
@@ -20,15 +27,9 @@ public class Company {
     private Boolean isGovernmentAgency;
     @Column(name = "user_id")
     private Long userId;
-    @OneToMany(
-            mappedBy = "company",
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Storage> storages;
-    @OneToMany(
-            mappedBy = "company",
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private Set<Detail> details;
 
     public Company() {

@@ -1,6 +1,16 @@
 package com.ku.business.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GenerationType;
 
 import java.util.List;
 
@@ -18,9 +28,9 @@ public class Content {
     private Service service;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "order_content_links",
-            joinColumns = @JoinColumn(name = "content_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
+                name = "order_content_links",
+                joinColumns = @JoinColumn(name = "content_id"),
+                inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private List<Order> orders;
 

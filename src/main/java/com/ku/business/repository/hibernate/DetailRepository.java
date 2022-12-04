@@ -4,6 +4,7 @@ import com.ku.business.entity.Detail;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import java.util.List;
 
@@ -35,14 +36,15 @@ public class DetailRepository {
             return session.createQuery(FIND_BY_ID_QUERY, Detail.class)
                     .setParameter("id", id)
                     .getSingleResult();
-        } catch (Exception s) {
-            throw new RepositoryException(String.format("Can't find detail with id=%d!", id), s);
+        } catch (Exception e) {
+            throw new RepositoryException(String.format("Can't find detail with id=%d!", id), e);
         }
     }
 
     public List<Detail> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, Detail.class).list();
+            return session.createQuery(FIND_ALL_QUERY, Detail.class)
+                    .list();
         } catch (Exception e) {
             throw new RepositoryException("Table details is empty!", e);
         }
@@ -52,10 +54,7 @@ public class DetailRepository {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createNativeQuery(INSERT_QUERY, Detail.class)
-                        .setParameter("operationType", detail.getOperationType().toString())
-                        .setParameter("companyId", detail.getCompany().getId())
-                        .setParameter("orderId", detail.getOrder().getId())
+                makeQueryForInsertOrUpdateCompanies(detail, INSERT_QUERY, session)
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
@@ -66,20 +65,25 @@ public class DetailRepository {
         return true;
     }
 
+    public NativeQuery<Detail> makeQueryForInsertOrUpdateCompanies(Detail detail, String query, Session session) {
+        return session.createNativeQuery(query, Detail.class)
+                .setParameter("operationType", detail.getOperationType().toString())
+                .setParameter("companyId", detail.getCompany().getId())
+                .setParameter("orderId", detail.getOrder().getId());
+    }
+
     public void update(Detail detail) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createNativeQuery(UPDATE_QUERY, Detail.class)
-                        .setParameter("operationType", detail.getOperationType().toString())
-                        .setParameter("companyId", detail.getCompany().getId())
-                        .setParameter("orderId", detail.getOrder().getId())
+                makeQueryForInsertOrUpdateCompanies(detail, UPDATE_QUERY, session)
                         .setParameter("id", detail.getId())
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't update detail with id=%d. This detail is not exist!", detail.getId()), e);
+                throw new RepositoryException(
+                        String.format("Can't update detail with id=%d. This detail is not exist!", detail.getId()), e);
             }
         }
     }
@@ -93,7 +97,8 @@ public class DetailRepository {
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete detail with id=%d. This detail is not exist!", id), e);
+                throw new RepositoryException(
+                        String.format("Can't delete detail with id=%d. This detail is not exist!", id), e);
             }
         }
     }

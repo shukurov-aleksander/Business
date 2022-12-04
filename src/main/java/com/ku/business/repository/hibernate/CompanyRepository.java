@@ -4,6 +4,7 @@ import com.ku.business.entity.Company;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import java.util.List;
 
@@ -19,6 +20,11 @@ public class CompanyRepository {
         INSERT INTO companies (company_name, tax_number, user_id, is_government_agency) 
         VALUES(:companyName, :taxNumber, :userId, :isGovernmentAgency) 
     """;
+    public static final String UPDATE_QUERY = """
+        UPDATE companies
+        SET company_name = :companyName, tax_number = :taxNumber, user_id = :userId, is_government_agency = :isGovernmentAgency  
+        WHERE id = :id
+    """;
 
     private final SessionFactory sessionFactory;
 
@@ -31,14 +37,15 @@ public class CompanyRepository {
             return session.createQuery(FIND_BY_ID_QUERY, Company.class)
                     .setParameter("id", id)
                     .getSingleResult();
-        } catch (Exception s) {
-            throw new RepositoryException(String.format("Can't find company with id=%d!", id), s);
+        } catch (Exception e) {
+            throw new RepositoryException(String.format("Can't find company with id=%d!", id), e);
         }
     }
 
     public List<Company> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, Company.class).list();
+            return session.createQuery(FIND_ALL_QUERY, Company.class)
+                    .list();
         } catch (Exception e) {
             throw new RepositoryException("Table companies is empty!", e);
         }
@@ -48,29 +55,35 @@ public class CompanyRepository {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createNativeQuery(INSERT_QUERY, Company.class)
-                        .setParameter("companyName", company.getCompanyName())
-                        .setParameter("taxNumber", company.getTaxNumber())
-                        .setParameter("userId", company.getUserId())
-                        .setParameter("isGovernmentAgency", company.isGovernmentAgency())
-                        .executeUpdate();
+                makeQueryForInsertOrUpdateCompanies(company, INSERT_QUERY, session).executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Failed to save Company where id = %d! Company with tax number=%s already exist.", company.getId(),company.getTaxNumber()), e);
+                throw new RepositoryException(
+                        String.format("Failed to save Company where id = %d! Company with tax number=%s already exist.",
+                                company.getId(), company.getTaxNumber()), e);
             }
         }
+    }
+
+    public NativeQuery<Company> makeQueryForInsertOrUpdateCompanies(Company company, String query, Session session) {
+        return session.createNativeQuery(query, Company.class)
+                .setParameter("companyName", company.getCompanyName())
+                .setParameter("taxNumber", company.getTaxNumber())
+                .setParameter("userId", company.getUserId())
+                .setParameter("isGovernmentAgency", company.isGovernmentAgency());
     }
 
     public void update(Company company) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.merge(company);
+                makeQueryForInsertOrUpdateCompanies(company, UPDATE_QUERY, session).setParameter("id", company.getId()).executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't update company with id=%d. This company is not exist!", company.getId()), e);
+                throw new RepositoryException(
+                        String.format("Can't update company with id=%d. This company is not exist!", company.getId()), e);
             }
         }
     }
@@ -84,7 +97,8 @@ public class CompanyRepository {
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete company with id=%d. This company is not exist!", id), e);
+                throw new RepositoryException(
+                        String.format("Can't delete company with id=%d. This company is not exist!", id), e);
             }
         }
     }

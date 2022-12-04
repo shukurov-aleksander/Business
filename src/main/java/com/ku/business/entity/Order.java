@@ -1,6 +1,16 @@
 package com.ku.business.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.GenerationType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,9 +31,9 @@ public class Order {
     private LocalDateTime completedAtUtc;
     @ManyToMany
     @JoinTable(
-            name = "order_content_links",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "content_id")
+                name = "order_content_links",
+                joinColumns = @JoinColumn(name = "order_id"),
+                inverseJoinColumns = @JoinColumn(name = "content_id")
 
     )
     private List<Content> contents;

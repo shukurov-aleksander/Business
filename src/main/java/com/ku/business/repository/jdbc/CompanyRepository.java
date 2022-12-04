@@ -126,13 +126,13 @@ public class CompanyRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
         ) {
-            makeQueryForInsertOrUpdateCompanys(company, preparedStatement).executeUpdate();
+            makeQueryForInsertOrUpdateCompanies(company, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Company with tax number=%s already exist", company.getTaxNumber()), e);
         }
     }
 
-    public PreparedStatement makeQueryForInsertOrUpdateCompanys(Company company, PreparedStatement preparedStatement) throws Exception {
+    public PreparedStatement makeQueryForInsertOrUpdateCompanies(Company company, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, company.getCompanyName());
         preparedStatement.setString(2, company.getTaxNumber());
         preparedStatement.setLong(3, company.getUserId());
@@ -144,7 +144,7 @@ public class CompanyRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            makeQueryForInsertOrUpdateCompanys(company, preparedStatement);
+            makeQueryForInsertOrUpdateCompanies(company, preparedStatement);
             preparedStatement.setLong(5, company.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {

@@ -1,10 +1,10 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.entity.Detail;
 import com.ku.business.entity.Order;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import java.util.List;
 
@@ -35,14 +35,15 @@ public class OrderRepository {
             return session.createQuery(FIND_BY_ID_QUERY, Order.class)
                     .setParameter("id", id)
                     .getSingleResult();
-        } catch (Exception s) {
-            throw new RepositoryException(String.format("Can't find order with id=%d!", id), s);
+        } catch (Exception e) {
+            throw new RepositoryException(String.format("Can't find order with id=%d!", id), e);
         }
     }
 
     public List<Order> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(FIND_ALL_QUERY, Order.class).list();
+            return session.createQuery(FIND_ALL_QUERY, Order.class)
+                    .list();
         } catch (Exception e) {
             throw new RepositoryException("Table orders is empty!", e);
         }
@@ -52,10 +53,7 @@ public class OrderRepository {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createNativeQuery(INSERT_QUERY, Detail.class)
-                        .setParameter("orderStatus", order.getOrderStatus().toString())
-                        .setParameter("created_at_utc", order.getCreatedAtUtc())
-                        .setParameter("completed_at_utc", order.getCompletedAtUtc())
+                makeQueryForInsertOrUpdateCompanies(order, INSERT_QUERY, session)
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
@@ -65,20 +63,25 @@ public class OrderRepository {
         }
     }
 
+    public NativeQuery<Order> makeQueryForInsertOrUpdateCompanies(Order order, String query, Session session) {
+        return session.createNativeQuery(query, Order.class)
+                .setParameter("orderStatus", order.getOrderStatus().toString())
+                .setParameter("created_at_utc", order.getCreatedAtUtc())
+                .setParameter("completed_at_utc", order.getCompletedAtUtc());
+    }
+
     public void update(Order order) {
         try (Session session = sessionFactory.openSession()) {
             try {
                 session.beginTransaction();
-                session.createNativeQuery(UPDATE_QUERY, Order.class)
-                        .setParameter("orderStatus", order.getOrderStatus().toString())
-                        .setParameter("created_at_utc", order.getCreatedAtUtc())
-                        .setParameter("completed_at_utc", order.getCompletedAtUtc())
+                makeQueryForInsertOrUpdateCompanies(order, UPDATE_QUERY, session)
                         .setParameter("id", order.getId())
                         .executeUpdate();
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't update order with id=%d. This order is not exist!", order.getId()), e);
+                throw new RepositoryException(
+                        String.format("Can't update order with id=%d. This order is not exist!", order.getId()), e);
             }
         }
     }
@@ -92,7 +95,8 @@ public class OrderRepository {
                 session.getTransaction().commit();
             } catch (RepositoryException e) {
                 session.getTransaction().rollback();
-                throw new RepositoryException(String.format("Can't delete order with id=%d. This order is not exist!", id), e);
+                throw new RepositoryException(
+                        String.format("Can't delete order with id=%d. This order is not exist!", id), e);
             }
         }
     }
