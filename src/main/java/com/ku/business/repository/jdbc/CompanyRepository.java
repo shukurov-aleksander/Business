@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Company;
 import com.ku.business.entity.Detail;
@@ -11,9 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class CompanyRepository {
     private final DataSource dataSource;
@@ -58,7 +60,7 @@ public class CompanyRepository {
     private Company buildCompany(ResultSet resultSet) {
         try {
             List<Storage> storages = new ArrayList<>();
-            List<Detail> details = new ArrayList<>();
+            Set<Detail> details = new HashSet<>();
             resultSet.next();
             Company company = buildCompanyWithoutEntities(resultSet);
             do {
@@ -124,13 +126,13 @@ public class CompanyRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
         ) {
-            makeQueryForInsertOrUpdateCompanys(company, preparedStatement).executeUpdate();
+            makeQueryForInsertOrUpdateCompanies(company, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Company with tax number=%s already exist", company.getTaxNumber()), e);
         }
     }
 
-    public PreparedStatement makeQueryForInsertOrUpdateCompanys(Company company, PreparedStatement preparedStatement) throws Exception {
+    public PreparedStatement makeQueryForInsertOrUpdateCompanies(Company company, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, company.getCompanyName());
         preparedStatement.setString(2, company.getTaxNumber());
         preparedStatement.setLong(3, company.getUserId());
@@ -142,7 +144,7 @@ public class CompanyRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
         ) {
-            makeQueryForInsertOrUpdateCompanys(company, preparedStatement);
+            makeQueryForInsertOrUpdateCompanies(company, preparedStatement);
             preparedStatement.setLong(5, company.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {

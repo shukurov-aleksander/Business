@@ -1,13 +1,41 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.GenerationType;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+    @Column(name = "created_at_utc")
     private LocalDateTime createdAtUtc;
+    @Column(name = "completed_at_utc")
     private LocalDateTime completedAtUtc;
+    @ManyToMany
+    @JoinTable(
+                name = "order_content_links",
+                joinColumns = @JoinColumn(name = "order_id"),
+                inverseJoinColumns = @JoinColumn(name = "content_id")
+
+    )
     private List<Content> contents;
 
     public Order() {
@@ -80,13 +108,6 @@ public class Order {
         } else if (!getCompletedAtUtc().equals(aThat.getCompletedAtUtc())) {return false;}
 
         if (getOrderStatus() != aThat.getOrderStatus()) {return false;}
-
-        if ((getContents() == null && aThat.getContents() != null) || (getContents() != null && aThat.getContents() == null)) {return false;}
-        else if (getContents() != null && aThat.getContents() != null) {
-            for (int i = 0; i < getContents().size(); i++) {
-                if (!getContents().get(i).getId().equals(aThat.getContents().get(i).getId())) {return false;}
-            }
-        }
         return true;
     }
 
@@ -98,11 +119,6 @@ public class Order {
         result = prime * result + (createdAtUtc == null ? 0 : createdAtUtc.hashCode());
         result = prime * result + (completedAtUtc == null ? 0 : completedAtUtc.hashCode());
         result = prime * result + (orderStatus == null ? 0 : orderStatus.hashCode());
-        if(contents != null) {
-            for (Content content : contents) {
-                result = prime * result + (content != null && content.getId() != null ?  (content.getId().hashCode()) : 0);
-            }
-        }
         return result;
     }
     @Override
@@ -113,14 +129,7 @@ public class Order {
                 .append(", orderStatus=").append(getOrderStatus())
                 .append(", createdAtUtc=").append(getCreatedAtUtc())
                 .append(", completedAtUtc=").append(getCompletedAtUtc())
-                .append(", Content contains [");
-        if (getContents() != null && !getContents().isEmpty()) {
-            for (Content content: contents) {
-                stringBuilder.append("detail {").append(content.getId()).append("}, ");
-            }
-            stringBuilder.setLength(stringBuilder.length()-2);
-        }
-                stringBuilder.append("]}");
+                .append("}");
         return stringBuilder.toString();
     }
 }

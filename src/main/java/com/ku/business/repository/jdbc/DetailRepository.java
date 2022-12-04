@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.*;
 import com.ku.business.exception.RepositoryException;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class DetailRepository {
         private final DataSource dataSource;
@@ -56,10 +56,10 @@ public class DetailRepository {
     private Detail buildDetails(ResultSet resultSet) throws Exception {
         Detail detail = buildDetailsWithoutEntities(resultSet);
         if (resultSet.getString(COMPANY_ID_COLUMN) != null) {
-            detail.setCompanyId(buildCompany(resultSet));
+            detail.setCompany(buildCompany(resultSet));
         }
         if (resultSet.getString(ORDER_ID_COLUMN) != null) {
-            detail.setOrderId(buildOrder(resultSet));
+            detail.setOrder(buildOrder(resultSet));
         }
         return detail;
     }
@@ -117,8 +117,8 @@ public class DetailRepository {
 
     public PreparedStatement makeQueryForInsertOrUpdateDetails(Detail detail, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, detail.getOperationType().toString());
-        preparedStatement.setLong(2, detail.getCompanyId().getId());
-        preparedStatement.setLong(3, detail.getOrderId().getId());
+        preparedStatement.setLong(2, detail.getCompany().getId());
+        preparedStatement.setLong(3, detail.getOrder().getId());
         return preparedStatement;
     }
 

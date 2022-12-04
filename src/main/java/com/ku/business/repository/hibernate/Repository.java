@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.hibernate;
 
 public interface Repository {
     String ID_COLUMN = "id";

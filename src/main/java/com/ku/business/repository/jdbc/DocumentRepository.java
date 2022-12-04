@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Document;
 import com.ku.business.entity.Order;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class DocumentRepository {
     private final DataSource dataSource;
@@ -57,7 +57,7 @@ public class DocumentRepository {
     private Document buildDocuments(ResultSet resultSet) throws Exception {
         Document document = buildDocumentsWithoutEntities(resultSet);
         if (resultSet.getString(ORDER_ID_COLUMN) != null) {
-            document.setOrderId(buildOrder(resultSet));
+            document.setOrder(buildOrder(resultSet));
         }
         return document;
     }
@@ -104,7 +104,7 @@ public class DocumentRepository {
     }
 
     public PreparedStatement makeQueryForInsertOrUpdateDocuments(Document document, PreparedStatement preparedStatement) throws Exception {
-        preparedStatement.setLong(1, document.getOrderId().getId());
+        preparedStatement.setLong(1, document.getOrder().getId());
         preparedStatement.setString(2, document.getDocumentContent());
         return preparedStatement;
     }

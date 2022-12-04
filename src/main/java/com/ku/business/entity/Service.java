@@ -1,9 +1,23 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GenerationType;
+
+@Entity
+@Table(name = "services")
 public class Service {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "service_name")
     private String serviceName;
     private Long sum;
+    @Column(name = "service_description")
     private String serviceDescription;
 
     public Service() {

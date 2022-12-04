@@ -1,4 +1,4 @@
-package com.ku.business.dao;
+package com.ku.business.repository.jdbc;
 
 import com.ku.business.entity.Content;
 import com.ku.business.entity.Order;
@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.dao.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.*;
 
 public class ContentRepository {
     private final DataSource dataSource;
@@ -62,7 +62,7 @@ public class ContentRepository {
             resultSet.next();
             Content content = buildContentWithoutEntities(resultSet);
             if (resultSet.getString(SERVICE_ID_COLUMN) != null) {
-                content.setServiceId(buildService(resultSet));
+                content.setService(buildService(resultSet));
             }
             do {
                 if (resultSet.getString(ORDER_ID_COLUMN) != null && !orders.contains(buildOrder(resultSet))) {
@@ -133,7 +133,7 @@ public class ContentRepository {
 
     public PreparedStatement makeQueryForInsertOrUpdateContents(Content content, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setLong(1, content.getQuantity());
-        preparedStatement.setLong(2, content.getServiceId().getId());
+        preparedStatement.setLong(2, content.getService().getId());
         return preparedStatement;
     }
 

@@ -1,18 +1,43 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.GenerationType;
+
+@Entity
+@Table(name = "details")
 public class Detail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private Company companyId;
-    private Order orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id")
+    private Order order;
+
+    @Column(name = "operation_type")
+    @Enumerated(EnumType.STRING)
     private OperationType operationType;
 
     public Detail() {
     }
 
-    public Detail(Long id, Company companyId, Order orderId, OperationType operationType) {
+    public Detail(Long id, Company company, Order order, OperationType operationType) {
         this.id = id;
-        this.companyId = companyId;
-        this.orderId = orderId;
+        this.company = company;
+        this.order = order;
         this.operationType = operationType;
     }
 
@@ -24,20 +49,20 @@ public class Detail {
         this.id = id;
     }
 
-    public Company getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company companyId) {
+        this.company = companyId;
     }
 
-    public Order getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Order orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order orderId) {
+        this.order = orderId;
     }
 
     public OperationType getOperationType() {
@@ -58,15 +83,15 @@ public class Detail {
             if (aThat.getId() != null) {return false;}
         } else if (!getId().equals(aThat.getId())) {return false;}
 
-        if (getCompanyId() == null) {
-            if (aThat.getCompanyId() != null) {return false;}
-        } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
+        if (getCompany() == null) {
+            if (aThat.getCompany() != null) {return false;}
+        } else if (!getCompany().equals(aThat.getCompany())) {return false;}
 
         if (getOperationType() != aThat.getOperationType()) {return false;}
 
-        if (getOrderId() == null) {
-            if (aThat.getOrderId() != null) {return false;}
-        } else if (!getOrderId().equals(aThat.getOrderId())) {return false;}
+        if (getOrder() == null) {
+            if (aThat.getOrder() != null) {return false;}
+        } else if (!getOrder().equals(aThat.getOrder())) {return false;}
         return true;
     }
 
@@ -75,8 +100,8 @@ public class Detail {
         int result = 1;
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
-        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
-        result = prime * result + (orderId == null ? 0 : orderId.hashCode());
+        result = prime * result + (company == null ? 0 : company.hashCode());
+        result = prime * result + (order == null ? 0 : order.hashCode());
         result = prime * result + (operationType == null ? 0 : operationType.hashCode());
         return result;
     }
@@ -86,8 +111,6 @@ public class Detail {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {id=").append(getId())
-                .append(", companyId=").append(getCompanyId())
-                .append(", orderId=").append(getOrderId())
                 .append(", operationType=").append(getOperationType())
                 .append("}");
         return  stringBuilder.toString();

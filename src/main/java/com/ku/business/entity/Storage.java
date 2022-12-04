@@ -1,19 +1,40 @@
 package com.ku.business.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GenerationType;
+
+@Entity
+@Table(name = "storages")
 public class Storage {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     private Integer quantity;
-    private Company companyId;
-    private Service serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="service_id")
+
+    private Service service;
 
     public Storage() {
     }
 
-    public Storage(Long id, Integer quantity, Company companyId, Service serviceId) {
+    public Storage(Long id, Integer quantity, Company company, Service service) {
         this.id = id;
         this.quantity = quantity;
-        this.companyId = companyId;
-        this.serviceId = serviceId;
+        this.company = company;
+        this.service = service;
     }
 
     public Long getId() {
@@ -32,20 +53,20 @@ public class Storage {
         this.quantity = quantity;
     }
 
-    public Company getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company companyId) {
+        this.company = companyId;
     }
 
-    public Service getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceId(Service serviceId) {
-        this.serviceId = serviceId;
+    public void setService(Service serviceId) {
+        this.service = serviceId;
     }
 
     @Override
@@ -62,13 +83,13 @@ public class Storage {
             if (aThat.getQuantity() != null) {return false;}
         } else if (!getQuantity().equals(aThat.getQuantity())) {return false;}
 
-        if (getCompanyId() == null) {
-            if (aThat.getCompanyId() != null) {return false;}
-        } else if (!getCompanyId().equals(aThat.getCompanyId())) {return false;}
+        if (getCompany() == null) {
+            if (aThat.getCompany() != null) {return false;}
+        } else if (!getCompany().equals(aThat.getCompany())) {return false;}
 
-        if (getServiceId() == null) {
-            if (aThat.getServiceId() != null) {return false;}
-        } else if (!getServiceId().equals(aThat.getServiceId())) {return false;}
+        if (getService() == null) {
+            if (aThat.getService() != null) {return false;}
+        } else if (!getService().equals(aThat.getService())) {return false;}
         return true;
     }
 
@@ -78,8 +99,8 @@ public class Storage {
         int prime = 31;
         result = prime * result + (id == null ? 0 : id.hashCode());
         result = prime * result + (quantity == null ? 0 : quantity.hashCode());
-        result = prime * result + (companyId == null ? 0 : companyId.hashCode());
-        result = prime * result + (serviceId == null ? 0 : serviceId.hashCode());
+        result = prime * result + (company == null ? 0 : company.hashCode());
+        result = prime * result + (service == null ? 0 : service.hashCode());
         return result;
     }
     public String toString() {
@@ -87,14 +108,8 @@ public class Storage {
         stringBuilder.append(getClass().getSimpleName())
                 .append(" {")
                 .append("id=").append(getId())
-                .append(", quantity=").append(getQuantity());
-        if (getCompanyId()!= null) {
-            stringBuilder.append(", companyId=").append(getCompanyId().toString());
-        }
-        if (getServiceId()!= null) {
-            stringBuilder.append(", serviceId=").append(getServiceId().toString());
-        }
-        stringBuilder.append("}");
+                .append(", quantity=").append(getQuantity())
+                .append("}");
         return stringBuilder.toString();
     }
 }
