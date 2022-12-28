@@ -22,19 +22,19 @@ public class BusinessApp {
     public static void main(String[] args) {
         List<Object> objects = List.of(new Animal(), new Bird(), new Car(), new Cat(), new Dog(), new House(), new Human(), new Pen(), new Table(), new Telephone());
 
-        for (Object o: objects
-        ) {
+        for (Object o: objects)
+            {
             Class<?> aClass =  o.getClass();
             if (aClass.isAnnotationPresent(ClassAnnotation.class)) {
                 System.out.println("Class '" + aClass.getSimpleName() + "' has class annotation '" + ClassAnnotation.class.getSimpleName() + "'.");
             }
         }
 
-        for (Object o: objects
-        ) {
+        for (Object o: objects)
+        {
             Field[] fields =  o.getClass().getDeclaredFields();
-            for (Field field: fields
-            ) {
+            for (Field field: fields)
+            {
                 if (field.isAnnotationPresent(FieldAnnotation.class)) {
                     System.out.println("Class '" + o.getClass().getSimpleName() + "' has field annotation '" + FieldAnnotation.class.getSimpleName() + "'.");
                     break;
@@ -42,11 +42,11 @@ public class BusinessApp {
             }
         }
 
-        for (Object o: objects
-        ) {
+        for (Object o: objects)
+        {
             Method[] methods =  o.getClass().getDeclaredMethods();
-            for (Method method: methods
-            ) {
+            for (Method method: methods)
+            {
                 if (method.isAnnotationPresent(MethodAnnotation.class)) {
                     System.out.println("Class '" + o.getClass().getSimpleName() + "' has method annotation '" + MethodAnnotation.class.getSimpleName() + "'.");
                     break;
@@ -54,13 +54,13 @@ public class BusinessApp {
             }
         }
 
-        for (Object o: objects
-        ) {
+        for (Object o: objects)
+        {
             Class<?> aClass =  o.getClass();
             Class<?> superClass =  aClass.getSuperclass();
             Field[] fields =  superClass.getDeclaredFields();
-            for (Field field: fields
-            ) {
+            for (Field field: fields)
+            {
                 if (field.isAnnotationPresent(FieldAnnotation.class)) {
                     System.out.println("Class '" + aClass.getSimpleName() + "' has field annotation '" + FieldAnnotation.class.getSimpleName() + "'.");
                     break;

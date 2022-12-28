@@ -1,4 +1,4 @@
 package com.ku.business.annotation;
 
-public class Table {
+public class Table extends Furniture{
 }

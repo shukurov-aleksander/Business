@@ -1,11 +1,12 @@
 package com.ku.business.annotation;
 
-@MyAnnotation.classAnnotation
+@ClassAnnotation
 public class Animal {
-    @MyAnnotation.fieldAnnotation(age = 4)
-public int size;
-    @MyAnnotation.methodAnnotation
+    private long age;
+    @FieldAnnotation
+    private String name;
+    @MethodAnnotation
     public void run() {
-        System.out.println("run");
+
     }
 }
