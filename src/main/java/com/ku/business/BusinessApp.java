@@ -1,42 +1,71 @@
 package com.ku.business;
 
-import com.ku.business.annotation.MyAnnotation;
-import org.reflections.Reflections;
+import com.ku.business.annotation.Animal;
+import com.ku.business.annotation.Bird;
+import com.ku.business.annotation.Car;
+import com.ku.business.annotation.Cat;
+import com.ku.business.annotation.Dog;
+import com.ku.business.annotation.House;
+import com.ku.business.annotation.Human;
+import com.ku.business.annotation.Pen;
+import com.ku.business.annotation.Table;
+import com.ku.business.annotation.Telephone;
+import com.ku.business.annotation.ClassAnnotation;
+import com.ku.business.annotation.MethodAnnotation;
+import com.ku.business.annotation.FieldAnnotation;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class BusinessApp {
     public static void main(String[] args) {
-        Reflections reflections = new Reflections("com.ku.business.annotation");
-        Set<Class<?>> setClassAnnotations = reflections.getTypesAnnotatedWith(MyAnnotation.classAnnotation.class);
-        Set<Class<?>> setFiledAnnotations = reflections.getTypesAnnotatedWith(MyAnnotation.fieldAnnotation.class);
-        Set<Class<?>> setMethodAnnotations = reflections.getTypesAnnotatedWith(MyAnnotation.methodAnnotation.class);
+        List<Object> objects = List.of(new Animal(), new Bird(), new Car(), new Cat(), new Dog(), new House(), new Human(), new Pen(), new Table(), new Telephone());
 
-        List<String> collectClassAnnotations = setClassAnnotations.stream()
-                .map(Class::getCanonicalName)
-                .collect(Collectors.toList());
-        List<String> collectFieldAnnotations = setFiledAnnotations.stream()
-                .map(Class::getCanonicalName)
-                .collect(Collectors.toList());
-        List<String> collectMethodAnnotations = setMethodAnnotations.stream()
-                .map(Class::getCanonicalName)
-                .collect(Collectors.toList());
+        for (Object o: objects
+        ) {
+            Class<?> aClass =  o.getClass();
+            if (aClass.isAnnotationPresent(ClassAnnotation.class)) {
+                System.out.println("Class '" + aClass.getSimpleName() + "' has class annotation '" + ClassAnnotation.class.getSimpleName() + "'.");
+            }
+        }
 
-        for (String c: collectClassAnnotations
+        for (Object o: objects
         ) {
-            System.out.println(c.toString());
+            Field[] fields =  o.getClass().getDeclaredFields();
+            for (Field field: fields
+            ) {
+                if (field.isAnnotationPresent(FieldAnnotation.class)) {
+                    System.out.println("Class '" + o.getClass().getSimpleName() + "' has field annotation '" + FieldAnnotation.class.getSimpleName() + "'.");
+                    break;
+                }
+            }
         }
-        System.out.println("------------------------------------------");
-        for (String c: collectFieldAnnotations
+
+        for (Object o: objects
         ) {
-            System.out.println(c.toString());
+            Method[] methods =  o.getClass().getDeclaredMethods();
+            for (Method method: methods
+            ) {
+                if (method.isAnnotationPresent(MethodAnnotation.class)) {
+                    System.out.println("Class '" + o.getClass().getSimpleName() + "' has method annotation '" + MethodAnnotation.class.getSimpleName() + "'.");
+                    break;
+                }
+            }
         }
-        System.out.println("------------------------------------------");
-        for (String c: collectMethodAnnotations
+
+        for (Object o: objects
         ) {
-            System.out.println(c.toString());
+            Class<?> aClass =  o.getClass();
+            Class<?> superClass =  aClass.getSuperclass();
+            Field[] fields =  superClass.getDeclaredFields();
+            for (Field field: fields
+            ) {
+                if (field.isAnnotationPresent(FieldAnnotation.class)) {
+                    System.out.println("Class '" + aClass.getSimpleName() + "' has field annotation '" + FieldAnnotation.class.getSimpleName() + "'.");
+                    break;
+                }
+            }
         }
     }
 }

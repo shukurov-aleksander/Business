@@ -1,6 +1,5 @@
 package com.ku.business.annotation;
 
-@ClassAnnotation
-public class Bird {
+public class Pen {
     private long age;
 }

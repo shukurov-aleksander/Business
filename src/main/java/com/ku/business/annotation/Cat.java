@@ -1,5 +1,14 @@
 package com.ku.business.annotation;
 
-@MyAnnotation.classAnnotation
+@ClassAnnotation
 public class Cat {
+    private long age;
+    @MethodAnnotation
+    public void run() {
+
+    }
+    @MethodAnnotation
+    public void  sayMeow() {
+
+    }
 }

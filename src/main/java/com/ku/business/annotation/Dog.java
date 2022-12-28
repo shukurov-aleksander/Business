@@ -1,5 +1,8 @@
 package com.ku.business.annotation;
 
-@MyAnnotation.classAnnotation
+@ClassAnnotation
 public class Dog {
+    private long age;
+    @FieldAnnotation
+    private String name;
 }
