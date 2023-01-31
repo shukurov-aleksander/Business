@@ -3,9 +3,12 @@ package com.ku.business.service;
 import com.ku.business.entity.Company;
 import com.ku.business.repository.spring.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+
+@Component
 
 public class CompanyServiceImpl implements CompanyService{
     @Autowired

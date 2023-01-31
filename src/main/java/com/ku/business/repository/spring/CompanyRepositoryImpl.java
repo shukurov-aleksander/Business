@@ -47,7 +47,7 @@ public class CompanyRepositoryImpl implements CompanyRepository{
 
     @Override
     public Optional<Company> findById(Long id) {
-        return jdbcTemplate.queryForObject("select * FROM Company c LEFT JOIN FETCH c.storages LEFT JOIN FETCH c.detail WHERE c.id = ?",
+        return jdbcTemplate.queryForObject("SELECT * FROM Company c LEFT JOIN FETCH c.storages LEFT JOIN FETCH c.detail WHERE c.id = ?",
                 new Object[]{id},
                 (rs, rowNum) ->
                         Optional.of(new Company(
