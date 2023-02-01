@@ -15,6 +15,16 @@ public class CompanyServiceImpl implements CompanyService{
     CompanyRepository companyRepository;
 
     @Override
+    public Optional<Company> findById(Long id) {
+        return companyRepository.findById(id);
+    }
+
+    @Override
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
+
+    @Override
     public void save(Company company) {
         companyRepository.save(company);
     }
@@ -27,15 +37,5 @@ public class CompanyServiceImpl implements CompanyService{
     @Override
     public void deleteById(Long id) {
         companyRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Company> findAll() {
-        return companyRepository.findAll();
-    }
-
-    @Override
-    public Optional<Company> findById(Long id) {
-        return companyRepository.findById(id);
     }
 }

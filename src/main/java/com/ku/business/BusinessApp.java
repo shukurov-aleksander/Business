@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
 @SpringBootApplication
 public class BusinessApp implements CommandLineRunner {
@@ -23,11 +23,11 @@ public class BusinessApp implements CommandLineRunner {
         test();
     }
     void test() {
-        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
-        for (Company company : companies) {
-            System.out.println(company);
-        }
-        //Optional<Company> company = companyService.findById(2L);
-        //System.out.println(company);
+//        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
+//        for (Company company : companies) {
+//            System.out.println(company);
+//        }
+        Optional<Company> company = companyService.findById(2L);
+        System.out.println(company);
     }
 }

@@ -8,9 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface CompanyRepository {
+    Optional<Company> findById(Long id);
+    List<Company> findAll();
     void save(Company company);
     void update(Company company);
     void deleteById(Long id);
-    List<Company> findAll();
-    Optional<Company> findById(Long id);
 }
