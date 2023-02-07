@@ -27,7 +27,7 @@ public class BusinessApp implements CommandLineRunner {
 //        for (Company company : companies) {
 //            System.out.println(company);
 //        }
-        Optional<Company> company = companyService.findById(2L);
+        Optional<Company> company = companyService.findCompany(2L);
         System.out.println(company);
     }
 }

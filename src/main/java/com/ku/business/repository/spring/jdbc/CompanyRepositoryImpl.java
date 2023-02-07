@@ -1,10 +1,16 @@
-package com.ku.business.repository.spring;
+package com.ku.business.repository.spring.jdbc;
 
 import com.ku.business.entity.Company;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.Storage;
+import com.ku.business.exception.RepositoryException;
+import com.ku.business.repository.spring.jdbc.rowmapper.CompanyRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +18,29 @@ import java.util.Optional;
 public class CompanyRepositoryImpl implements CompanyRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    // left join storages s on c.id = s.company_id
+// left join details d on c.id = d.company_id
+    public Optional<Company> findCompany(Long id) {
+        Company company = new Company();
+        Collection<Storage> storages = new ArrayList<>();
+        Collection<Detail> details = new ArrayList<>();
+        return jdbcTemplate.queryForObject("""
+                SELECT * FROM companies c WHERE c.id = ?
+                        """, (rs, rowNum) -> Optional.of(
+                company.setCompanyName(rs.getString("company_name")),
+                company.setTaxNumber(rs.getString("tax_number")),
+                company.setGovernmentAgency(rs.getBoolean("is_government_agency")),
+                company.setUserId(rs.getLong("user_id")),
+            Storage storage = new Storage(rs.getLong("s.id"));
+            storages.add(storage);
+            Detail detail = new Detail(rs.getLong("d.id"));
+            details.add(detail);
+        }
+        if (company == null) {
+            throw new RepositoryException("Company not found");
+        }), id);
+    }
+
 
     @Override
     public Optional<Company> findById(Long id) {
@@ -28,27 +57,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
                         rs.getString("tax_number"),
                         rs.getBoolean("is_government_agency"),
                         rs.getLong("user_id")
-                )));
+                )),id);
     }
-
-
-//        (rs, rowNum) ->
-//                Optional.of(new Company(
-//                        rs.getLong("id"),
-//                        rs.getString("company_name"),
-//                        rs.getString("tax_number"),
-//                        rs.getBoolean("is_government_agency"),
-//                        rs.getLong("user_id")
-//                ))
-    //      return jdbcTemplate.query("""
-    //              SELECT id, company_name, tax_number, is_government_agency, user_id
-    //              FROM companies c
-    //              WHERE c.id = ?
-    //              """
-    //                      ,new CompanyRowMapper(),id)
-    //              .stream()
-    //              .findFirst();
-
 
     @Override
     public List<Company> findAll() {
