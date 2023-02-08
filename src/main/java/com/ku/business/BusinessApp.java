@@ -1,7 +1,7 @@
 package com.ku.business;
 
 import com.ku.business.entity.Company;
-import com.ku.business.service.CompanyService;
+import com.ku.business.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @SpringBootApplication
 public class BusinessApp implements CommandLineRunner {
     @Autowired
-    CompanyService companyService;
+    Service companyService;
     public static void main(String[] args) {
         SpringApplication.run(BusinessApp.class, args);
 
@@ -27,7 +27,7 @@ public class BusinessApp implements CommandLineRunner {
 //        for (Company company : companies) {
 //            System.out.println(company);
 //        }
-        Optional<Company> company = companyService.findCompany(2L);
+        Optional<Company> company = companyService.findById(2L);
         System.out.println(company);
     }
 }

@@ -1,7 +1,7 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Company;
-import com.ku.business.repository.spring.jdbc.CompanyRepository;
+import com.ku.business.repository.spring.jdbc.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Component
 
-public class CompanyServiceImpl implements CompanyService{
+public class CompanyServiceImpl implements Service {
     @Autowired
-    CompanyRepository companyRepository;
+    Repository<Company> companyRepository;
 
     @Override
     public Optional<Company> findById(Long id) {
@@ -29,14 +29,14 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
-    public void save(Company company) {
-        companyRepository.save(company);
+    public void save(Object obj) {
+        companyRepository.save((Company) obj);
+    }
+    @Override
+    public void update(Object obj) {
+        companyRepository.update((Company) obj);
     }
 
-    @Override
-    public void update(Company company) {
-        companyRepository.update(company);
-    }
 
     @Override
     public void deleteById(Long id) {

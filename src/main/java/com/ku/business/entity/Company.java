@@ -8,12 +8,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "companies")
+@Data
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
