@@ -1,44 +1,44 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Company;
-import com.ku.business.repository.spring.jdbc.Repository;
+import com.ku.business.repository.spring.jdbc.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public class CompanyService implements Service<Company> {
+@Service
+public class CompanyService implements com.ku.business.service.Service<Company> {
 
     @Autowired
-    Repository<Company> companyRepository;
+   CompanyRepository<Company> companyRepository;
 
+    @Transactional
     @Override
     public Optional<Company> findById(Long id) {
        return companyRepository.findById(id);
     }
 
-    @Override
-    public Optional<Company> findCompany(Long id) {
-        return companyRepository.findCompany(id);
-    }
-
+    @Transactional
     @Override
     public List<Company> findAll() {
         return companyRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void save(Company company) {
         companyRepository.save(company);
     }
 
+    @Transactional
     @Override
     public void update(Company company) {
-     companyRepository.update(company);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         companyRepository.deleteById(id);

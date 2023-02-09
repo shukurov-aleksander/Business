@@ -1,33 +1,24 @@
 package com.ku.business;
 
-import com.ku.business.entity.Company;
-import com.ku.business.service.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ku.business.repository.spring.jdbc.CompanyRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Optional;
 
 @SpringBootApplication
-public class BusinessApp implements CommandLineRunner {
-    @Autowired
-    Service companyService;
+public class BusinessApp {
     public static void main(String[] args) {
         SpringApplication.run(BusinessApp.class, args);
+    }
 
+        @Bean
+        CommandLineRunner commandLineRunner (CompanyRepository companyRepository){
+            return args -> {
+                companyRepository.findById(811L);
+            };
+        }
     }
-    @Override
-    public void run(String... args) {
-        System.out.println("StartApplication...");
-        test();
-    }
-    void test() {
-//        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
-//        for (Company company : companies) {
-//            System.out.println(company);
-//        }
-        Optional<Company> company = companyService.findById(2L);
-        System.out.println(company);
-    }
-}
+
