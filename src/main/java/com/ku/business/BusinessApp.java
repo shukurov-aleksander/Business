@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Optional;
 
 @SpringBootApplication
 public class BusinessApp {
@@ -14,11 +13,11 @@ public class BusinessApp {
         SpringApplication.run(BusinessApp.class, args);
     }
 
-        @Bean
-        CommandLineRunner commandLineRunner (CompanyRepository companyRepository){
-            return args -> {
-                companyRepository.findById(811L);
-            };
-        }
+    @Bean
+    CommandLineRunner commandLineRunner(CompanyRepository companyRepository) {
+        return args -> {
+            System.out.println(companyRepository.findById(811L).get());
+        };
     }
+}
 

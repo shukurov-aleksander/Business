@@ -54,19 +54,6 @@ public class Company {
         this.storages = storages;
         this.details = details;
     }
-    public Company(
-            Long id,
-            String companyName,
-            String taxNumber,
-            Boolean isGovernmentAgency,
-            Long userId
-    ) {
-        this.id = id;
-        this.companyName = companyName;
-        this.taxNumber = taxNumber;
-        this.isGovernmentAgency = isGovernmentAgency;
-        this.userId = userId;
-    }
 
     public Long getId() {
         return id;
