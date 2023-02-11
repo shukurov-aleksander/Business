@@ -30,6 +30,7 @@ import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_
 @Repository
 public class DetailRepository implements CrudRepository<Detail>{
     private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.operation_type,
             c.id company_id, c.company_name company_name, c.tax_number tax_number, c.user_id user_id, c.is_government_agency is_government_agency,
@@ -67,6 +68,7 @@ public class DetailRepository implements CrudRepository<Detail>{
             throw new RepositoryException(String.format("Can't find Detail with id=%d", id), s);
         }
     }
+
     private Optional<Detail> buildDetails(ResultSet resultSet) throws Exception {
         Detail detail = buildDetailsWithoutEntities(resultSet);
         if (resultSet.getString(COMPANY_ID_COLUMN) != null) {
@@ -129,12 +131,14 @@ public class DetailRepository implements CrudRepository<Detail>{
             throw new RepositoryException(String.format("Can't find detail with id=%d", detail.getId()), e);
         }
     }
+
     public PreparedStatement makeQueryForInsertOrUpdateDetails(Detail detail, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, detail.getOperationType().toString());
         preparedStatement.setLong(2, detail.getCompany().getId());
         preparedStatement.setLong(3, detail.getOrder().getId());
         return preparedStatement;
     }
+
     @Override
     public void save(Detail detail) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {

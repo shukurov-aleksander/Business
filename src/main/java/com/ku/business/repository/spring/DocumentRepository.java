@@ -23,6 +23,7 @@ import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_
 @Component
 public class DocumentRepository implements CrudRepository<Document> {
     private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.order_id, d.document_content,
             o.id order_id, o.order_status order_status, o.created_at_utc created_at_utc, 
@@ -58,6 +59,7 @@ public class DocumentRepository implements CrudRepository<Document> {
             throw new RepositoryException(String.format("Can't find Document with id=%d", id), s);
         }
     }
+
     private Optional<Document> buildDocuments(ResultSet resultSet) throws Exception {
         Document document = buildDocumentsWithoutEntities(resultSet);
         if (resultSet.getString(ORDER_ID_COLUMN) != null) {
@@ -81,6 +83,7 @@ public class DocumentRepository implements CrudRepository<Document> {
         order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS_TYPE_COLUMN)));
         return order;
     }
+
     @Override
     public List<Document> findAll() {
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
@@ -106,11 +109,13 @@ public class DocumentRepository implements CrudRepository<Document> {
             throw new RepositoryException(String.format("Can't update Document with id=%d", document.getId()), e);
         }
     }
+
     public PreparedStatement makeQueryForInsertOrUpdateDocuments(Document document, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setLong(1, document.getOrder().getId());
         preparedStatement.setString(2, document.getDocumentContent());
         return preparedStatement;
     }
+
     @Override
     public void save(Document document) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {

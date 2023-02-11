@@ -5,7 +5,6 @@ import com.ku.business.entity.Detail;
 import com.ku.business.entity.OperationType;
 import com.ku.business.entity.Storage;
 import com.ku.business.exception.RepositoryException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -29,7 +28,8 @@ import static com.ku.business.repository.hibernate.Repository.STORAGE_ID_COLUMN;
 
 @Repository
 public class CompanyRepository implements CrudRepository<Company> {
-   private final Connection connection;
+    private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.user_id, c.is_government_agency,
             s.id storage_id, s.quantity quantity,
@@ -50,10 +50,11 @@ public class CompanyRepository implements CrudRepository<Company> {
         SET company_name = ?, tax_number =?, user_id = ?, is_government_agency = ? 
         WHERE id = ?
     """;
-   @Autowired
+
     public CompanyRepository(Connection connection) {
         this.connection = connection;
     }
+
     @Override
     public Optional<Company> findById(Long id) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {

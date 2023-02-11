@@ -2,7 +2,6 @@ package com.ku.business.service;
 
 import com.ku.business.entity.Document;
 import com.ku.business.repository.spring.DocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Optional;
 public class DocumentService implements CrudService<Document> {
     private final DocumentRepository repository;
 
-    @Autowired
     public DocumentService(DocumentRepository repository) {
         this.repository = repository;
     }

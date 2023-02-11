@@ -19,6 +19,7 @@ import static com.ku.business.repository.hibernate.Repository.SUM_COLUMN;
 @Repository
 public class ServiceRepository implements CrudRepository<Service> {
     private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT id, service_name, sum, service_description
         FROM services
@@ -35,6 +36,7 @@ public class ServiceRepository implements CrudRepository<Service> {
         SET service_name = ?, sum = ?, service_description = ?
         WHERE id = ?
     """;
+
     public ServiceRepository(Connection connection) {
         this.connection = connection;
     }
@@ -51,6 +53,7 @@ public class ServiceRepository implements CrudRepository<Service> {
             throw new RepositoryException(String.format("Can't find Service with id=%d", id), s);
         }
     }
+
     private Optional<Service> buildService(ResultSet resultSet) throws Exception {
         Service service = new Service();
         service.setId(resultSet.getLong(ID_COLUMN));
@@ -74,6 +77,7 @@ public class ServiceRepository implements CrudRepository<Service> {
             throw new RepositoryException("Table services is empty!", e);
         }
     }
+
     @Override
     public void update(Service service, Long id) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
@@ -84,12 +88,14 @@ public class ServiceRepository implements CrudRepository<Service> {
             throw new RepositoryException(String.format("Can't update Service with id=%d", service.getId()), e);
         }
     }
+
     public PreparedStatement makeQueryForInsertOrUpdateServices(Service service, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, service.getServiceName());
         preparedStatement.setLong(2, service.getSum());
         preparedStatement.setString(3, service.getServiceDescription());
         return preparedStatement;
     }
+
     @Override
     public void save(Service service) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {

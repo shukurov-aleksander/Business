@@ -24,6 +24,7 @@ import static com.ku.business.repository.hibernate.Repository.QUANTITY_COLUMN;
 @Component
 public class OrderRepository implements CrudRepository<Order> {
     private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT o.id, o.order_status, o.created_at_utc, o.completed_at_utc,
             c.id content_id, c.quantity quantity 
@@ -59,6 +60,7 @@ public class OrderRepository implements CrudRepository<Order> {
             throw new RepositoryException(String.format("Can't find Order with id=%d", id), s);
         }
     }
+
     private Optional<Order> buildOrder(ResultSet resultSet) throws Exception {
         Order order = buildOrderWithoutEntities(resultSet);
         List<Content> contents = new ArrayList<>();
@@ -90,6 +92,7 @@ public class OrderRepository implements CrudRepository<Order> {
             throw new RepositoryException("Result set is empty!", s);
         }
     }
+
     @Override
     public List<Order> findAll() {
         try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
@@ -115,12 +118,14 @@ public class OrderRepository implements CrudRepository<Order> {
             throw new RepositoryException(String.format("Can't update Order with id=%d", order.getId()), e);
         }
     }
+
     public PreparedStatement makeQueryForInsertOrUpdateOrders(Order order, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setString(1, order.getOrderStatus().toString());
         preparedStatement.setTimestamp(2, Timestamp.valueOf(order.getCreatedAtUtc()));
         preparedStatement.setTimestamp(3, Timestamp.valueOf(order.getCompletedAtUtc()));
         return preparedStatement;
     }
+
     @Override
     public void save(Order order) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {

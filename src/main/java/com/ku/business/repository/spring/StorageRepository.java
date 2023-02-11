@@ -28,6 +28,7 @@ import static com.ku.business.repository.hibernate.Repository.SUM_COLUMN;
 @Repository
 public class StorageRepository implements CrudRepository<Storage> {
     private final Connection connection;
+
     public static final String FIND_BY_ID_QUERY = """
         SELECT s.id, s.quantity, s2.id service_id, s2.service_name service_name, s2.sum sum, 
             s2.service_description service_description, c.id company_id, c.company_name company_name, 
@@ -48,6 +49,7 @@ public class StorageRepository implements CrudRepository<Storage> {
         SET quantity = ?, company_id =?, service_id = ? 
         WHERE id = ?
     """;
+
     public StorageRepository(Connection connection) {
         this.connection = connection;
     }
@@ -63,6 +65,7 @@ public class StorageRepository implements CrudRepository<Storage> {
             throw new RepositoryException(String.format("Can't find Storage with id=%d!", id), s);
         }
     }
+
     private Optional<Storage> buildStorage(ResultSet resultSet) {
         try {
             resultSet.next();
@@ -78,6 +81,7 @@ public class StorageRepository implements CrudRepository<Storage> {
             throw new RepositoryException("Result set is empty!", s);
         }
     }
+
     private Storage buildStorageWithoutEntities(ResultSet resultSet) {
         try {
             Storage storage = new Storage();
@@ -137,12 +141,14 @@ public class StorageRepository implements CrudRepository<Storage> {
             throw new RepositoryException(String.format("Can't update storage with id=%d. This storage is not exist!", storage.getId()), e);
         }
     }
+
     public PreparedStatement makeQueryForInsertOrUpdateStorages(Storage storage, PreparedStatement preparedStatement) throws Exception {
         preparedStatement.setLong(1, storage.getQuantity());
         preparedStatement.setLong(2, storage.getCompany().getId());
         preparedStatement.setLong(3, storage.getService().getId());
         return preparedStatement;
     }
+
     @Override
     public void save(Storage storage) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)

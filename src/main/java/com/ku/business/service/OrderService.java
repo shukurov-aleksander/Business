@@ -2,7 +2,6 @@ package com.ku.business.service;
 
 import com.ku.business.entity.Order;
 import com.ku.business.repository.spring.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Optional;
 public class OrderService implements CrudService<Order> {
     private final OrderRepository repository;
 
-    @Autowired
     public OrderService(OrderRepository repository) {
         this.repository = repository;
     }
