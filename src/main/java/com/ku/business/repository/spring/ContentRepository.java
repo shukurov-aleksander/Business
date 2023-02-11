@@ -1,22 +1,34 @@
-package com.ku.business.repository.jdbc;
+package com.ku.business.repository.spring;
 
 import com.ku.business.entity.Content;
 import com.ku.business.entity.Order;
 import com.ku.business.entity.OrderStatus;
 import com.ku.business.entity.Service;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_COMPLETED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_CREATED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.QUANTITY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_DESCRIPTION_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_NAME_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SUM_COLUMN;
 
-public class ContentRepository {
-    private final DataSource dataSource;
+@Repository
+public class ContentRepository implements CrudRepository<Content> {
+    private final Connection connection;
     public static final String FIND_BY_ID_QUERY = """
         SELECT c.id, c.quantity, c.service_id,
             o.id order_id, o.order_status order_status, o.created_at_utc created_at_utc, o.completed_at_utc completed_at_utc,
@@ -39,14 +51,14 @@ public class ContentRepository {
         WHERE id = ?
     """;
 
-    public ContentRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    @Autowired
+    public ContentRepository(Connection connection) {
+        this.connection = connection;
     }
 
-    public Content findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+    @Override
+    public Optional<Content> findById(Long id) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return buildContent(resultSet);
@@ -55,8 +67,7 @@ public class ContentRepository {
             throw new RepositoryException(String.format("Can't find Content with id=%d", id), s);
         }
     }
-
-    private Content buildContent(ResultSet resultSet) {
+    private Optional<Content> buildContent(ResultSet resultSet) {
         try {
             List<Order> orders = new ArrayList<>();
             resultSet.next();
@@ -70,12 +81,11 @@ public class ContentRepository {
                 }
             } while (resultSet.next());
             content.setOrders(orders);
-            return content;
+            return Optional.of(content);
         } catch (Exception s) {
             throw new RepositoryException("Result set is empty!", s);
         }
     }
-
     private Content buildContentWithoutEntities(ResultSet resultSet) {
         try {
             Content content = new Content();
@@ -104,10 +114,9 @@ public class ContentRepository {
         order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS_TYPE_COLUMN)));
         return order;
     }
-
+    @Override
     public List<Content> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             List<Content> contents = new ArrayList<>();
@@ -120,26 +129,9 @@ public class ContentRepository {
         }
     }
 
-    public void save(Content content) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
-            makeQueryForInsertOrUpdateContents(content, preparedStatement).executeUpdate();
-        } catch (Exception e) {
-            throw new RepositoryException("Try to save content with null service", e);
-        }
-    }
-
-    public PreparedStatement makeQueryForInsertOrUpdateContents(Content content, PreparedStatement preparedStatement) throws Exception {
-        preparedStatement.setLong(1, content.getQuantity());
-        preparedStatement.setLong(2, content.getService().getId());
-        return preparedStatement;
-    }
-
-    public void update(Content content) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+    @Override
+    public void update(Content content, Long id) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateContents(content, preparedStatement);
             preparedStatement.setLong(3, content.getId());
             preparedStatement.executeUpdate();
@@ -147,11 +139,24 @@ public class ContentRepository {
             throw new RepositoryException(String.format("Can't update content with id=%d. Content is not exist!", content.getId()), e);
         }
     }
+    public PreparedStatement makeQueryForInsertOrUpdateContents(Content content, PreparedStatement preparedStatement) throws Exception {
+        preparedStatement.setLong(1, content.getQuantity());
+        preparedStatement.setLong(2, content.getService().getId());
+        return preparedStatement;
+    }
 
+    @Override
+    public void save(Content content) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
+            makeQueryForInsertOrUpdateContents(content, preparedStatement).executeUpdate();
+        } catch (Exception e) {
+            throw new RepositoryException("Try to save content with null service", e);
+        }
+    }
+
+    @Override
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

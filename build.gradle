@@ -14,12 +14,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     implementation 'org.postgresql:postgresql:42.5.1'
     implementation 'org.hibernate:hibernate-core:6.1.5.Final'
-    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '3.0.1'
-    implementation group: 'org.springframework', name: 'spring-webmvc', version: '6.0.4'
-    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '3.0.2'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.2'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '3.0.2'
-    implementation 'org.springframework.data:spring-data-jpa:3.0.1'
+    implementation group: 'org.springframework', name: 'spring-context', version: '6.0.4'
 }
 
 test {

@@ -1,46 +1,43 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Company;
-import com.ku.business.repository.spring.jdbc.CompanyRepository;
+import com.ku.business.repository.spring.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CompanyService implements com.ku.business.service.Service<Company> {
-
+public class CompanyService implements CrudService<Company> {
+    private final CompanyRepository repository;
     @Autowired
-   CompanyRepository<Company> companyRepository;
+    public CompanyService(CompanyRepository repository) {
+        this.repository = repository;
+    }
 
-    @Transactional
     @Override
     public Optional<Company> findById(Long id) {
-       return companyRepository.findById(id);
+        return repository.findById(id);
     }
 
-    @Transactional
     @Override
     public List<Company> findAll() {
-        return companyRepository.findAll();
+        return repository.findAll();
     }
 
-    @Transactional
     @Override
     public void save(Company company) {
-        companyRepository.save(company);
+        repository.save(company);
     }
 
-    @Transactional
     @Override
-    public void update(Company company) {
+    public void update(Company company, Long id) {
+        repository.update(company, id);
     }
 
-    @Transactional
     @Override
-    public void deleteById(Long id) {
-        companyRepository.deleteById(id);
+    public void delete(Long id) {
+        repository.delete(id);
     }
 }

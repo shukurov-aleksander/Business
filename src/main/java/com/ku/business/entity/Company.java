@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "companies")
 @Data
+@Component
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -160,6 +162,8 @@ public class Company {
                 .append(", taxNumber=").append(getTaxNumber())
                 .append(", isGovernmentAgency=").append(isGovernmentAgency())
                 .append(", uerId=").append(getUserId())
+                .append(", storages=").append(getStorages())
+                .append(", details=").append(getDetails())
                 .append("}");
         return stringBuilder.toString();
     }

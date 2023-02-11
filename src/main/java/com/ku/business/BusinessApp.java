@@ -1,23 +1,23 @@
 package com.ku.business;
 
-import com.ku.business.repository.spring.jdbc.CompanyRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import com.ku.business.entity.Storage;
+import com.ku.business.repository.spring.DatabaseConfig;
+import com.ku.business.service.StorageService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 
-@SpringBootApplication
 public class BusinessApp {
     public static void main(String[] args) {
-        SpringApplication.run(BusinessApp.class, args);
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner(CompanyRepository companyRepository) {
-        return args -> {
-            System.out.println(companyRepository.findById(811L).get());
-        };
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DatabaseConfig.class);
+        StorageService service = applicationContext.getBean(StorageService.class);
+        List<Storage> storages = service.findAll();
+        for (Storage storage: storages
+             ) {
+            System.out.println(storage);
+        }
+       System.out.println(service.findById(811L));
     }
 }
 
