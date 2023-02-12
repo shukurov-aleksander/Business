@@ -17,7 +17,7 @@ public class BusinessApp {
              ) {
             System.out.println(company);
         }
-       //System.out.println(service.findById(4L));
+       System.out.println(service.findById(4L));
     }
 }
 
