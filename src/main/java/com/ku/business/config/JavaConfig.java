@@ -1,4 +1,4 @@
-package com.ku.business.repository.spring;
+package com.ku.business.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

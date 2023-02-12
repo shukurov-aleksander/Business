@@ -1,19 +1,34 @@
 package com.ku.business.repository.jdbc;
 
-import com.ku.business.entity.*;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.OperationType;
+import com.ku.business.entity.Order;
+import com.ku.business.entity.Company;
+import com.ku.business.entity.OrderStatus;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_IS_GOVERNMENT_AGENCY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_NAME_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_TAX_NUMBER_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_USER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.DETAIL_OPERATION_TYPE_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_COMPLETED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_CREATED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_COLUMN;
 
+@Repository(value = "detailRep")
 public class DetailRepository {
-        private final DataSource dataSource;
+    private final Connection connection;
         public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.operation_type,
             c.id company_id, c.company_name company_name, c.tax_number tax_number, c.user_id user_id, c.is_government_agency is_government_agency,
@@ -35,14 +50,12 @@ public class DetailRepository {
         WHERE id = ?
     """;
 
-    public DetailRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public DetailRepository(Connection connection) {
+        this.connection = connection;
     }
 
     public Detail findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
@@ -91,8 +104,7 @@ public class DetailRepository {
     }
 
     public List<Detail> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             List<Detail> details = new ArrayList<>();
@@ -106,9 +118,7 @@ public class DetailRepository {
     }
 
     public void save(Detail detail) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
             makeQueryForInsertOrUpdateDetails(detail, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException("Try to save detail with null service", e);
@@ -123,9 +133,7 @@ public class DetailRepository {
     }
 
     public void update(Detail detail) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateDetails(detail, preparedStatement);
             preparedStatement.setLong(4, detail.getId());
             preparedStatement.executeUpdate();
@@ -135,9 +143,7 @@ public class DetailRepository {
     }
 
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

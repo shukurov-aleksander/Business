@@ -1,7 +1,7 @@
 package com.ku.business;
 
 import com.ku.business.entity.Company;
-import com.ku.business.repository.spring.JavaConfig;
+import com.ku.business.config.JavaConfig;
 import com.ku.business.service.CompanyService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -17,7 +17,7 @@ public class BusinessApp {
              ) {
             System.out.println(company);
         }
-       System.out.println(service.findById(811L));
+       //System.out.println(service.findById(4L));
     }
 }
 

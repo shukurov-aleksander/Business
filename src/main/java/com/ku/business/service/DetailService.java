@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Detail;
-import com.ku.business.repository.spring.DetailRepository;
+import com.ku.business.repository.hibernate.DetailRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DetailService implements CrudService<Detail>{
@@ -16,7 +15,7 @@ public class DetailService implements CrudService<Detail>{
     }
 
     @Override
-    public Optional<Detail> findById(Long id) {
+    public Detail findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class DetailService implements CrudService<Detail>{
     }
 
     @Override
-    public void update(Detail detail, Long id) {
-        repository.update(detail, id);
+    public void update(Detail detail) {
+        repository.update(detail);
     }
 
     @Override

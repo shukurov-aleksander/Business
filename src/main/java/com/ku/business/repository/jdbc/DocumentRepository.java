@@ -4,18 +4,24 @@ import com.ku.business.entity.Document;
 import com.ku.business.entity.Order;
 import com.ku.business.entity.OrderStatus;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.DOCUMENT_CONTENT_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_COMPLETED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_CREATED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_COLUMN;
 
+@Repository(value = "documentRep")
 public class DocumentRepository {
-    private final DataSource dataSource;
+    private final Connection connection;
     public static final String FIND_BY_ID_QUERY = """
         SELECT d.id, d.order_id, d.document_content,
             o.id order_id, o.order_status order_status, o.created_at_utc created_at_utc, 
@@ -36,14 +42,12 @@ public class DocumentRepository {
         WHERE id = ?
     """;
 
-    public DocumentRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public DocumentRepository(Connection connection) {
+        this.connection = connection;
     }
 
     public Document findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
@@ -79,8 +83,7 @@ public class DocumentRepository {
     }
 
     public List<Document> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             List<Document> documents = new ArrayList<>();
@@ -94,9 +97,7 @@ public class DocumentRepository {
     }
 
     public void save(Document document) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
             makeQueryForInsertOrUpdateDocuments(document, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException("Try to save document with null document content or order id", e);
@@ -110,9 +111,7 @@ public class DocumentRepository {
     }
 
     public void update(Document document) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateDocuments(document, preparedStatement);
             preparedStatement.setLong(3, document.getId());
             preparedStatement.executeUpdate();
@@ -122,9 +121,7 @@ public class DocumentRepository {
     }
 
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

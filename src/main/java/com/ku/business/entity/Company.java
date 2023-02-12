@@ -8,6 +8,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.Set;
@@ -28,8 +30,10 @@ public class Company {
     @Column(name = "user_id")
     private Long userId;
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     private List<Storage> storages;
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     private Set<Detail> details;
 
     public Company() {

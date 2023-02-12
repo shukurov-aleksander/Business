@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Order;
-import com.ku.business.repository.spring.OrderRepository;
+import com.ku.business.repository.hibernate.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService implements CrudService<Order> {
@@ -16,7 +15,7 @@ public class OrderService implements CrudService<Order> {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
+    public Order findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class OrderService implements CrudService<Order> {
     }
 
     @Override
-    public void update(Order order, Long id) {
-        repository.update(order,id);
+    public void update(Order order) {
+        repository.update(order);
     }
 
     @Override

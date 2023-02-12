@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Document;
-import com.ku.business.repository.spring.DocumentRepository;
+import com.ku.business.repository.hibernate.DocumentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DocumentService implements CrudService<Document> {
@@ -16,7 +15,7 @@ public class DocumentService implements CrudService<Document> {
     }
 
     @Override
-    public Optional<Document> findById(Long id) {
+    public Document findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class DocumentService implements CrudService<Document> {
     }
 
     @Override
-    public void update(Document document, Long id) {
-        repository.update(document, id);
+    public void update(Document document) {
+        repository.update(document);
     }
 
     @Override

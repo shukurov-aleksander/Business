@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Company;
-import com.ku.business.repository.spring.CompanyRepository;
+import com.ku.business.repository.hibernate.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyService implements CrudService<Company> {
@@ -16,7 +15,7 @@ public class CompanyService implements CrudService<Company> {
     }
 
     @Override
-    public Optional<Company> findById(Long id) {
+    public Company findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class CompanyService implements CrudService<Company> {
     }
 
     @Override
-    public void update(Company company, Long id) {
-        repository.update(company, id);
+    public void update(Company company) {
+        repository.update(company);
     }
 
     @Override

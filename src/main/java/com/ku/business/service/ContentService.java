@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Content;
-import com.ku.business.repository.spring.ContentRepository;
+import com.ku.business.repository.hibernate.ContentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContentService implements CrudService<Content> {
@@ -16,7 +15,7 @@ public class ContentService implements CrudService<Content> {
     }
 
     @Override
-    public Optional<Content> findById(Long id) {
+    public Content findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class ContentService implements CrudService<Content> {
     }
 
     @Override
-    public void update(Content content, Long id) {
-        repository.update(content, id);
+    public void update(Content content) {
+        repository.update(content);
     }
 
     @Override

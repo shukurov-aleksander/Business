@@ -4,18 +4,29 @@ import com.ku.business.entity.Company;
 import com.ku.business.entity.Service;
 import com.ku.business.entity.Storage;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_IS_GOVERNMENT_AGENCY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_NAME_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_TAX_NUMBER_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_USER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.QUANTITY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_DESCRIPTION_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SERVICE_NAME_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.SUM_COLUMN;
 
+@Repository(value = "storageRep")
 public class StorageRepository {
-    private final DataSource dataSource;
+    private final Connection connection;
     public static final String FIND_BY_ID_QUERY = """
         SELECT s.id, s.quantity, s2.id service_id, s2.service_name service_name, s2.sum sum, 
             s2.service_description service_description, c.id company_id, c.company_name company_name, 
@@ -37,14 +48,12 @@ public class StorageRepository {
         WHERE id = ?
     """;
 
-    public StorageRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public StorageRepository( Connection connection) {
+        this.connection = connection;
     }
 
     public Storage findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return buildStorage(resultSet);
@@ -105,8 +114,7 @@ public class StorageRepository {
     }
 
     public List<Storage> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             List<Storage> storages = new ArrayList<>();
@@ -120,9 +128,7 @@ public class StorageRepository {
     }
 
     public void save(Storage storage) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
             makeQueryForInsertOrUpdateStorages(storage, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Storage with company_id=%s already exist", storage.getCompany()), e);
@@ -137,9 +143,7 @@ public class StorageRepository {
     }
 
     public void update(Storage storage) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateStorages(storage, preparedStatement);
             preparedStatement.setLong(4, storage.getId());
             preparedStatement.executeUpdate();
@@ -149,9 +153,7 @@ public class StorageRepository {
     }
 
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

@@ -1,11 +1,10 @@
 package com.ku.business.service;
 
 import com.ku.business.entity.Storage;
-import com.ku.business.repository.spring.StorageRepository;
+import com.ku.business.repository.hibernate.StorageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StorageService implements CrudService<Storage> {
@@ -16,7 +15,7 @@ public class StorageService implements CrudService<Storage> {
     }
 
     @Override
-    public Optional<Storage> findById(Long id) {
+    public Storage findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,8 +30,8 @@ public class StorageService implements CrudService<Storage> {
     }
 
     @Override
-    public void update(Storage storage, Long id) {
-        repository.update(storage, id);
+    public void update(Storage storage) {
+        repository.update(storage);
     }
 
     @Override

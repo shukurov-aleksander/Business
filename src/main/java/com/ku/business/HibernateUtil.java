@@ -1,16 +1,26 @@
 package com.ku.business;
 
-import com.ku.business.entity.*;
+import com.ku.business.entity.Company;
+import com.ku.business.entity.Content;
+import com.ku.business.entity.Service;
+import com.ku.business.entity.Storage;
+import com.ku.business.entity.Detail;
+import com.ku.business.entity.Document;
+import com.ku.business.entity.Order;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
+@Component
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
+    @Bean
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {

@@ -5,9 +5,11 @@ import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DetailRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Detail d
