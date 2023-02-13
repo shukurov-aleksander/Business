@@ -4,8 +4,8 @@ import com.ku.business.entity.Content;
 import com.ku.business.entity.Order;
 import com.ku.business.entity.OrderStatus;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +13,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.CONTENT_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_COMPLETED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_CREATED_AT_UTC_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ORDER_STATUS_TYPE_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.QUANTITY_COLUMN;
 
+@Repository(value = "orderRep")
 public class OrderRepository {
-private final DataSource dataSource;
+    private final Connection connection;
     public static final String FIND_BY_ID_QUERY = """
         SELECT o.id, o.order_status, o.created_at_utc, o.completed_at_utc,
             c.id content_id, c.quantity quantity 
@@ -37,14 +43,12 @@ private final DataSource dataSource;
         WHERE id = ?
     """;
 
-    public OrderRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public OrderRepository( Connection connection) {
+        this.connection = connection;
     }
 
     public Order findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
@@ -88,10 +92,8 @@ private final DataSource dataSource;
     }
 
     public List<Order> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             List<Order> orders = new ArrayList<>();
             while (resultSet.next()) {
                 orders.add(buildOrderWithoutEntities(resultSet));
@@ -103,9 +105,7 @@ private final DataSource dataSource;
     }
 
     public void save(Order order) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
             makeQueryForInsertOrUpdateOrders(order, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException("Try to save order with null created time", e);
@@ -120,9 +120,7 @@ private final DataSource dataSource;
     }
 
     public void update(Order order) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateOrders(order, preparedStatement);
             preparedStatement.setLong(4, order.getId());
             preparedStatement.executeUpdate();
@@ -132,9 +130,7 @@ private final DataSource dataSource;
     }
 
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

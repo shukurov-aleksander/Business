@@ -1,14 +1,15 @@
 package com.ku.business.repository.hibernate;
 
-import com.ku.business.HibernateUtil;
 import com.ku.business.entity.Document;
 import com.ku.business.exception.RepositoryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DocumentRepository {
     public static final String FIND_BY_ID_QUERY = """
         FROM Document d
@@ -32,7 +33,7 @@ public class DocumentRepository {
     }
 
     public Document findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(FIND_BY_ID_QUERY, Document.class)
                     .setParameter("id", id)
                     .getSingleResult();

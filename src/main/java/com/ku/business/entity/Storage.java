@@ -37,6 +37,10 @@ public class Storage {
         this.service = service;
     }
 
+    public Storage(long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

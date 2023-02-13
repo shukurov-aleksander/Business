@@ -5,8 +5,8 @@ import com.ku.business.entity.Detail;
 import com.ku.business.entity.OperationType;
 import com.ku.business.entity.Storage;
 import com.ku.business.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +15,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.ku.business.repository.hibernate.Repository.*;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_IS_GOVERNMENT_AGENCY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_NAME_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_TAX_NUMBER_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.COMPANY_USER_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.DETAIL_ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.DETAIL_OPERATION_TYPE_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.ID_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.QUANTITY_COLUMN;
+import static com.ku.business.repository.hibernate.Repository.STORAGE_ID_COLUMN;
 
+@Repository(value = "companyRep")
 public class CompanyRepository {
-    private final DataSource dataSource;
+    private final Connection connection;
     public static final String FIND_BY_ID_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.user_id, c.is_government_agency,
             s.id storage_id, s.quantity quantity,
@@ -40,14 +49,12 @@ public class CompanyRepository {
         WHERE id = ?
     """;
 
-    public CompanyRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public CompanyRepository(Connection connection) {
+        this.connection = connection;
     }
 
     public Company findById(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return buildCompany(resultSet);
@@ -108,8 +115,7 @@ public class CompanyRepository {
     }
 
     public List<Company> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             List<Company> companies = new ArrayList<>();
@@ -123,9 +129,7 @@ public class CompanyRepository {
     }
 
     public void save(Company company) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)) {
             makeQueryForInsertOrUpdateCompanies(company, preparedStatement).executeUpdate();
         } catch (Exception e) {
             throw new RepositoryException(String.format("Company with tax number=%s already exist", company.getTaxNumber()), e);
@@ -141,9 +145,7 @@ public class CompanyRepository {
     }
 
     public void update(Company company) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             makeQueryForInsertOrUpdateCompanies(company, preparedStatement);
             preparedStatement.setLong(5, company.getId());
             preparedStatement.executeUpdate();
@@ -153,9 +155,7 @@ public class CompanyRepository {
     }
 
     public void delete(Long id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

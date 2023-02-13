@@ -41,6 +41,10 @@ public class Detail {
         this.operationType = operationType;
     }
 
+    public Detail(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
