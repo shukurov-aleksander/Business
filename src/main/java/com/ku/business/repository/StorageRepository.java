@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface StorageRepository extends JpaRepository<Storage, Long> {
     @Override
-    @Query("FROM Storage s LEFT JOIN FETCH s.company LEFT JOIN FETCH s.service WHERE s.id = ?1")
+    @Query("FROM Storage s LEFT JOIN FETCH s.company LEFT JOIN FETCH s.service WHERE s.id = :id")
     Optional<Storage> findById(Long id);
 }

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Override
-    @Query("FROM Document d LEFT JOIN FETCH d.order WHERE d.id = ?1")
+    @Query("FROM Document d LEFT JOIN FETCH d.order WHERE d.id = :id")
     Optional<Document> findById(Long id);
 }

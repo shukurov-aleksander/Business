@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface DetailRepository extends JpaRepository<Detail, Long> {
     @Override
-    @Query("FROM Detail d LEFT JOIN FETCH d.company LEFT JOIN FETCH d.order WHERE d.id = ?1")
+    @Query("FROM Detail d LEFT JOIN FETCH d.company LEFT JOIN FETCH d.order WHERE d.id = :id")
     Optional<Detail> findById(Long id);
 }

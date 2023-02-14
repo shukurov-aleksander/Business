@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     @Override
-    @Query("FROM Service s WHERE s.id = ?1")
+    @Query("FROM Service s WHERE s.id = :id")
     Optional<Service> findById(Long id);
 }

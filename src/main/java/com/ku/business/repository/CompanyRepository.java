@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Override
-    @Query("FROM Company c LEFT JOIN FETCH c.storages LEFT JOIN FETCH c.details WHERE c.id = ?1")
+    @Query("FROM Company c LEFT JOIN FETCH c.storages LEFT JOIN FETCH c.details WHERE c.id = :id")
     Optional<Company> findById(Long id);
 }
