@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -33,14 +32,6 @@ import java.util.Properties;
 @PropertySource("application.properties")
 @EnableJpaRepositories("com.ku.business.repository")
 public class JavaConfig {
-//    @Value("${spring.datasource.url}")
-//    private String url;
-//    @Value("${spring.application.name}")
-//    private String user;
-//    @Value("${spring.application.password}")
-//    private String password;
-//    @Value("${spring.datasource.driverClassName}")
-//    private String driver;
 @Value("${spring.datasource.url}")
 private String url;
     @Value("${spring.datasource.username}")
@@ -52,11 +43,13 @@ private String url;
     @Value("${spring.datasource.driver-class-name}")
     private String driver;
     private static SessionFactory sessionFactory;
+
     @Bean
     public java.sql.Connection getConnection() throws Exception {
         Class.forName(driver);
         return DriverManager.getConnection(url, user, password);
     }
+
     @Bean
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
