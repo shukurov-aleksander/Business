@@ -1,6 +1,7 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Company;
+import com.ku.business.dto.company.CompanyDTO;
+import com.ku.business.dtomapper.CompanyDTOMapper;
 import com.ku.business.repository.CompanyRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,27 +11,32 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CompanyServiceImpl implements CrudService<Company> {
+public class CompanyServiceImpl implements CrudService<CompanyDTO> {
     @Autowired
     private CompanyRepository companyRepository;
+    private final CompanyDTOMapper companyDTOMapper;
+
+    public CompanyServiceImpl(CompanyDTOMapper companyDTOMapper) {
+        this.companyDTOMapper = companyDTOMapper;
+    }
 
     @Override
-    public Optional<Company> findById(Long id) {
+    public Optional<CompanyDTO> findById(Long id) {
         return companyRepository.findById(id);
     }
 
     @Override
-    public List<Company> findAll() {
+    public List<CompanyDTO> findAll() {
         return companyRepository.findAll();
     }
 
     @Override
-    public void save(Company company) {
+    public void save(CompanyDTO company) {
         companyRepository.save(company);
     }
 
     @Override
-    public void update(Company company) {
+    public void update(CompanyDTO company) {
         companyRepository.save(company);
     }
 
