@@ -1,21 +1,23 @@
-package com.ku.business.service;
+package com.ku.business.service.impl;
 
 import com.ku.business.entity.Storage;
-import com.ku.business.repository.hibernate.StorageRepository;
+import com.ku.business.repository.StorageRepository;
+import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class StorageService implements CrudService<Storage> {
+public class StorageServiceImpl implements CrudService<Storage> {
     private final StorageRepository repository;
 
-    public StorageService(StorageRepository repository) {
+    public StorageServiceImpl(StorageRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Storage findById(Long id) {
+    public Optional<Storage> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,11 +33,11 @@ public class StorageService implements CrudService<Storage> {
 
     @Override
     public void update(Storage storage) {
-        repository.update(storage);
+        repository.save(storage);
     }
 
     @Override
     public void delete(Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }

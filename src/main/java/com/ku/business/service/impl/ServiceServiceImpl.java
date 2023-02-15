@@ -1,20 +1,22 @@
-package com.ku.business.service;
+package com.ku.business.service.impl;
 
 import com.ku.business.entity.Service;
-import com.ku.business.repository.hibernate.ServiceRepository;
+import com.ku.business.repository.ServiceRepository;
+import com.ku.business.service.CrudService;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class ServiceService implements CrudService<Service> {
+public class ServiceServiceImpl implements CrudService<Service> {
     private final ServiceRepository repository;
 
-    public ServiceService(ServiceRepository repository) {
+    public ServiceServiceImpl(ServiceRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Service findById(Long id) {
+    public Optional<Service> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -30,11 +32,11 @@ public class ServiceService implements CrudService<Service> {
 
     @Override
     public void update(Service service) {
-        repository.update(service);
+        repository.save(service);
     }
 
     @Override
     public void delete(Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }

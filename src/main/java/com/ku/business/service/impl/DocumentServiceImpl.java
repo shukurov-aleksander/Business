@@ -1,21 +1,23 @@
-package com.ku.business.service;
+package com.ku.business.service.impl;
 
 import com.ku.business.entity.Document;
-import com.ku.business.repository.hibernate.DocumentRepository;
+import com.ku.business.repository.DocumentRepository;
+import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class DocumentService implements CrudService<Document> {
+public class DocumentServiceImpl implements CrudService<Document> {
     private final DocumentRepository repository;
 
-    public DocumentService(DocumentRepository repository) {
+    public DocumentServiceImpl(DocumentRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Document findById(Long id) {
+    public Optional<Document> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -31,11 +33,11 @@ public class DocumentService implements CrudService<Document> {
 
     @Override
     public void update(Document document) {
-        repository.update(document);
+        repository.save(document);
     }
 
     @Override
     public void delete(Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }
