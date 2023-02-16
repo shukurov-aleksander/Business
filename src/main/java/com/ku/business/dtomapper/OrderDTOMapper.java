@@ -1,6 +1,7 @@
 package com.ku.business.dtomapper;
 
 import com.ku.business.dto.order.OrderDTO;
+import com.ku.business.dto.order.OrderListDTO;
 import com.ku.business.entity.Order;
 
 import java.util.List;
@@ -15,11 +16,11 @@ public class OrderDTOMapper {
         return null;
     }
 
-    public List<Order> fromDTOListToEntityList(List<OrderDTO> dTOList) {
+    public List<Order> fromDTOListToEntityList(List<OrderListDTO> dTOList) {
         return null;
     }
 
-    public List<OrderDTO> fromEntityListToDTOList(List<Order> entities) {
+    public List<OrderListDTO> fromEntityListToDTOList(List<Order> entities) {
         return null;
     }
 

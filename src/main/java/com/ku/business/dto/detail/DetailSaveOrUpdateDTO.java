@@ -7,4 +7,34 @@ public class DetailSaveOrUpdateDTO {
     Long id;
     Order order;
     OperationType operationType;
+
+    public DetailSaveOrUpdateDTO(Long id, Order order, OperationType operationType) {
+        this.id = id;
+        this.order = order;
+        this.operationType = operationType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public OperationType getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(OperationType operationType) {
+        this.operationType = operationType;
+    }
 }

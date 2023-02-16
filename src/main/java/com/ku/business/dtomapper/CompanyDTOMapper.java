@@ -33,16 +33,16 @@ public class CompanyDTOMapper {
         );
     }
 
-    public CompanyListDTO fromCompanyDTOtoCompanyListDTO(CompanyDTO companyDTO) {
+    public CompanyListDTO fromCompanyToCompanyListDTO(Company company) {
         return new CompanyListDTO(
-                companyDTO.getId(),
-                companyDTO.getCompanyName(),
-                companyDTO.getTaxNumber(),
-                companyDTO.isGovernmentAgency()
+                company.getId(),
+                company.getCompanyName(),
+                company.getTaxNumber(),
+                company.isGovernmentAgency()
         );
     }
-    public CompanyDTO fromCompanyListDTOtoCompanyDTO(CompanyListDTO companyListDTO) {
-        return new CompanyDTO(
+    public Company fromCompanyListDTOtoCompany(CompanyListDTO companyListDTO) {
+        return new Company(
                 companyListDTO.getId(),
                 companyListDTO.getCompanyName(),
                 companyListDTO.getTaxNumber(),
@@ -56,7 +56,7 @@ public class CompanyDTOMapper {
     public List<Company> fromDTOListToEntityList(List<CompanyListDTO> companiesDTO){
         List<Company> companies = new ArrayList<>();
         for (CompanyListDTO companyListDTO : companiesDTO) {
-            companies.add(fromDTOToEntity(fromCompanyListDTOtoCompanyDTO(companyListDTO)));
+            companies.add(fromCompanyListDTOtoCompany(companyListDTO));
         }
         return companies;
     }
@@ -64,7 +64,7 @@ public class CompanyDTOMapper {
     public List<CompanyListDTO> fromEntityListToDTOList(List<Company> companies){
         List<CompanyListDTO> companiesListDTO = new ArrayList<>();
         for (Company company : companies) {
-            companiesListDTO.add(fromCompanyDTOtoCompanyListDTO(fromEntityToDTO(company)));
+            companiesListDTO.add(fromCompanyToCompanyListDTO(company));
         }
         return companiesListDTO;
     }
