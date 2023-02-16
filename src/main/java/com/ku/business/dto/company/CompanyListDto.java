@@ -1,18 +1,21 @@
 package com.ku.business.dto.company;
 
-public class CompanySaveOrUpdateDTO {
+public class CompanyListDto {
     Long id;
     String companyName;
     String taxNumber;
     Boolean isGovernmentAgency;
-    Long userId;
 
-    public CompanySaveOrUpdateDTO(Long id, String companyName, String taxNumber, Boolean isGovernmentAgency, Long userId) {
+    public CompanyListDto(
+            Long id,
+            String companyName,
+            String taxNumber,
+            Boolean isGovernmentAgency
+    ) {
         this.id = id;
         this.companyName = companyName;
         this.taxNumber = taxNumber;
         this.isGovernmentAgency = isGovernmentAgency;
-        this.userId = userId;
     }
 
     public Long getId() {
@@ -39,19 +42,11 @@ public class CompanySaveOrUpdateDTO {
         this.taxNumber = taxNumber;
     }
 
-    public Boolean getGovernmentAgency() {
+    public Boolean isGovernmentAgency() {
         return isGovernmentAgency;
     }
 
     public void setGovernmentAgency(Boolean governmentAgency) {
         isGovernmentAgency = governmentAgency;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

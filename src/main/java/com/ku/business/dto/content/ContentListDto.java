@@ -1,16 +1,12 @@
 package com.ku.business.dto.content;
 
-import com.ku.business.dto.service.ServiceDTO;
-
-public class ContentSaveOrUpdateDTO {
+public class ContentListDto {
     Long id;
     Long quantity;
-    ServiceDTO service;
 
-    public ContentSaveOrUpdateDTO(Long id, Long quantity, ServiceDTO service) {
+    public ContentListDto(Long id, Long quantity) {
         this.id = id;
         this.quantity = quantity;
-        this.service = service;
     }
 
     public Long getId() {
@@ -27,13 +23,5 @@ public class ContentSaveOrUpdateDTO {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
-    }
-
-    public ServiceDTO getService() {
-        return service;
-    }
-
-    public void setService(ServiceDTO service) {
-        this.service = service;
     }
 }

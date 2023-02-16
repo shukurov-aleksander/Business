@@ -1,20 +1,28 @@
 package com.ku.business.dto.company;
 
-import com.ku.business.dto.detail.DetailListDTO;
-import com.ku.business.dto.storage.StorageListDTO;
+import com.ku.business.dto.detail.DetailListDto;
+import com.ku.business.dto.storage.StorageListDto;
 
 import java.util.List;
 
-public class CompanyDTO {
+public class CompanyDto {
     Long id;
     String companyName;
     String taxNumber;
     Boolean isGovernmentAgency;
     Long userId;
-    List<StorageListDTO> storages;
-    List<DetailListDTO> details;
+    List<StorageListDto> storages;
+    List<DetailListDto> details;
 
-    public CompanyDTO(Long id, String companyName, String taxNumber, Boolean isGovernmentAgency, Long userId, List<StorageListDTO> storages, List<DetailListDTO> details) {
+    public CompanyDto(
+            Long id,
+            String companyName,
+            String taxNumber,
+            Boolean isGovernmentAgency,
+            Long userId,
+            List<StorageListDto> storages,
+            List<DetailListDto> details
+    ) {
         this.id = id;
         this.companyName = companyName;
         this.taxNumber = taxNumber;
@@ -64,19 +72,19 @@ public class CompanyDTO {
         this.userId = userId;
     }
 
-    public List<StorageListDTO> getStorages() {
+    public List<StorageListDto> getStorages() {
         return storages;
     }
 
-    public void setStorages(List<StorageListDTO> storages) {
+    public void setStorages(List<StorageListDto> storages) {
         this.storages = storages;
     }
 
-    public List<DetailListDTO> getDetails() {
+    public List<DetailListDto> getDetails() {
         return details;
     }
 
-    public void setDetails(List<DetailListDTO> details) {
+    public void setDetails(List<DetailListDto> details) {
         this.details = details;
     }
 }

@@ -1,47 +1,47 @@
 package com.ku.business.dtomapper;
 
-import com.ku.business.dto.company.CompanyDTO;
-import com.ku.business.dto.company.CompanyListDTO;
-import com.ku.business.dto.company.CompanySaveOrUpdateDTO;
+import com.ku.business.dto.company.CompanyDto;
+import com.ku.business.dto.company.CompanyListDto;
+import com.ku.business.dto.company.CompanySaveOrUpdateDto;
 import com.ku.business.entity.Company;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyDTOMapper {
-    public Company fromDTOToEntity(CompanyDTO companyDTO){
+public class CompanyDtoMapper {
+    public Company fromDTOToEntity(CompanyDto companyDTO){
         return new Company(
                 companyDTO.getId(),
                 companyDTO.getCompanyName(),
                 companyDTO.getTaxNumber(),
                 companyDTO.isGovernmentAgency(),
                 companyDTO.getUserId(),
-                new StorageDTOMapper().fromDTOListToEntityList(companyDTO.getStorages()),
-                new DetailDTOMapper().fromDTOListToEntityList(companyDTO.getDetails())
+                new StorageDtoMapper().fromDTOListToEntityList(companyDTO.getStorages()),
+                new DetailDtoMapper().fromDTOListToEntityList(companyDTO.getDetails())
         );
     }
 
-    public CompanyDTO fromEntityToDTO(Company company){
-        return new CompanyDTO(
+    public CompanyDto fromEntityToDTO(Company company){
+        return new CompanyDto(
                 company.getId(),
                 company.getCompanyName(),
                 company.getTaxNumber(),
                 company.isGovernmentAgency(),
                 company.getUserId(),
-                new StorageDTOMapper().fromEntityListToDTOList(company.getStorages()),
-                new DetailDTOMapper().fromEntityListToDTOList(company.getDetails())
+                new StorageDtoMapper().fromEntityListToDTOList(company.getStorages()),
+                new DetailDtoMapper().fromEntityListToDTOList(company.getDetails())
         );
     }
 
-    public CompanyListDTO fromCompanyToCompanyListDTO(Company company) {
-        return new CompanyListDTO(
+    public CompanyListDto fromCompanyToCompanyListDTO(Company company) {
+        return new CompanyListDto(
                 company.getId(),
                 company.getCompanyName(),
                 company.getTaxNumber(),
                 company.isGovernmentAgency()
         );
     }
-    public Company fromCompanyListDTOtoCompany(CompanyListDTO companyListDTO) {
+    public Company fromCompanyListDTOtoCompany(CompanyListDto companyListDTO) {
         return new Company(
                 companyListDTO.getId(),
                 companyListDTO.getCompanyName(),
@@ -53,24 +53,24 @@ public class CompanyDTOMapper {
         );
     }
 
-    public List<Company> fromDTOListToEntityList(List<CompanyListDTO> companiesDTO){
+    public List<Company> fromDTOListToEntityList(List<CompanyListDto> companiesDTO){
         List<Company> companies = new ArrayList<>();
-        for (CompanyListDTO companyListDTO : companiesDTO) {
+        for (CompanyListDto companyListDTO : companiesDTO) {
             companies.add(fromCompanyListDTOtoCompany(companyListDTO));
         }
         return companies;
     }
 
-    public List<CompanyListDTO> fromEntityListToDTOList(List<Company> companies){
-        List<CompanyListDTO> companiesListDTO = new ArrayList<>();
+    public List<CompanyListDto> fromEntityListToDTOList(List<Company> companies){
+        List<CompanyListDto> companiesListDTO = new ArrayList<>();
         for (Company company : companies) {
             companiesListDTO.add(fromCompanyToCompanyListDTO(company));
         }
         return companiesListDTO;
     }
 
-    public CompanySaveOrUpdateDTO fromEntityToSaveOrUpdateDTO(Company company){
-        return new CompanySaveOrUpdateDTO(
+    public CompanySaveOrUpdateDto fromEntityToSaveOrUpdateDTO(Company company){
+        return new CompanySaveOrUpdateDto(
                 company.getId(),
                 company.getCompanyName(),
                 company.getTaxNumber(),

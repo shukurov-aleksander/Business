@@ -1,15 +1,20 @@
 package com.ku.business.dto.storage;
 
-import com.ku.business.dto.company.CompanyDTO;
-import com.ku.business.dto.service.ServiceDTO;
+import com.ku.business.dto.company.CompanyDto;
+import com.ku.business.dto.service.ServiceDto;
 
-public class StorageDTO {
+public class StorageDto {
     Long id;
     Integer quantity;
-    CompanyDTO company;
-    ServiceDTO service;
+    CompanyDto company;
+    ServiceDto service;
 
-    public StorageDTO(Long id, Integer quantity, CompanyDTO company, ServiceDTO service) {
+    public StorageDto(
+            Long id,
+            Integer quantity,
+            CompanyDto company,
+            ServiceDto service
+    ) {
         this.id = id;
         this.quantity = quantity;
         this.company = company;
@@ -32,19 +37,19 @@ public class StorageDTO {
         this.quantity = quantity;
     }
 
-    public CompanyDTO getCompany() {
+    public CompanyDto getCompany() {
         return company;
     }
 
-    public void setCompany(CompanyDTO company) {
+    public void setCompany(CompanyDto company) {
         this.company = company;
     }
 
-    public ServiceDTO getService() {
+    public ServiceDto getService() {
         return service;
     }
 
-    public void setService(ServiceDTO service) {
+    public void setService(ServiceDto service) {
         this.service = service;
     }
 }

@@ -2,11 +2,11 @@ package com.ku.business.dto.detail;
 
 import com.ku.business.entity.OperationType;
 
-public class DetailListDTO {
+public class DetailListDto {
     Long id;
     OperationType operationType;
 
-    public DetailListDTO(Long id, OperationType operationType) {
+    public DetailListDto(Long id, OperationType operationType) {
         this.id = id;
         this.operationType = operationType;
     }

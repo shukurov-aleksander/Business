@@ -1,18 +1,15 @@
 package com.ku.business.dto.detail;
 
-import com.ku.business.dto.company.CompanyDTO;
-import com.ku.business.dto.order.OrderDTO;
 import com.ku.business.entity.OperationType;
+import com.ku.business.entity.Order;
 
-public class DetailDTO {
+public class DetailSaveOrUpdateDto {
     Long id;
-    CompanyDTO company;
-    OrderDTO order;
+    Order order;
     OperationType operationType;
 
-    public DetailDTO(Long id, CompanyDTO company, OrderDTO order, OperationType operationType) {
+    public DetailSaveOrUpdateDto(Long id, Order order, OperationType operationType) {
         this.id = id;
-        this.company = company;
         this.order = order;
         this.operationType = operationType;
     }
@@ -25,19 +22,11 @@ public class DetailDTO {
         this.id = id;
     }
 
-    public CompanyDTO getCompany() {
-        return company;
-    }
-
-    public void setCompany(CompanyDTO company) {
-        this.company = company;
-    }
-
-    public OrderDTO getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(OrderDTO order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 

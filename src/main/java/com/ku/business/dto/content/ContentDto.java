@@ -1,17 +1,22 @@
 package com.ku.business.dto.content;
 
-import com.ku.business.dto.order.OrderListDTO;
-import com.ku.business.dto.service.ServiceDTO;
+import com.ku.business.dto.order.OrderListDto;
+import com.ku.business.dto.service.ServiceDto;
 
 import java.util.List;
 
-public class ContentDTO {
+public class ContentDto {
     Long id;
     Long quantity;
-    ServiceDTO service;
-    List<OrderListDTO> orders;
+    ServiceDto service;
+    List<OrderListDto> orders;
 
-    public ContentDTO(Long id, Long quantity, ServiceDTO service, List<OrderListDTO> orders) {
+    public ContentDto(
+            Long id,
+            Long quantity,
+            ServiceDto service,
+            List<OrderListDto> orders
+    ) {
         this.id = id;
         this.quantity = quantity;
         this.service = service;
@@ -34,19 +39,19 @@ public class ContentDTO {
         this.quantity = quantity;
     }
 
-    public ServiceDTO getService() {
+    public ServiceDto getService() {
         return service;
     }
 
-    public void setService(ServiceDTO service) {
+    public void setService(ServiceDto service) {
         this.service = service;
     }
 
-    public List<OrderListDTO> getOrders() {
+    public List<OrderListDto> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<OrderListDTO> orders) {
+    public void setOrders(List<OrderListDto> orders) {
         this.orders = orders;
     }
 }
