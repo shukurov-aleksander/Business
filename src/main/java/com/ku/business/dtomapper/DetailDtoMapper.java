@@ -5,12 +5,11 @@ import com.ku.business.dto.DetailListDto;
 import com.ku.business.dto.DetailSaveOrUpdateDto;
 import com.ku.business.entity.Detail;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class DetailDtoMapper implements Mapper<Detail, DetailDto, DetailListDto, DetailSaveOrUpdateDto> {
-    @Override
-    public DetailDto toDto(Detail detail) {
+public class DetailDtoMapper {
+    public static DetailDto toDto(Detail detail) {
         return new DetailDto(
                 detail.getId(),
                  new CompanyDtoMapper().toDto(detail.getCompany()),
@@ -19,25 +18,22 @@ public class DetailDtoMapper implements Mapper<Detail, DetailDto, DetailListDto,
         );
     }
 
-    @Override
-    public DetailListDto toListDto(Detail detail) {
+    public static DetailListDto toListDto(Detail detail) {
         return new DetailListDto(
                 detail.getId(),
                 detail.getOperationType()
         );
     }
 
-    @Override
-    public List<DetailListDto> toDtoList(List<Detail> details) {
-        List<DetailListDto> detailsListDTO = new ArrayList<>();
+    public static Set<DetailListDto> toDtoList(Set<Detail> details) {
+        Set<DetailListDto> detailsListDTO = new HashSet<>();
         for (Detail detail : details) {
             detailsListDTO.add(toListDto(detail));
         }
         return detailsListDTO;
     }
 
-    @Override
-    public DetailSaveOrUpdateDto toSaveOrUpdateDto(Detail detail) {
+    public static DetailSaveOrUpdateDto toSaveOrUpdateDto(Detail detail) {
         return new DetailSaveOrUpdateDto(
                 detail.getId(),
                 detail.getOrder(),
@@ -45,8 +41,7 @@ public class DetailDtoMapper implements Mapper<Detail, DetailDto, DetailListDto,
         );
     }
 
-    @Override
-    public Detail fromSaveOrUpdateDto(DetailSaveOrUpdateDto detailSaveOrUpdateDto) {
+    public static Detail fromSaveOrUpdateDto(DetailSaveOrUpdateDto detailSaveOrUpdateDto) {
         return new Detail(
                 detailSaveOrUpdateDto.getId(),
                 null,

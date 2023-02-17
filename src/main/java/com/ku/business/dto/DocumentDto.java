@@ -1,9 +1,9 @@
 package com.ku.business.dto;
 
 public class DocumentDto {
-    Long id;
-    OrderDto order;
-    String documentContent;
+    private Long id;
+    private OrderDto order;
+    private String documentContent;
 
     public DocumentDto(Long id, OrderDto order, String documentContent) {
         this.id = id;

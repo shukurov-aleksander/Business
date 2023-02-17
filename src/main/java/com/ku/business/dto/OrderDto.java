@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDto {
-    Long id;
-    OrderStatus orderStatus;
-    LocalDateTime createdAtUtc;
-    LocalDateTime completedAtUtc;
-    List<ContentListDto> contents;
+    private Long id;
+    private OrderStatus orderStatus;
+    private LocalDateTime createdAtUtc;
+    private LocalDateTime completedAtUtc;
+    private List<ContentListDto> contents;
 
     public OrderDto(
             Long id,

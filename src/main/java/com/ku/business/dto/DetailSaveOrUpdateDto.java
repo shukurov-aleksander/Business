@@ -4,9 +4,9 @@ import com.ku.business.entity.OperationType;
 import com.ku.business.entity.Order;
 
 public class DetailSaveOrUpdateDto {
-    Long id;
-    Order order;
-    OperationType operationType;
+    private Long id;
+    private Order order;
+    private OperationType operationType;
 
     public DetailSaveOrUpdateDto(Long id, Order order, OperationType operationType) {
         this.id = id;

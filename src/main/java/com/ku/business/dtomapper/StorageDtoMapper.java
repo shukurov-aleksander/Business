@@ -8,10 +8,8 @@ import com.ku.business.entity.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageDtoMapper implements Mapper<Storage, StorageDto, StorageListDto, StorageSaveOrUpdateDto> {
-
-    @Override
-    public StorageDto toDto(Storage storage) {
+public class StorageDtoMapper {
+    public static StorageDto toDto(Storage storage) {
         return new StorageDto(
                 storage.getId(),
                 storage.getQuantity(),
@@ -20,16 +18,14 @@ public class StorageDtoMapper implements Mapper<Storage, StorageDto, StorageList
         );
     }
 
-    @Override
-    public StorageListDto toListDto(Storage storage) {
+    public static StorageListDto toListDto(Storage storage) {
         return new StorageListDto(
                 storage.getId(),
                 storage.getQuantity()
         );
     }
 
-    @Override
-    public List<StorageListDto> toDtoList(List<Storage> storages) {
+    public static List<StorageListDto> toDtoList(List<Storage> storages) {
         List<StorageListDto> storageListDtos = new ArrayList<>();
         for (Storage storage : storages) {
             storageListDtos.add(toListDto(storage));
@@ -37,16 +33,14 @@ public class StorageDtoMapper implements Mapper<Storage, StorageDto, StorageList
         return storageListDtos;
     }
 
-    @Override
-    public StorageSaveOrUpdateDto toSaveOrUpdateDto(Storage storage) {
+    public static StorageSaveOrUpdateDto toSaveOrUpdateDto(Storage storage) {
         return new StorageSaveOrUpdateDto(
                 storage.getId(),
                 storage.getQuantity()
         );
     }
 
-    @Override
-    public Storage fromSaveOrUpdateDto(StorageSaveOrUpdateDto saveOrUpdateDto) {
+    public static Storage fromSaveOrUpdateDto(StorageSaveOrUpdateDto saveOrUpdateDto) {
         return new Storage(
                 saveOrUpdateDto.getId(),
                 saveOrUpdateDto.getQuantity(),

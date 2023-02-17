@@ -3,10 +3,10 @@ package com.ku.business.dto;
 import java.util.List;
 
 public class ContentDto {
-    Long id;
-    Long quantity;
-    ServiceDto service;
-    List<OrderListDto> orders;
+    private Long id;
+    private Long quantity;
+    private ServiceDto service;
+    private List<OrderListDto> orders;
 
     public ContentDto(
             Long id,

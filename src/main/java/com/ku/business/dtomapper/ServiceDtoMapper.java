@@ -8,10 +8,8 @@ import com.ku.business.entity.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceDtoMapper implements Mapper<Service, ServiceDto, ServiceListDto, ServiceSaveOrUpdateDto> {
-
-    @Override
-    public ServiceDto toDto(Service service) {
+public class ServiceDtoMapper {
+    public static ServiceDto toDto(Service service) {
         return new ServiceDto(
                 service.getId(),
                 service.getServiceName(),
@@ -20,16 +18,14 @@ public class ServiceDtoMapper implements Mapper<Service, ServiceDto, ServiceList
         );
     }
 
-    @Override
-    public ServiceListDto toListDto(Service service) {
+    public static ServiceListDto toListDto(Service service) {
         return new ServiceListDto(
                 service.getId(),
                 service.getServiceName()
         );
     }
 
-    @Override
-    public List<ServiceListDto> toDtoList(List<Service> services) {
+    public static List<ServiceListDto> toDtoList(List<Service> services) {
         List<ServiceListDto> serviceListDtos = new ArrayList<>();
         for (Service service : services) {
             serviceListDtos.add(toListDto(service));
@@ -37,8 +33,7 @@ public class ServiceDtoMapper implements Mapper<Service, ServiceDto, ServiceList
         return serviceListDtos;
     }
 
-    @Override
-    public ServiceSaveOrUpdateDto toSaveOrUpdateDto(Service service) {
+    public static ServiceSaveOrUpdateDto toSaveOrUpdateDto(Service service) {
         return new ServiceSaveOrUpdateDto(
                 service.getId(),
                 service.getServiceName(),
@@ -46,8 +41,7 @@ public class ServiceDtoMapper implements Mapper<Service, ServiceDto, ServiceList
         );
     }
 
-    @Override
-    public Service fromSaveOrUpdateDto(ServiceSaveOrUpdateDto saveOrUpdateDto) {
+    public static Service fromSaveOrUpdateDto(ServiceSaveOrUpdateDto saveOrUpdateDto) {
         return new Service(
                 saveOrUpdateDto.getId(),
                 saveOrUpdateDto.getServiceName(),

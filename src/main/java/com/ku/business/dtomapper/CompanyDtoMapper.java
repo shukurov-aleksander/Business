@@ -8,9 +8,8 @@ import com.ku.business.entity.Company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyDtoMapper implements Mapper<Company, CompanyDto, CompanyListDto, CompanySaveOrUpdateDto> {
-    @Override
-    public CompanyDto toDto(Company company) {
+public class CompanyDtoMapper {
+    public static CompanyDto toDto(Company company) {
         return new CompanyDto(
                 company.getId(),
                 company.getCompanyName(),
@@ -22,8 +21,7 @@ public class CompanyDtoMapper implements Mapper<Company, CompanyDto, CompanyList
         );
     }
 
-    @Override
-    public CompanyListDto toListDto(Company company) {
+    public static CompanyListDto toListDto(Company company) {
         return new CompanyListDto(
                 company.getId(),
                 company.getCompanyName(),
@@ -32,8 +30,7 @@ public class CompanyDtoMapper implements Mapper<Company, CompanyDto, CompanyList
         );
     }
 
-    @Override
-    public List<CompanyListDto> toDtoList(List<Company> companies){
+    public static List<CompanyListDto> toDtoList(List<Company> companies){
         List<CompanyListDto> companiesListDTO = new ArrayList<>();
         for (Company company : companies) {
             companiesListDTO.add(toListDto(company));
@@ -41,8 +38,7 @@ public class CompanyDtoMapper implements Mapper<Company, CompanyDto, CompanyList
         return companiesListDTO;
     }
 
-    @Override
-    public CompanySaveOrUpdateDto toSaveOrUpdateDto(Company company){
+    public static CompanySaveOrUpdateDto toSaveOrUpdateDto(Company company){
         return new CompanySaveOrUpdateDto(
                 company.getId(),
                 company.getCompanyName(),
@@ -52,8 +48,7 @@ public class CompanyDtoMapper implements Mapper<Company, CompanyDto, CompanyList
         );
     }
 
-    @Override
-    public Company fromSaveOrUpdateDto(CompanySaveOrUpdateDto companySaveOrUpdateDto){
+    public static Company fromSaveOrUpdateDto(CompanySaveOrUpdateDto companySaveOrUpdateDto){
         return new Company(
                 companySaveOrUpdateDto.getId(),
                 companySaveOrUpdateDto.getCompanyName(),

@@ -1,11 +1,11 @@
 package com.ku.business.dto;
 
 public class CompanySaveOrUpdateDto {
-    Long id;
-    String companyName;
-    String taxNumber;
-    Boolean isGovernmentAgency;
-    Long userId;
+    private Long id;
+    private String companyName;
+    private String taxNumber;
+    private Boolean isGovernmentAgency;
+    private Long userId;
 
     public CompanySaveOrUpdateDto(
             Long id,

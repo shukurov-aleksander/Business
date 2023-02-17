@@ -1,8 +1,8 @@
 package com.ku.business.dto;
 
 public class DocumentSaveOrUpdateDto {
-    Long id;
-    String documentContent;
+    private Long id;
+    private String documentContent;
 
     public DocumentSaveOrUpdateDto(Long id, String documentContent) {
         this.id = id;

@@ -3,8 +3,8 @@ package com.ku.business.dto;
 import com.ku.business.entity.OperationType;
 
 public class DetailListDto {
-    Long id;
-    OperationType operationType;
+    private Long id;
+    private OperationType operationType;
 
     public DetailListDto(Long id, OperationType operationType) {
         this.id = id;

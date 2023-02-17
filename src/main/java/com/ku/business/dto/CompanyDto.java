@@ -1,15 +1,16 @@
 package com.ku.business.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public class CompanyDto {
-    Long id;
-    String companyName;
-    String taxNumber;
-    Boolean isGovernmentAgency;
-    Long userId;
-    List<StorageListDto> storages;
-    List<DetailListDto> details;
+    private Long id;
+    private String companyName;
+    private String taxNumber;
+    private Boolean isGovernmentAgency;
+    private Long userId;
+    private List<StorageListDto> storages;
+    private Set<DetailListDto> details;
 
     public CompanyDto(
             Long id,
@@ -18,7 +19,7 @@ public class CompanyDto {
             Boolean isGovernmentAgency,
             Long userId,
             List<StorageListDto> storages,
-            List<DetailListDto> details
+            Set<DetailListDto> details
     ) {
         this.id = id;
         this.companyName = companyName;
@@ -77,11 +78,11 @@ public class CompanyDto {
         this.storages = storages;
     }
 
-    public List<DetailListDto> getDetails() {
+    public Set<DetailListDto> getDetails() {
         return details;
     }
 
-    public void setDetails(List<DetailListDto> details) {
+    public void setDetails(Set<DetailListDto> details) {
         this.details = details;
     }
 }

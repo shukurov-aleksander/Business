@@ -1,9 +1,9 @@
 package com.ku.business.dto;
 
 public class ContentSaveOrUpdateDto {
-    Long id;
-    Long quantity;
-    ServiceDto service;
+    private Long id;
+    private Long quantity;
+    private ServiceDto service;
 
     public ContentSaveOrUpdateDto(Long id, Long quantity, ServiceDto service) {
         this.id = id;

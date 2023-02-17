@@ -1,10 +1,10 @@
 package com.ku.business.dto;
 
 public class StorageDto {
-    Long id;
-    Integer quantity;
-    CompanyDto company;
-    ServiceDto service;
+    private Long id;
+    private Integer quantity;
+    private CompanyDto company;
+    private ServiceDto service;
 
     public StorageDto(
             Long id,

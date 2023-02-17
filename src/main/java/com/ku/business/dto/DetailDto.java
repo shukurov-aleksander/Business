@@ -3,10 +3,10 @@ package com.ku.business.dto;
 import com.ku.business.entity.OperationType;
 
 public class DetailDto {
-    Long id;
-    CompanyDto company;
-    OrderDto order;
-    OperationType operationType;
+    private Long id;
+    private CompanyDto company;
+    private OrderDto order;
+    private OperationType operationType;
 
     public DetailDto(
             Long id,

@@ -1,10 +1,10 @@
 package com.ku.business.dto;
 
 public class ServiceDto {
-    Long id;
-    String serviceName;
-    Long sum;
-    String serviceDescription;
+    private Long id;
+    private String serviceName;
+    private Long sum;
+    private String serviceDescription;
 
     public ServiceDto(
             Long id,

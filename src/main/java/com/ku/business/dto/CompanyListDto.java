@@ -1,10 +1,10 @@
 package com.ku.business.dto;
 
 public class CompanyListDto {
-    Long id;
-    String companyName;
-    String taxNumber;
-    Boolean isGovernmentAgency;
+    private Long id;
+    private String companyName;
+    private String taxNumber;
+    private Boolean isGovernmentAgency;
 
     public CompanyListDto(
             Long id,

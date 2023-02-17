@@ -8,9 +8,8 @@ import com.ku.business.entity.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentDtoMapper implements Mapper<Document, DocumentDto, DocumentListDto, DocumentSaveOrUpdateDto>{
-    @Override
-    public DocumentDto toDto(Document document) {
+public class DocumentDtoMapper {
+    public static DocumentDto toDto(Document document) {
         return new DocumentDto(
                 document.getId(),
                 new OrderDtoMapper().toDto(document.getOrder()),
@@ -18,16 +17,14 @@ public class DocumentDtoMapper implements Mapper<Document, DocumentDto, Document
         );
     }
 
-    @Override
-    public DocumentListDto toListDto(Document document) {
+    public static DocumentListDto toListDto(Document document) {
         return new DocumentListDto(
                 document.getId(),
                 document.getDocumentContent()
         );
     }
 
-    @Override
-    public List<DocumentListDto> toDtoList(List<Document> documents) {
+    public static List<DocumentListDto> toDtoList(List<Document> documents) {
         List<DocumentListDto> documentListDtos = new ArrayList<>();
         for (Document document : documents) {
             documentListDtos.add(toListDto(document));
@@ -35,16 +32,14 @@ public class DocumentDtoMapper implements Mapper<Document, DocumentDto, Document
         return documentListDtos;
     }
 
-    @Override
-    public DocumentSaveOrUpdateDto toSaveOrUpdateDto(Document document) {
+    public static DocumentSaveOrUpdateDto toSaveOrUpdateDto(Document document) {
         return new DocumentSaveOrUpdateDto(
                 document.getId(),
                 document.getDocumentContent()
         );
     }
 
-    @Override
-    public Document fromSaveOrUpdateDto(DocumentSaveOrUpdateDto saveOrUpdateDto) {
+    public static Document fromSaveOrUpdateDto(DocumentSaveOrUpdateDto saveOrUpdateDto) {
         return new Document(
                 saveOrUpdateDto.getId(),
                 null,

@@ -8,9 +8,8 @@ import com.ku.business.entity.Content;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContentDtoMapper implements Mapper<Content, ContentDto, ContentListDto, ContentSaveOrUpdateDto>{
-    @Override
-    public ContentDto toDto(Content content) {
+public class ContentDtoMapper {
+    public static ContentDto toDto(Content content) {
         return new ContentDto(
                 content.getId(),
                 content.getQuantity(),
@@ -19,16 +18,14 @@ public class ContentDtoMapper implements Mapper<Content, ContentDto, ContentList
         );
     }
 
-    @Override
-    public ContentListDto toListDto(Content content) {
+    public static ContentListDto toListDto(Content content) {
         return new ContentListDto(
                 content.getId(),
                 content.getQuantity()
         );
     }
 
-    @Override
-    public List<ContentListDto> toDtoList(List<Content> contents) {
+    public static List<ContentListDto> toDtoList(List<Content> contents) {
         List<ContentListDto> contentsListDto = new ArrayList<>();
         for (Content content : contents) {
             contentsListDto.add(toListDto(content));
@@ -36,8 +33,7 @@ public class ContentDtoMapper implements Mapper<Content, ContentDto, ContentList
         return contentsListDto;
     }
 
-    @Override
-    public ContentSaveOrUpdateDto toSaveOrUpdateDto(Content content) {
+    public static ContentSaveOrUpdateDto toSaveOrUpdateDto(Content content) {
         return new ContentSaveOrUpdateDto(
                 content.getId(),
                 content.getQuantity(),
@@ -45,8 +41,7 @@ public class ContentDtoMapper implements Mapper<Content, ContentDto, ContentList
         );
     }
 
-    @Override
-    public Content fromSaveOrUpdateDto(ContentSaveOrUpdateDto contentSaveOrUpdateDto) {
+    public static Content fromSaveOrUpdateDto(ContentSaveOrUpdateDto contentSaveOrUpdateDto) {
         return new Content(
                 contentSaveOrUpdateDto.getId(),
                 contentSaveOrUpdateDto.getQuantity(),

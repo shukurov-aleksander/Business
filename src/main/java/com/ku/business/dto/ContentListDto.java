@@ -1,8 +1,8 @@
 package com.ku.business.dto;
 
 public class ContentListDto {
-    Long id;
-    Long quantity;
+    private Long id;
+    private Long quantity;
 
     public ContentListDto(Long id, Long quantity) {
         this.id = id;

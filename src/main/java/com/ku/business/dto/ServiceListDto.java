@@ -1,8 +1,8 @@
 package com.ku.business.dto;
 
 public class ServiceListDto {
-    Long id;
-    String serviceName;
+    private Long id;
+    private String serviceName;
 
     public ServiceListDto(Long id, String serviceName) {
         this.id = id;

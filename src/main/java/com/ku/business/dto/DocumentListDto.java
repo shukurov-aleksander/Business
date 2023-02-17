@@ -1,8 +1,8 @@
 package com.ku.business.dto;
 
 public class DocumentListDto {
-    Long id;
-    String documentContent;
+    private Long id;
+    private String documentContent;
 
     public DocumentListDto(Long id, String documentContent) {
         this.id = id;

@@ -5,10 +5,10 @@ import com.ku.business.entity.OrderStatus;
 import java.time.LocalDateTime;
 
 public class OrderSaveOrUpdateDto {
-    Long id;
-    OrderStatus orderStatus;
-    LocalDateTime createdAtUtc;
-    LocalDateTime completedAtUtc;
+    private Long id;
+    private OrderStatus orderStatus;
+    private LocalDateTime createdAtUtc;
+    private LocalDateTime completedAtUtc;
 
     public OrderSaveOrUpdateDto(
             Long id,

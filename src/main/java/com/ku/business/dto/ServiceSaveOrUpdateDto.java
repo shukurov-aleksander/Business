@@ -1,9 +1,9 @@
 package com.ku.business.dto;
 
 public class ServiceSaveOrUpdateDto {
-    Long id;
-    String serviceName;
-    Long sum;
+    private Long id;
+    private String serviceName;
+    private Long sum;
 
     public ServiceSaveOrUpdateDto(Long id, String serviceName, Long sum) {
         this.id = id;

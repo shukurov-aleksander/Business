@@ -1,8 +1,8 @@
 package com.ku.business.dto;
 
 public class StorageSaveOrUpdateDto {
-    Long id;
-    Integer quantity;
+    private Long id;
+    private Integer quantity;
 
     public StorageSaveOrUpdateDto(Long id, Integer quantity) {
         this.id = id;
