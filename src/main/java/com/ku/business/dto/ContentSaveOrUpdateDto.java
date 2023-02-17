@@ -1,26 +1,14 @@
-package com.ku.business.dto.content;
+package com.ku.business.dto;
 
-import com.ku.business.dto.order.OrderListDto;
-import com.ku.business.dto.service.ServiceDto;
-
-import java.util.List;
-
-public class ContentDto {
+public class ContentSaveOrUpdateDto {
     Long id;
     Long quantity;
     ServiceDto service;
-    List<OrderListDto> orders;
 
-    public ContentDto(
-            Long id,
-            Long quantity,
-            ServiceDto service,
-            List<OrderListDto> orders
-    ) {
+    public ContentSaveOrUpdateDto(Long id, Long quantity, ServiceDto service) {
         this.id = id;
         this.quantity = quantity;
         this.service = service;
-        this.orders = orders;
     }
 
     public Long getId() {
@@ -45,13 +33,5 @@ public class ContentDto {
 
     public void setService(ServiceDto service) {
         this.service = service;
-    }
-
-    public List<OrderListDto> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderListDto> orders) {
-        this.orders = orders;
     }
 }

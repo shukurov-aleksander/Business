@@ -1,4 +1,4 @@
-package com.ku.business.dto.service;
+package com.ku.business.dto;
 
 public class ServiceListDto {
     Long id;

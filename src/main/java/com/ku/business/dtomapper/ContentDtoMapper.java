@@ -1,65 +1,57 @@
 package com.ku.business.dtomapper;
 
-import com.ku.business.dto.content.ContentDto;
-import com.ku.business.dto.content.ContentListDto;
-import com.ku.business.dto.content.ContentSaveOrUpdateDto;
+import com.ku.business.dto.ContentDto;
+import com.ku.business.dto.ContentListDto;
+import com.ku.business.dto.ContentSaveOrUpdateDto;
 import com.ku.business.entity.Content;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContentDtoMapper {
-    public Content fromDTOToEntity(ContentDto contentDTO) {
-        return new Content(
-                contentDTO.getId(),
-                contentDTO.getQuantity(),
-                new ServiceDtoMapper().fromDTOToEntity(contentDTO.getService()),
-                new OrderDtoMapper().fromDTOListToEntityList(contentDTO.getOrders()));
-    }
-
-    public ContentDto fromEntityToDTO(Content content) {
+public class ContentDtoMapper implements Mapper<Content, ContentDto, ContentListDto, ContentSaveOrUpdateDto>{
+    @Override
+    public ContentDto toDto(Content content) {
         return new ContentDto(
                 content.getId(),
                 content.getQuantity(),
-                new ServiceDtoMapper().fromEntityToDTO(content.getService()),
-                new OrderDtoMapper().fromEntityListToDTOList(content.getOrders())
+                new ServiceDtoMapper().toDto(content.getService()),
+                new OrderDtoMapper().toDtoList(content.getOrders())
         );
     }
-    public ContentListDto fromContentToContentListDTO(Content content) {
+
+    @Override
+    public ContentListDto toListDto(Content content) {
         return new ContentListDto(
                 content.getId(),
                 content.getQuantity()
         );
     }
-    public Content fromContentListDTOtoContent(ContentListDto contentListDTO) {
-        return new Content(
-                contentListDTO.getId(),
-                contentListDTO.getQuantity(),
-                null,
-                null
-        );
-    }
-    public List<Content> fromDTOListToEntityList(List<ContentListDto> contentsDTO) {
-        List<Content> contents = new ArrayList<>();
-        for (ContentListDto contentListDTO : contentsDTO) {
-            contents.add(fromContentListDTOtoContent(contentListDTO));
-        }
-        return contents;
-    }
 
-    public List<ContentListDto> fromEntityListToDTOList(List<Content> contents) {
+    @Override
+    public List<ContentListDto> toDtoList(List<Content> contents) {
         List<ContentListDto> contentsListDto = new ArrayList<>();
         for (Content content : contents) {
-            contentsListDto.add(fromContentToContentListDTO(content));
+            contentsListDto.add(toListDto(content));
         }
         return contentsListDto;
     }
 
-    public ContentSaveOrUpdateDto fromEntityToSaveOrUpdateDTO(Content content) {
+    @Override
+    public ContentSaveOrUpdateDto toSaveOrUpdateDto(Content content) {
         return new ContentSaveOrUpdateDto(
                 content.getId(),
                 content.getQuantity(),
-                new ServiceDtoMapper().fromEntityToDTO(content.getService())
+                new ServiceDtoMapper().toDto(content.getService())
+        );
+    }
+
+    @Override
+    public Content fromSaveOrUpdateDto(ContentSaveOrUpdateDto contentSaveOrUpdateDto) {
+        return new Content(
+                contentSaveOrUpdateDto.getId(),
+                contentSaveOrUpdateDto.getQuantity(),
+                null,
+                null
         );
     }
 }

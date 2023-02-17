@@ -1,7 +1,4 @@
-package com.ku.business.dto.storage;
-
-import com.ku.business.dto.company.CompanyDto;
-import com.ku.business.dto.service.ServiceDto;
+package com.ku.business.dto;
 
 public class StorageDto {
     Long id;

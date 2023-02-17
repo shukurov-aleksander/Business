@@ -1,6 +1,6 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.dto.company.CompanyDto;
+import com.ku.business.dto.CompanyDto;
 import com.ku.business.dtomapper.CompanyDtoMapper;
 import com.ku.business.repository.CompanyRepository;
 import com.ku.business.service.CrudService;

@@ -1,10 +1,10 @@
-package com.ku.business.dto.storage;
+package com.ku.business.dto;
 
-public class StorageSaveOrUpdateDto {
+public class ContentListDto {
     Long id;
-    Integer quantity;
+    Long quantity;
 
-    public StorageSaveOrUpdateDto(Long id, Integer quantity) {
+    public ContentListDto(Long id, Long quantity) {
         this.id = id;
         this.quantity = quantity;
     }
@@ -17,11 +17,11 @@ public class StorageSaveOrUpdateDto {
         this.id = id;
     }
 
-    public Integer getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 }

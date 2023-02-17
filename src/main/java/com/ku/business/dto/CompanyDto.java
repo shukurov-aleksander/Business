@@ -1,7 +1,4 @@
-package com.ku.business.dto.company;
-
-import com.ku.business.dto.detail.DetailListDto;
-import com.ku.business.dto.storage.StorageListDto;
+package com.ku.business.dto;
 
 import java.util.List;
 

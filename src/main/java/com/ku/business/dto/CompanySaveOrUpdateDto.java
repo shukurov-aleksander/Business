@@ -1,4 +1,4 @@
-package com.ku.business.dto.company;
+package com.ku.business.dto;
 
 public class CompanySaveOrUpdateDto {
     Long id;
@@ -45,7 +45,7 @@ public class CompanySaveOrUpdateDto {
         this.taxNumber = taxNumber;
     }
 
-    public Boolean getGovernmentAgency() {
+    public Boolean isGovernmentAgency() {
         return isGovernmentAgency;
     }
 

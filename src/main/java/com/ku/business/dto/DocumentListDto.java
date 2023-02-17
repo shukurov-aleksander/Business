@@ -1,15 +1,11 @@
-package com.ku.business.dto.document;
+package com.ku.business.dto;
 
-import com.ku.business.dto.order.OrderDto;
-
-public class DocumentDto {
+public class DocumentListDto {
     Long id;
-    OrderDto order;
     String documentContent;
 
-    public DocumentDto(Long id, OrderDto order, String documentContent) {
+    public DocumentListDto(Long id, String documentContent) {
         this.id = id;
-        this.order = order;
         this.documentContent = documentContent;
     }
 
@@ -19,14 +15,6 @@ public class DocumentDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public OrderDto getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderDto order) {
-        this.order = order;
     }
 
     public String getDocumentContent() {

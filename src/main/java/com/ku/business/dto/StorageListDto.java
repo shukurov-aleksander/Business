@@ -1,4 +1,4 @@
-package com.ku.business.dto.storage;
+package com.ku.business.dto;
 
 public class StorageListDto {
     Long id;

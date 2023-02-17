@@ -1,30 +1,25 @@
-package com.ku.business.dto.order;
+package com.ku.business.dto;
 
-import com.ku.business.dto.content.ContentListDto;
 import com.ku.business.entity.OrderStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class OrderDto {
+public class OrderSaveOrUpdateDto {
     Long id;
     OrderStatus orderStatus;
     LocalDateTime createdAtUtc;
     LocalDateTime completedAtUtc;
-    List<ContentListDto> contents;
 
-    public OrderDto(
+    public OrderSaveOrUpdateDto(
             Long id,
             OrderStatus orderStatus,
             LocalDateTime createdAtUtc,
-            LocalDateTime completedAtUtc,
-            List<ContentListDto> contents
+            LocalDateTime completedAtUtc
     ) {
         this.id = id;
         this.orderStatus = orderStatus;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;
-        this.contents = contents;
     }
 
     public Long getId() {
@@ -57,13 +52,5 @@ public class OrderDto {
 
     public void setCompletedAtUtc(LocalDateTime completedAtUtc) {
         this.completedAtUtc = completedAtUtc;
-    }
-
-    public List<ContentListDto> getContents() {
-        return contents;
-    }
-
-    public void setContents(List<ContentListDto> contents) {
-        this.contents = contents;
     }
 }

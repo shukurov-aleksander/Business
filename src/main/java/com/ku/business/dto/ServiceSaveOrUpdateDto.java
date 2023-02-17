@@ -1,21 +1,14 @@
-package com.ku.business.dto.service;
+package com.ku.business.dto;
 
-public class ServiceDto {
+public class ServiceSaveOrUpdateDto {
     Long id;
     String serviceName;
     Long sum;
-    String serviceDescription;
 
-    public ServiceDto(
-            Long id,
-            String serviceName,
-            Long sum,
-            String serviceDescription
-    ) {
+    public ServiceSaveOrUpdateDto(Long id, String serviceName, Long sum) {
         this.id = id;
         this.serviceName = serviceName;
         this.sum = sum;
-        this.serviceDescription = serviceDescription;
     }
 
     public Long getId() {
@@ -40,13 +33,5 @@ public class ServiceDto {
 
     public void setSum(Long sum) {
         this.sum = sum;
-    }
-
-    public String getServiceDescription() {
-        return serviceDescription;
-    }
-
-    public void setServiceDescription(String serviceDescription) {
-        this.serviceDescription = serviceDescription;
     }
 }

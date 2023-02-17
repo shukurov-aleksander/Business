@@ -1,4 +1,4 @@
-package com.ku.business.dto.order;
+package com.ku.business.dto;
 
 import com.ku.business.entity.OrderStatus;
 

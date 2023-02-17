@@ -1,40 +1,57 @@
 package com.ku.business.dtomapper;
 
-import com.ku.business.dto.storage.StorageDto;
-import com.ku.business.dto.storage.StorageListDto;
+import com.ku.business.dto.StorageDto;
+import com.ku.business.dto.StorageListDto;
+import com.ku.business.dto.StorageSaveOrUpdateDto;
 import com.ku.business.entity.Storage;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StorageDtoMapper {
+public class StorageDtoMapper implements Mapper<Storage, StorageDto, StorageListDto, StorageSaveOrUpdateDto> {
 
-    public Storage fromDTOToEntity(StorageDto storageDTO) {
-        return new Storage(
-                storageDTO.getId(),
-                storageDTO.getQuantity(),
-                new CompanyDtoMapper().fromDTOToEntity(storageDTO.getCompany()),
-                new ServiceDtoMapper().fromDTOToEntity(storageDTO.getService())
-        );
-    }
-
-    public StorageDto fromEntityToDTO(Storage entity) {
+    @Override
+    public StorageDto toDto(Storage storage) {
         return new StorageDto(
-                entity.getId(),
-                entity.getQuantity(),
-                new CompanyDtoMapper().fromEntityToDTO(entity.getCompany()),
-                new ServiceDtoMapper().fromEntityToDTO(entity.getService())
+                storage.getId(),
+                storage.getQuantity(),
+                new CompanyDtoMapper().toDto(storage.getCompany()),
+                new ServiceDtoMapper().toDto(storage.getService())
         );
     }
 
-    public List<Storage> fromDTOListToEntityList(List<StorageListDto> dTOList) {
-        return null;
+    @Override
+    public StorageListDto toListDto(Storage storage) {
+        return new StorageListDto(
+                storage.getId(),
+                storage.getQuantity()
+        );
     }
 
-    public List<StorageListDto> fromEntityListToDTOList(List<Storage> entities) {
-        return null;
+    @Override
+    public List<StorageListDto> toDtoList(List<Storage> storages) {
+        List<StorageListDto> storageListDtos = new ArrayList<>();
+        for (Storage storage : storages) {
+            storageListDtos.add(toListDto(storage));
+        }
+        return storageListDtos;
     }
 
-    public StorageDto fromEntityToSaveOrUpdateDTO(Storage entity) {
-        return null;
+    @Override
+    public StorageSaveOrUpdateDto toSaveOrUpdateDto(Storage storage) {
+        return new StorageSaveOrUpdateDto(
+                storage.getId(),
+                storage.getQuantity()
+        );
+    }
+
+    @Override
+    public Storage fromSaveOrUpdateDto(StorageSaveOrUpdateDto saveOrUpdateDto) {
+        return new Storage(
+                saveOrUpdateDto.getId(),
+                saveOrUpdateDto.getQuantity(),
+                null,
+                null
+        );
     }
 }

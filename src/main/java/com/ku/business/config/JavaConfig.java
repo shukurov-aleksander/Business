@@ -32,8 +32,8 @@ import java.util.Properties;
 @PropertySource("application.properties")
 @EnableJpaRepositories("com.ku.business.repository")
 public class JavaConfig {
-@Value("${spring.datasource.url}")
-private String url;
+    @Value("${spring.datasource.url}")
+    private String url;
     @Value("${spring.datasource.username}")
     private String user;
     @Value("${spring.datasource.password}")

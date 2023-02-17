@@ -1,4 +1,4 @@
-package com.ku.business.dto.company;
+package com.ku.business.dto;
 
 public class CompanyListDto {
     Long id;
