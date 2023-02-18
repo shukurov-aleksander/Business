@@ -1,0 +1,56 @@
+package com.ku.business.dto;
+
+import com.ku.business.entity.OrderStatus;
+
+import java.time.LocalDateTime;
+
+public class OrderSaveOrUpdateDto {
+    private Long id;
+    private OrderStatus orderStatus;
+    private LocalDateTime createdAtUtc;
+    private LocalDateTime completedAtUtc;
+
+    public OrderSaveOrUpdateDto(
+            Long id,
+            OrderStatus orderStatus,
+            LocalDateTime createdAtUtc,
+            LocalDateTime completedAtUtc
+    ) {
+        this.id = id;
+        this.orderStatus = orderStatus;
+        this.createdAtUtc = createdAtUtc;
+        this.completedAtUtc = completedAtUtc;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public LocalDateTime getCreatedAtUtc() {
+        return createdAtUtc;
+    }
+
+    public void setCreatedAtUtc(LocalDateTime createdAtUtc) {
+        this.createdAtUtc = createdAtUtc;
+    }
+
+    public LocalDateTime getCompletedAtUtc() {
+        return completedAtUtc;
+    }
+
+    public void setCompletedAtUtc(LocalDateTime completedAtUtc) {
+        this.completedAtUtc = completedAtUtc;
+    }
+}
