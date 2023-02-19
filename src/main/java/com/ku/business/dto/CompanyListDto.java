@@ -7,10 +7,10 @@ public class CompanyListDto {
     private Boolean isGovernmentAgency;
 
     public CompanyListDto(
-            Long id,
-            String companyName,
-            String taxNumber,
-            Boolean isGovernmentAgency
+        Long id,
+        String companyName,
+        String taxNumber,
+        Boolean isGovernmentAgency
     ) {
         this.id = id;
         this.companyName = companyName;

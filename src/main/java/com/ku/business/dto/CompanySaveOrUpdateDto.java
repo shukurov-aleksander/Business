@@ -8,11 +8,11 @@ public class CompanySaveOrUpdateDto {
     private Long userId;
 
     public CompanySaveOrUpdateDto(
-            Long id,
-            String companyName,
-            String taxNumber,
-            Boolean isGovernmentAgency,
-            Long userId
+        Long id,
+        String companyName,
+        String taxNumber,
+        Boolean isGovernmentAgency,
+        Long userId
     ) {
         this.id = id;
         this.companyName = companyName;

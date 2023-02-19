@@ -13,13 +13,13 @@ public class CompanyDto {
     private Set<DetailListDto> details;
 
     public CompanyDto(
-            Long id,
-            String companyName,
-            String taxNumber,
-            Boolean isGovernmentAgency,
-            Long userId,
-            List<StorageListDto> storages,
-            Set<DetailListDto> details
+        Long id,
+        String companyName,
+        String taxNumber,
+        Boolean isGovernmentAgency,
+        Long userId,
+        List<StorageListDto> storages,
+        Set<DetailListDto> details
     ) {
         this.id = id;
         this.companyName = companyName;

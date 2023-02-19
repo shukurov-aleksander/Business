@@ -9,10 +9,10 @@ public class ContentDto {
     private List<OrderListDto> orders;
 
     public ContentDto(
-            Long id,
-            Long quantity,
-            ServiceDto service,
-            List<OrderListDto> orders
+        Long id,
+        Long quantity,
+        ServiceDto service,
+        List<OrderListDto> orders
     ) {
         this.id = id;
         this.quantity = quantity;

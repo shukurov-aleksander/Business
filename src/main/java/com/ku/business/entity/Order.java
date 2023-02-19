@@ -1,16 +1,16 @@
 package com.ku.business.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,7 +41,13 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, LocalDateTime createdAtUtc, LocalDateTime completedAtUtc, List<Content> contents, OrderStatus orderStatus) {
+    public Order(
+        Long id,
+        LocalDateTime createdAtUtc,
+        LocalDateTime completedAtUtc,
+        List<Content> contents,
+        OrderStatus orderStatus
+    ) {
         this.id = id;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;

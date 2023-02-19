@@ -9,10 +9,10 @@ public class DetailDto {
     private OperationType operationType;
 
     public DetailDto(
-            Long id,
-            CompanyDto company,
-            OrderDto order,
-            OperationType operationType
+        Long id,
+        CompanyDto company,
+        OrderDto order,
+        OperationType operationType
     ) {
         this.id = id;
         this.company = company;

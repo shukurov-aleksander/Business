@@ -13,11 +13,11 @@ public class OrderDto {
     private List<ContentListDto> contents;
 
     public OrderDto(
-            Long id,
-            OrderStatus orderStatus,
-            LocalDateTime createdAtUtc,
-            LocalDateTime completedAtUtc,
-            List<ContentListDto> contents
+        Long id,
+        OrderStatus orderStatus,
+        LocalDateTime createdAtUtc,
+        LocalDateTime completedAtUtc,
+        List<ContentListDto> contents
     ) {
         this.id = id;
         this.orderStatus = orderStatus;
