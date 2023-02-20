@@ -5,8 +5,8 @@ import com.ku.business.dto.ServiceListDto;
 import com.ku.business.dto.ServiceSaveOrUpdateDto;
 import com.ku.business.entity.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ServiceDtoMapper {
     public static ServiceDto toDto(Service service) {
@@ -25,8 +25,8 @@ public class ServiceDtoMapper {
         );
     }
 
-    public static List<ServiceListDto> toDtoList(List<Service> services) {
-        List<ServiceListDto> serviceListDtos = new ArrayList<>();
+    public static Set<ServiceListDto> toDtoList(Set<Service> services) {
+        Set<ServiceListDto> serviceListDtos = new HashSet<>();
         for (Service service : services) {
             serviceListDtos.add(toListDto(service));
         }
@@ -42,11 +42,10 @@ public class ServiceDtoMapper {
     }
 
     public static Service fromSaveOrUpdateDto(ServiceSaveOrUpdateDto saveOrUpdateDto) {
-        return new Service(
-                saveOrUpdateDto.getId(),
-                saveOrUpdateDto.getServiceName(),
-                saveOrUpdateDto.getSum(),
-                null
+        return new Service()
+                .setId(saveOrUpdateDto.getId())
+                .setServiceName(saveOrUpdateDto.getServiceName())
+                .setSum(saveOrUpdateDto.getSum()
         );
     }
 }

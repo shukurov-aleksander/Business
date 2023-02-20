@@ -42,11 +42,10 @@ public class DetailDtoMapper {
     }
 
     public static Detail fromSaveOrUpdateDto(DetailSaveOrUpdateDto detailSaveOrUpdateDto) {
-        return new Detail(
-                detailSaveOrUpdateDto.getId(),
-                null,
-                detailSaveOrUpdateDto.getOrder(),
-                detailSaveOrUpdateDto.getOperationType()
+        return new Detail()
+                .setId(detailSaveOrUpdateDto.getId())
+                .setOrder(detailSaveOrUpdateDto.getOrder())
+                .setOperationType(detailSaveOrUpdateDto.getOperationType()
         );
     }
 }

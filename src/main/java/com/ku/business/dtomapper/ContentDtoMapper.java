@@ -5,28 +5,27 @@ import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveOrUpdateDto;
 import com.ku.business.entity.Content;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ContentDtoMapper {
     public static ContentDto toDto(Content content) {
-        return new ContentDto(
-                content.getId(),
-                content.getQuantity(),
-                new ServiceDtoMapper().toDto(content.getService()),
-                new OrderDtoMapper().toDtoList(content.getOrders())
-        );
+        return new ContentDto()
+                .setId(content.getId())
+                .setQuantity(content.getQuantity())
+                .setService(content.getService())
+                .setOrders(content.getOrders());
     }
 
     public static ContentListDto toListDto(Content content) {
-        return new ContentListDto(
-                content.getId(),
-                content.getQuantity()
+        return new ContentListDto()
+                .setId(content.getId())
+                .setQuantity(content.getQuantity()
         );
     }
 
-    public static List<ContentListDto> toDtoList(List<Content> contents) {
-        List<ContentListDto> contentsListDto = new ArrayList<>();
+    public static Set<ContentListDto> toDtoList(Set<Content> contents) {
+        Set<ContentListDto> contentsListDto = new HashSet<>();
         for (Content content : contents) {
             contentsListDto.add(toListDto(content));
         }
@@ -34,19 +33,17 @@ public class ContentDtoMapper {
     }
 
     public static ContentSaveOrUpdateDto toSaveOrUpdateDto(Content content) {
-        return new ContentSaveOrUpdateDto(
-                content.getId(),
-                content.getQuantity(),
-                new ServiceDtoMapper().toDto(content.getService())
+        return new ContentSaveOrUpdateDto()
+                .setId(content.getId())
+                .setQuantity(content.getQuantity())
+                .setService(content.getService()
         );
     }
 
     public static Content fromSaveOrUpdateDto(ContentSaveOrUpdateDto contentSaveOrUpdateDto) {
-        return new Content(
-                contentSaveOrUpdateDto.getId(),
-                contentSaveOrUpdateDto.getQuantity(),
-                null,
-                null
+        return new Content()
+                .setId(contentSaveOrUpdateDto.getId())
+                .setQuantity(contentSaveOrUpdateDto.getQuantity()
         );
     }
 }

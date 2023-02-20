@@ -5,8 +5,8 @@ import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveOrUpdateDto;
 import com.ku.business.entity.Storage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StorageDtoMapper {
     public static StorageDto toDto(Storage storage) {
@@ -25,8 +25,8 @@ public class StorageDtoMapper {
         );
     }
 
-    public static List<StorageListDto> toDtoList(List<Storage> storages) {
-        List<StorageListDto> storageListDtos = new ArrayList<>();
+    public static Set<StorageListDto> toDtoList(Set<Storage> storages) {
+        Set<StorageListDto> storageListDtos = new HashSet<>();
         for (Storage storage : storages) {
             storageListDtos.add(toListDto(storage));
         }
@@ -41,11 +41,9 @@ public class StorageDtoMapper {
     }
 
     public static Storage fromSaveOrUpdateDto(StorageSaveOrUpdateDto saveOrUpdateDto) {
-        return new Storage(
-                saveOrUpdateDto.getId(),
-                saveOrUpdateDto.getQuantity(),
-                null,
-                null
+        return new Storage()
+                .setId(saveOrUpdateDto.getId())
+                .setQuantity(saveOrUpdateDto.getQuantity()
         );
     }
 }

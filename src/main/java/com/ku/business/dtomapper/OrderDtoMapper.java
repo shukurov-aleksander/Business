@@ -5,8 +5,8 @@ import com.ku.business.dto.OrderListDto;
 import com.ku.business.dto.OrderSaveOrUpdateDto;
 import com.ku.business.entity.Order;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OrderDtoMapper {
     public static OrderDto toDto(Order order) {
@@ -26,8 +26,8 @@ public class OrderDtoMapper {
         );
     }
 
-    public static List<OrderListDto> toDtoList(List<Order> orders) {
-        List<OrderListDto> orderListDtos = new ArrayList<>();
+    public static Set<OrderListDto> toDtoList(Set<Order> orders) {
+        Set<OrderListDto> orderListDtos = new HashSet<>();
         for (Order order : orders) {
             orderListDtos.add(toListDto(order));
         }
@@ -44,12 +44,11 @@ public class OrderDtoMapper {
     }
 
     public static Order fromSaveOrUpdateDto(OrderSaveOrUpdateDto saveOrUpdateDto) {
-        return new Order(
-                saveOrUpdateDto.getId(),
-                saveOrUpdateDto.getCreatedAtUtc(),
-                saveOrUpdateDto.getCompletedAtUtc(),
-                null,
-                saveOrUpdateDto.getOrderStatus()
+        return new Order()
+                .setId(saveOrUpdateDto.getId())
+                .setOrderStatus(saveOrUpdateDto.getOrderStatus())
+                .setCreatedAtUtc(saveOrUpdateDto.getCreatedAtUtc())
+                .setCompletedAtUtc(saveOrUpdateDto.getCompletedAtUtc()
         );
     }
 }

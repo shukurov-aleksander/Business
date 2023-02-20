@@ -5,8 +5,8 @@ import com.ku.business.dto.DocumentListDto;
 import com.ku.business.dto.DocumentSaveOrUpdateDto;
 import com.ku.business.entity.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DocumentDtoMapper {
     public static DocumentDto toDto(Document document) {
@@ -24,8 +24,8 @@ public class DocumentDtoMapper {
         );
     }
 
-    public static List<DocumentListDto> toDtoList(List<Document> documents) {
-        List<DocumentListDto> documentListDtos = new ArrayList<>();
+    public static Set<DocumentListDto> toDtoList(Set<Document> documents) {
+        Set<DocumentListDto> documentListDtos = new HashSet<>();
         for (Document document : documents) {
             documentListDtos.add(toListDto(document));
         }
@@ -40,10 +40,9 @@ public class DocumentDtoMapper {
     }
 
     public static Document fromSaveOrUpdateDto(DocumentSaveOrUpdateDto saveOrUpdateDto) {
-        return new Document(
-                saveOrUpdateDto.getId(),
-                null,
-                saveOrUpdateDto.getDocumentContent()
+        return new Document()
+                .setId(saveOrUpdateDto.getId())
+                .setDocumentContent(saveOrUpdateDto.getDocumentContent()
         );
     }
 }
