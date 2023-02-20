@@ -15,7 +15,7 @@ public class BusinessApp implements CommandLineRunner {
     }
     @Override
     public void run(String... args) {
-        service.findById(4L);
+        System.out.println(service.findById(4L));
     }
 }
 
