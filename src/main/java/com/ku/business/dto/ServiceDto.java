@@ -7,10 +7,10 @@ public class ServiceDto {
     private String serviceDescription;
 
     public ServiceDto(
-            Long id,
-            String serviceName,
-            Long sum,
-            String serviceDescription
+        Long id,
+        String serviceName,
+        Long sum,
+        String serviceDescription
     ) {
         this.id = id;
         this.serviceName = serviceName;

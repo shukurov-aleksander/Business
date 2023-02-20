@@ -11,10 +11,10 @@ public class OrderSaveOrUpdateDto {
     private LocalDateTime completedAtUtc;
 
     public OrderSaveOrUpdateDto(
-            Long id,
-            OrderStatus orderStatus,
-            LocalDateTime createdAtUtc,
-            LocalDateTime completedAtUtc
+        Long id,
+        OrderStatus orderStatus,
+        LocalDateTime createdAtUtc,
+        LocalDateTime completedAtUtc
     ) {
         this.id = id;
         this.orderStatus = orderStatus;

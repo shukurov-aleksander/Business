@@ -23,7 +23,12 @@ public class Service {
     public Service() {
     }
 
-    public Service(Long id, String serviceName, Long sum, String serviceDescription) {
+    public Service(
+        Long id,
+        String serviceName,
+        Long sum,
+        String serviceDescription
+    ) {
         this.id = id;
         this.serviceName = serviceName;
         this.sum = sum;

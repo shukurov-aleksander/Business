@@ -30,7 +30,12 @@ public class Storage {
     public Storage() {
     }
 
-    public Storage(Long id, Integer quantity, Company company, Service service) {
+    public Storage(
+        Long id,
+        Integer quantity,
+        Company company,
+        Service service
+    ) {
         this.id = id;
         this.quantity = quantity;
         this.company = company;

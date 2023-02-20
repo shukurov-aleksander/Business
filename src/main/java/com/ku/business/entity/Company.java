@@ -35,13 +35,13 @@ public class Company {
     }
 
     public Company(
-            Long id,
-            String companyName,
-            String taxNumber,
-            Boolean isGovernmentAgency,
-            Long userId,
-            List<Storage> storages,
-            Set<Detail> details
+        Long id,
+        String companyName,
+        String taxNumber,
+        Boolean isGovernmentAgency,
+        Long userId,
+        List<Storage> storages,
+        Set<Detail> details
     ) {
         this.id = id;
         this.companyName = companyName;

@@ -7,10 +7,10 @@ public class StorageDto {
     private ServiceDto service;
 
     public StorageDto(
-            Long id,
-            Integer quantity,
-            CompanyDto company,
-            ServiceDto service
+        Long id,
+        Integer quantity,
+        CompanyDto company,
+        ServiceDto service
     ) {
         this.id = id;
         this.quantity = quantity;

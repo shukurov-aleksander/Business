@@ -34,7 +34,12 @@ public class Detail {
     public Detail() {
     }
 
-    public Detail(Long id, Company company, Order order, OperationType operationType) {
+    public Detail(
+        Long id,
+        Company company,
+        Order order,
+        OperationType operationType
+    ) {
         this.id = id;
         this.company = company;
         this.order = order;

@@ -41,7 +41,13 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, LocalDateTime createdAtUtc, LocalDateTime completedAtUtc, List<Content> contents, OrderStatus orderStatus) {
+    public Order(
+        Long id,
+        LocalDateTime createdAtUtc,
+        LocalDateTime completedAtUtc,
+        List<Content> contents,
+        OrderStatus orderStatus
+    ) {
         this.id = id;
         this.createdAtUtc = createdAtUtc;
         this.completedAtUtc = completedAtUtc;
