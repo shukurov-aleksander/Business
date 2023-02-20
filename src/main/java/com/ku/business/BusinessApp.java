@@ -14,7 +14,7 @@ public class BusinessApp implements CommandLineRunner {
         SpringApplication.run(BusinessApp.class, args);
     }
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         service.findById(4L);
     }
 }
