@@ -10,22 +10,22 @@ import java.util.Set;
 
 public class ServiceDtoMapper {
     public static ServiceDto toDto(Service service) {
-        return new ServiceDto(
-                service.getId(),
-                service.getServiceName(),
-                service.getSum(),
-                service.getServiceDescription()
+        return new ServiceDto()
+                .setId(service.getId())
+                .setServiceName(service.getServiceName())
+                .setSum(service.getSum())
+                .setServiceDescription(service.getServiceDescription()
         );
     }
 
     public static ServiceListDto toListDto(Service service) {
-        return new ServiceListDto(
-                service.getId(),
-                service.getServiceName()
+        return new ServiceListDto()
+                .setId(service.getId())
+                .setServiceName(service.getServiceName()
         );
     }
 
-    public static Set<ServiceListDto> toDtoList(Set<Service> services) {
+    public static Set<ServiceListDto> toListDto(Set<Service> services) {
         Set<ServiceListDto> serviceListDtos = new HashSet<>();
         for (Service service : services) {
             serviceListDtos.add(toListDto(service));
@@ -34,10 +34,10 @@ public class ServiceDtoMapper {
     }
 
     public static ServiceSaveOrUpdateDto toSaveOrUpdateDto(Service service) {
-        return new ServiceSaveOrUpdateDto(
-                service.getId(),
-                service.getServiceName(),
-                service.getSum()
+        return new ServiceSaveOrUpdateDto()
+                .setId(service.getId())
+                .setServiceName(service.getServiceName())
+                .setSum(service.getSum()
         );
     }
 

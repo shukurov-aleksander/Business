@@ -10,21 +10,21 @@ import java.util.Set;
 
 public class DocumentDtoMapper {
     public static DocumentDto toDto(Document document) {
-        return new DocumentDto(
-                document.getId(),
-                new OrderDtoMapper().toDto(document.getOrder()),
-                document.getDocumentContent()
+        return new DocumentDto()
+                .setId(document.getId())
+                .setOrder(new OrderDtoMapper().toDto(document.getOrder()))
+                .setDocumentContent(document.getDocumentContent()
         );
     }
 
     public static DocumentListDto toListDto(Document document) {
-        return new DocumentListDto(
-                document.getId(),
-                document.getDocumentContent()
+        return new DocumentListDto()
+                .setId(document.getId())
+                .setDocumentContent(document.getDocumentContent()
         );
     }
 
-    public static Set<DocumentListDto> toDtoList(Set<Document> documents) {
+    public static Set<DocumentListDto> toListDto(Set<Document> documents) {
         Set<DocumentListDto> documentListDtos = new HashSet<>();
         for (Document document : documents) {
             documentListDtos.add(toListDto(document));
@@ -33,9 +33,9 @@ public class DocumentDtoMapper {
     }
 
     public static DocumentSaveOrUpdateDto toSaveOrUpdateDto(Document document) {
-        return new DocumentSaveOrUpdateDto(
-                document.getId(),
-                document.getDocumentContent()
+        return new DocumentSaveOrUpdateDto()
+                .setId(document.getId())
+                .setDocumentContent(document.getDocumentContent()
         );
     }
 

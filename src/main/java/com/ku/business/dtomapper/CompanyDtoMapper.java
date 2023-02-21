@@ -3,7 +3,6 @@ package com.ku.business.dtomapper;
 import com.ku.business.dto.CompanyDto;
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.dto.CompanySaveOrUpdateDto;
-import com.ku.business.dto.StorageListDto;
 import com.ku.business.entity.Company;
 
 import java.util.HashSet;
@@ -16,7 +15,9 @@ public class CompanyDtoMapper {
                 .setCompanyName(company.getCompanyName())
                 .setTaxNumber(company.getTaxNumber())
                 .setIsGovernmentAgency(company.getIsGovernmentAgency())
-                .setUserId(company.getUserId()
+                .setUserId(company.getUserId())
+                .setDetails(new DetailDtoMapper().toListDto(company.getDetails()))
+                .setStorages(new StorageDtoMapper().toListDto(company.getStorages())
         );
     }
 
@@ -28,7 +29,7 @@ public class CompanyDtoMapper {
         );
     }
 
-    public static Set<CompanyListDto> toDtoList(Set<Company> companies){
+    public static Set<CompanyListDto> toListDto(Set<Company> companies){
         Set<CompanyListDto> companiesListDTO = new HashSet<>();
         for (Company company : companies) {
             companiesListDTO.add(toListDto(company));
@@ -42,7 +43,8 @@ public class CompanyDtoMapper {
                 .setCompanyName(company.getCompanyName())
                 .setTaxNumber(company.getTaxNumber())
                 .setIsGovernmentAgency(company.getIsGovernmentAgency())
-                .setUserId(company.getUserId());
+                .setUserId(company.getUserId()
+        );
     }
 
     public static Company fromSaveOrUpdateDto(CompanySaveOrUpdateDto companySaveOrUpdateDto){

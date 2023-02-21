@@ -13,8 +13,9 @@ public class ContentDtoMapper {
         return new ContentDto()
                 .setId(content.getId())
                 .setQuantity(content.getQuantity())
-                .setService(content.getService())
-                .setOrders(content.getOrders());
+                .setService(new ServiceDtoMapper().toDto(content.getService()))
+                .setOrders(new OrderDtoMapper().toListDto(content.getOrders())
+        );
     }
 
     public static ContentListDto toListDto(Content content) {
@@ -24,7 +25,7 @@ public class ContentDtoMapper {
         );
     }
 
-    public static Set<ContentListDto> toDtoList(Set<Content> contents) {
+    public static Set<ContentListDto> toListDto(Set<Content> contents) {
         Set<ContentListDto> contentsListDto = new HashSet<>();
         for (Content content : contents) {
             contentsListDto.add(toListDto(content));
@@ -36,7 +37,7 @@ public class ContentDtoMapper {
         return new ContentSaveOrUpdateDto()
                 .setId(content.getId())
                 .setQuantity(content.getQuantity())
-                .setService(content.getService()
+                .setService(new ServiceDtoMapper().toDto(content.getService())
         );
     }
 
