@@ -5,33 +5,32 @@ import com.ku.business.dto.CompanyListDto;
 import com.ku.business.dto.CompanySaveOrUpdateDto;
 import com.ku.business.entity.Company;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CompanyDtoMapper {
     public static CompanyDto toDto(Company company) {
-        return new CompanyDto(
-                company.getId(),
-                company.getCompanyName(),
-                company.getTaxNumber(),
-                company.isGovernmentAgency(),
-                company.getUserId(),
-                new StorageDtoMapper().toDtoList(company.getStorages()),
-                new DetailDtoMapper().toDtoList(company.getDetails())
+        return new CompanyDto()
+                .setId(company.getId())
+                .setCompanyName(company.getCompanyName())
+                .setTaxNumber(company.getTaxNumber())
+                .setIsGovernmentAgency(company.getIsGovernmentAgency())
+                .setUserId(company.getUserId())
+                .setDetails(new DetailDtoMapper().toListDto(company.getDetails()))
+                .setStorages(new StorageDtoMapper().toListDto(company.getStorages())
         );
     }
 
     public static CompanyListDto toListDto(Company company) {
-        return new CompanyListDto(
-                company.getId(),
-                company.getCompanyName(),
-                company.getTaxNumber(),
-                company.isGovernmentAgency()
+        return new CompanyListDto().setId(company.getId())
+                .setCompanyName(company.getCompanyName())
+                .setTaxNumber(company.getTaxNumber())
+                .setIsGovernmentAgency(company.getIsGovernmentAgency()
         );
     }
 
-    public static List<CompanyListDto> toDtoList(List<Company> companies){
-        List<CompanyListDto> companiesListDTO = new ArrayList<>();
+    public static Set<CompanyListDto> toListDto(Set<Company> companies){
+        Set<CompanyListDto> companiesListDTO = new HashSet<>();
         for (Company company : companies) {
             companiesListDTO.add(toListDto(company));
         }
@@ -39,24 +38,23 @@ public class CompanyDtoMapper {
     }
 
     public static CompanySaveOrUpdateDto toSaveOrUpdateDto(Company company){
-        return new CompanySaveOrUpdateDto(
-                company.getId(),
-                company.getCompanyName(),
-                company.getTaxNumber(),
-                company.isGovernmentAgency(),
-                company.getUserId()
+        return new CompanySaveOrUpdateDto()
+                .setId(company.getId())
+                .setCompanyName(company.getCompanyName())
+                .setTaxNumber(company.getTaxNumber())
+                .setIsGovernmentAgency(company.getIsGovernmentAgency())
+                .setUserId(company.getUserId()
         );
     }
 
     public static Company fromSaveOrUpdateDto(CompanySaveOrUpdateDto companySaveOrUpdateDto){
-        return new Company(
-                companySaveOrUpdateDto.getId(),
-                companySaveOrUpdateDto.getCompanyName(),
-                companySaveOrUpdateDto.getTaxNumber(),
-                companySaveOrUpdateDto.isGovernmentAgency(),
-                companySaveOrUpdateDto.getUserId(),
-                null,
-                null
+        return new Company()
+                .setId(companySaveOrUpdateDto.getId())
+                .setCompanyName(companySaveOrUpdateDto.getCompanyName())
+                .setTaxNumber(companySaveOrUpdateDto.getTaxNumber())
+                .setIsGovernmentAgency(companySaveOrUpdateDto.getIsGovernmentAgency())
+                .setUserId(companySaveOrUpdateDto.getUserId()
+
         );
     }
 }

@@ -5,28 +5,28 @@ import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveOrUpdateDto;
 import com.ku.business.entity.Storage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StorageDtoMapper {
     public static StorageDto toDto(Storage storage) {
-        return new StorageDto(
-                storage.getId(),
-                storage.getQuantity(),
-                new CompanyDtoMapper().toDto(storage.getCompany()),
-                new ServiceDtoMapper().toDto(storage.getService())
+        return new StorageDto()
+                .setId(storage.getId())
+                .setQuantity(storage.getQuantity())
+                .setCompany(new CompanyDtoMapper().toDto(storage.getCompany()))
+                .setService(new ServiceDtoMapper().toDto(storage.getService())
         );
     }
 
     public static StorageListDto toListDto(Storage storage) {
-        return new StorageListDto(
-                storage.getId(),
-                storage.getQuantity()
+        return new StorageListDto()
+                .setId(storage.getId())
+                .setQuantity(storage.getQuantity()
         );
     }
 
-    public static List<StorageListDto> toDtoList(List<Storage> storages) {
-        List<StorageListDto> storageListDtos = new ArrayList<>();
+    public static Set<StorageListDto> toListDto(Set<Storage> storages) {
+        Set<StorageListDto> storageListDtos = new HashSet<>();
         for (Storage storage : storages) {
             storageListDtos.add(toListDto(storage));
         }
@@ -34,18 +34,16 @@ public class StorageDtoMapper {
     }
 
     public static StorageSaveOrUpdateDto toSaveOrUpdateDto(Storage storage) {
-        return new StorageSaveOrUpdateDto(
-                storage.getId(),
-                storage.getQuantity()
+        return new StorageSaveOrUpdateDto()
+                .setId(storage.getId())
+                .setQuantity(storage.getQuantity()
         );
     }
 
     public static Storage fromSaveOrUpdateDto(StorageSaveOrUpdateDto saveOrUpdateDto) {
-        return new Storage(
-                saveOrUpdateDto.getId(),
-                saveOrUpdateDto.getQuantity(),
-                null,
-                null
+        return new Storage()
+                .setId(saveOrUpdateDto.getId())
+                .setQuantity(saveOrUpdateDto.getQuantity()
         );
     }
 }

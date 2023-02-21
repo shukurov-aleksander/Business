@@ -1,54 +1,14 @@
 package com.ku.business.dto;
 
 import com.ku.business.entity.OperationType;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+@Data
+@Accessors(chain = true)
 public class DetailDto {
     private Long id;
     private CompanyDto company;
     private OrderDto order;
     private OperationType operationType;
-
-    public DetailDto(
-        Long id,
-        CompanyDto company,
-        OrderDto order,
-        OperationType operationType
-    ) {
-        this.id = id;
-        this.company = company;
-        this.order = order;
-        this.operationType = operationType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CompanyDto getCompany() {
-        return company;
-    }
-
-    public void setCompany(CompanyDto company) {
-        this.company = company;
-    }
-
-    public OrderDto getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderDto order) {
-        this.order = order;
-    }
-
-    public OperationType getOperationType() {
-        return operationType;
-    }
-
-    public void setOperationType(OperationType operationType) {
-        this.operationType = operationType;
-    }
 }

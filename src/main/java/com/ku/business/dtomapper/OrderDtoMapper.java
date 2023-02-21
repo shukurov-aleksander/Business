@@ -5,29 +5,29 @@ import com.ku.business.dto.OrderListDto;
 import com.ku.business.dto.OrderSaveOrUpdateDto;
 import com.ku.business.entity.Order;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OrderDtoMapper {
     public static OrderDto toDto(Order order) {
-        return new OrderDto(
-                order.getId(),
-                order.getOrderStatus(),
-                order.getCreatedAtUtc(),
-                order.getCompletedAtUtc(),
-                new ContentDtoMapper().toDtoList(order.getContents())
+        return new OrderDto()
+                .setId(order.getId())
+                .setOrderStatus(order.getOrderStatus())
+                .setCreatedAtUtc(order.getCreatedAtUtc())
+                .setCompletedAtUtc(order.getCompletedAtUtc())
+                .setContents(new ContentDtoMapper().toListDto(order.getContents())
         );
     }
 
     public static OrderListDto toListDto(Order order) {
-        return new OrderListDto(
-                order.getId(),
-                order.getOrderStatus()
+        return new OrderListDto()
+                .setId(order.getId())
+                .setOrderStatus(order.getOrderStatus()
         );
     }
 
-    public static List<OrderListDto> toDtoList(List<Order> orders) {
-        List<OrderListDto> orderListDtos = new ArrayList<>();
+    public static Set<OrderListDto> toListDto(Set<Order> orders) {
+        Set<OrderListDto> orderListDtos = new HashSet<>();
         for (Order order : orders) {
             orderListDtos.add(toListDto(order));
         }
@@ -35,21 +35,20 @@ public class OrderDtoMapper {
     }
 
     public static OrderSaveOrUpdateDto toSaveOrUpdateDto(Order order) {
-        return new OrderSaveOrUpdateDto(
-                order.getId(),
-                order.getOrderStatus(),
-                order.getCreatedAtUtc(),
-                order.getCompletedAtUtc()
+        return new OrderSaveOrUpdateDto()
+                .setId(order.getId())
+                .setOrderStatus(order.getOrderStatus())
+                .setCreatedAtUtc(order.getCreatedAtUtc())
+                .setCompletedAtUtc(order.getCompletedAtUtc()
         );
     }
 
     public static Order fromSaveOrUpdateDto(OrderSaveOrUpdateDto saveOrUpdateDto) {
-        return new Order(
-                saveOrUpdateDto.getId(),
-                saveOrUpdateDto.getCreatedAtUtc(),
-                saveOrUpdateDto.getCompletedAtUtc(),
-                null,
-                saveOrUpdateDto.getOrderStatus()
+        return new Order()
+                .setId(saveOrUpdateDto.getId())
+                .setOrderStatus(saveOrUpdateDto.getOrderStatus())
+                .setCreatedAtUtc(saveOrUpdateDto.getCreatedAtUtc())
+                .setCompletedAtUtc(saveOrUpdateDto.getCompletedAtUtc()
         );
     }
 }
