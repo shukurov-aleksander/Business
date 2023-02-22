@@ -1,15 +1,18 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Detail;
+import com.ku.business.dto.DetailDto;
+import com.ku.business.dto.DetailListDto;
+import com.ku.business.dto.DetailSaveDto;
+import com.ku.business.dtomapper.DetailDtoMapper;
 import com.ku.business.repository.DetailRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class DetailServiceImpl implements CrudService<Detail> {
+public class DetailServiceImpl implements CrudService<DetailDto, DetailListDto, DetailSaveDto> {
     private final DetailRepository repository;
 
     public DetailServiceImpl(DetailRepository repository) {
@@ -17,23 +20,23 @@ public class DetailServiceImpl implements CrudService<Detail> {
     }
 
     @Override
-    public Optional<Detail> findById(Long id) {
-        return repository.findById(id);
+    public Optional<DetailDto> findById(Long id) {
+        return Optional.of(DetailDtoMapper.toDto(repository.findById(id).get()));
     }
 
     @Override
-    public List<Detail> findAll() {
-        return repository.findAll();
+    public Set<DetailListDto> findAll() {
+        return DetailDtoMapper.toListDto(repository.findAll());
     }
 
     @Override
-    public void save(Detail detail) {
-        repository.save(detail);
+    public void save(DetailSaveDto detail) {
+        repository.save(DetailDtoMapper.fromSaveDto(detail));
     }
 
     @Override
-    public void update(Detail detail) {
-        repository.save(detail);
+    public void update(DetailSaveDto detail) {
+        repository.save(DetailDtoMapper.fromSaveDto(detail));
     }
 
     @Override

@@ -2,10 +2,11 @@ package com.ku.business.dtomapper;
 
 import com.ku.business.dto.ServiceDto;
 import com.ku.business.dto.ServiceListDto;
-import com.ku.business.dto.ServiceSaveOrUpdateDto;
+import com.ku.business.dto.ServiceSaveDto;
 import com.ku.business.entity.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ServiceDtoMapper {
@@ -33,15 +34,23 @@ public class ServiceDtoMapper {
         return serviceListDtos;
     }
 
-    public static ServiceSaveOrUpdateDto toSaveOrUpdateDto(Service service) {
-        return new ServiceSaveOrUpdateDto()
+    public static Set<ServiceListDto> toListDto(List<Service> services) {
+        Set<ServiceListDto> serviceListDtos = new HashSet<>();
+        for (Service service : services) {
+            serviceListDtos.add(toListDto(service));
+        }
+        return serviceListDtos;
+    }
+
+    public static ServiceSaveDto toSaveDto(Service service) {
+        return new ServiceSaveDto()
                 .setId(service.getId())
                 .setServiceName(service.getServiceName())
                 .setSum(service.getSum()
         );
     }
 
-    public static Service fromSaveOrUpdateDto(ServiceSaveOrUpdateDto saveOrUpdateDto) {
+    public static Service fromSaveDto(ServiceSaveDto saveOrUpdateDto) {
         return new Service()
                 .setId(saveOrUpdateDto.getId())
                 .setServiceName(saveOrUpdateDto.getServiceName())

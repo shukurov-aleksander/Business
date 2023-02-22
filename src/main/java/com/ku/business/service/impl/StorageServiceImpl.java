@@ -1,15 +1,18 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Storage;
+import com.ku.business.dto.StorageDto;
+import com.ku.business.dto.StorageListDto;
+import com.ku.business.dto.StorageSaveDto;
+import com.ku.business.dtomapper.StorageDtoMapper;
 import com.ku.business.repository.StorageRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 @Service
-public class StorageServiceImpl implements CrudService<Storage> {
+public class StorageServiceImpl implements CrudService<StorageDto, StorageListDto, StorageSaveDto> {
     private final StorageRepository repository;
 
     public StorageServiceImpl(StorageRepository repository) {
@@ -17,23 +20,23 @@ public class StorageServiceImpl implements CrudService<Storage> {
     }
 
     @Override
-    public Optional<Storage> findById(Long id) {
-        return repository.findById(id);
+    public Optional<StorageDto> findById(Long id) {
+        return Optional.of(StorageDtoMapper.toDto(repository.findById(id).get()));
     }
 
     @Override
-    public List<Storage> findAll() {
-        return repository.findAll();
+    public Set<StorageListDto> findAll() {
+        return StorageDtoMapper.toListDto(repository.findAll());
     }
 
     @Override
-    public void save(Storage storage) {
-        repository.save(storage);
+    public void save(StorageSaveDto storage) {
+        repository.save(StorageDtoMapper.fromSaveDto(storage));
     }
 
     @Override
-    public void update(Storage storage) {
-        repository.save(storage);
+    public void update(StorageSaveDto storage) {
+        repository.save(StorageDtoMapper.fromSaveDto(storage));
     }
 
     @Override

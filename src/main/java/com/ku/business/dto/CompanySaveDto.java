@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class CompanySaveOrUpdateDto {
+public class CompanySaveDto {
     private Long id;
     private String companyName;
     private String taxNumber;

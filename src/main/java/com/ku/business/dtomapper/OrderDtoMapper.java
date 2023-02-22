@@ -2,10 +2,11 @@ package com.ku.business.dtomapper;
 
 import com.ku.business.dto.OrderDto;
 import com.ku.business.dto.OrderListDto;
-import com.ku.business.dto.OrderSaveOrUpdateDto;
+import com.ku.business.dto.OrderSaveDto;
 import com.ku.business.entity.Order;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class OrderDtoMapper {
@@ -15,7 +16,7 @@ public class OrderDtoMapper {
                 .setOrderStatus(order.getOrderStatus())
                 .setCreatedAtUtc(order.getCreatedAtUtc())
                 .setCompletedAtUtc(order.getCompletedAtUtc())
-                .setContents(new ContentDtoMapper().toListDto(order.getContents())
+                .setContents(ContentDtoMapper.toListDto(order.getContents())
         );
     }
 
@@ -34,8 +35,16 @@ public class OrderDtoMapper {
         return orderListDtos;
     }
 
-    public static OrderSaveOrUpdateDto toSaveOrUpdateDto(Order order) {
-        return new OrderSaveOrUpdateDto()
+    public static Set<OrderListDto> toListDto(List<Order> orders) {
+        Set<OrderListDto> orderListDtos = new HashSet<>();
+        for (Order order : orders) {
+            orderListDtos.add(toListDto(order));
+        }
+        return orderListDtos;
+    }
+
+    public static OrderSaveDto toSaveDto(Order order) {
+        return new OrderSaveDto()
                 .setId(order.getId())
                 .setOrderStatus(order.getOrderStatus())
                 .setCreatedAtUtc(order.getCreatedAtUtc())
@@ -43,7 +52,7 @@ public class OrderDtoMapper {
         );
     }
 
-    public static Order fromSaveOrUpdateDto(OrderSaveOrUpdateDto saveOrUpdateDto) {
+    public static Order fromSaveDto(OrderSaveDto saveOrUpdateDto) {
         return new Order()
                 .setId(saveOrUpdateDto.getId())
                 .setOrderStatus(saveOrUpdateDto.getOrderStatus())

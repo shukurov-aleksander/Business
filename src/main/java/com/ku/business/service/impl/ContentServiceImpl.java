@@ -1,15 +1,18 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Content;
+import com.ku.business.dto.ContentDto;
+import com.ku.business.dto.ContentListDto;
+import com.ku.business.dto.ContentSaveDto;
+import com.ku.business.dtomapper.ContentDtoMapper;
 import com.ku.business.repository.ContentRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class ContentServiceImpl implements CrudService<Content> {
+public class ContentServiceImpl implements CrudService<ContentDto, ContentListDto, ContentSaveDto> {
     private final ContentRepository repository;
 
     public ContentServiceImpl(ContentRepository repository) {
@@ -17,23 +20,23 @@ public class ContentServiceImpl implements CrudService<Content> {
     }
 
     @Override
-    public Optional<Content> findById(Long id) {
-        return repository.findById(id);
+    public Optional<ContentDto> findById(Long id) {
+        return Optional.of(ContentDtoMapper.toDto(repository.findById(id).get()));
     }
 
     @Override
-    public List<Content> findAll() {
-        return repository.findAll();
+    public Set<ContentListDto> findAll() {
+        return ContentDtoMapper.toListDto(repository.findAll());
     }
 
     @Override
-    public void save(Content content) {
-        repository.save(content);
+    public void save(ContentSaveDto content) {
+        repository.save(ContentDtoMapper.fromSaveDto(content));
     }
 
     @Override
-    public void update(Content content) {
-        repository.save(content);
+    public void update(ContentSaveDto content) {
+        repository.save(ContentDtoMapper.fromSaveDto(content));
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Document;
+import com.ku.business.dto.DocumentDto;
+import com.ku.business.dto.DocumentListDto;
+import com.ku.business.dto.DocumentSaveDto;
+import com.ku.business.dtomapper.DocumentDtoMapper;
 import com.ku.business.repository.DocumentRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class DocumentServiceImpl implements CrudService<Document> {
+public class DocumentServiceImpl implements CrudService<DocumentDto, DocumentListDto, DocumentSaveDto> {
     private final DocumentRepository repository;
 
     public DocumentServiceImpl(DocumentRepository repository) {
@@ -17,23 +20,23 @@ public class DocumentServiceImpl implements CrudService<Document> {
     }
 
     @Override
-    public Optional<Document> findById(Long id) {
-        return repository.findById(id);
+    public Optional<DocumentDto> findById(Long id) {
+        return Optional.of(DocumentDtoMapper.toDto(repository.findById(id).get()));
     }
 
     @Override
-    public List<Document> findAll() {
-        return repository.findAll();
+    public Set<DocumentListDto> findAll() {
+        return DocumentDtoMapper.toListDto(repository.findAll());
     }
 
     @Override
-    public void save(Document document) {
-        repository.save(document);
+    public void save(DocumentSaveDto document) {
+        repository.save(DocumentDtoMapper.fromSaveDto(document));
     }
 
     @Override
-    public void update(Document document) {
-        repository.save(document);
+    public void update(DocumentSaveDto document) {
+        repository.save(DocumentDtoMapper.fromSaveDto(document));
     }
 
     @Override

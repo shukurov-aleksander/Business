@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class StorageSaveOrUpdateDto {
+public class DocumentSaveDto {
     private Long id;
-    private Integer quantity;
+    private String documentContent;
 }

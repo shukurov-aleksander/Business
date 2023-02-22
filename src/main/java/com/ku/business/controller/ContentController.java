@@ -1,6 +1,8 @@
 package com.ku.business.controller;
 
-import com.ku.business.entity.Content;
+import com.ku.business.dto.ContentDto;
+import com.ku.business.dto.ContentListDto;
+import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.service.impl.ContentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/contents")
@@ -22,22 +23,22 @@ public class ContentController {
     private ContentServiceImpl service;
 
     @GetMapping("/{id}")
-    public Optional<Content> findById(@PathVariable Long id) {
+    public Optional<ContentDto> findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @GetMapping
-    public List<Content> findAll() {
+    public Set<ContentListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    public void save(Content content) {
+    public void save(ContentSaveDto content) {
         service.save(content);
     }
 
     @PutMapping
-    public void update(Content content) {
+    public void update(ContentSaveDto content) {
         service.update(content);
     }
 

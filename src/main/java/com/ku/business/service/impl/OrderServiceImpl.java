@@ -1,15 +1,18 @@
 package com.ku.business.service.impl;
 
-import com.ku.business.entity.Order;
+import com.ku.business.dto.OrderDto;
+import com.ku.business.dto.OrderListDto;
+import com.ku.business.dto.OrderSaveDto;
+import com.ku.business.dtomapper.OrderDtoMapper;
 import com.ku.business.repository.OrderRepository;
 import com.ku.business.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 @Service
-public class OrderServiceImpl implements CrudService<Order> {
+public class OrderServiceImpl implements CrudService<OrderDto, OrderListDto, OrderSaveDto> {
     private final OrderRepository repository;
 
     public OrderServiceImpl(OrderRepository repository) {
@@ -17,23 +20,23 @@ public class OrderServiceImpl implements CrudService<Order> {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
-        return repository.findById(id);
+    public Optional<OrderDto> findById(Long id) {
+        return Optional.of(OrderDtoMapper.toDto(repository.findById(id).get()));
     }
 
     @Override
-    public List<Order> findAll() {
-        return repository.findAll();
+    public Set<OrderListDto> findAll() {
+        return OrderDtoMapper.toListDto(repository.findAll());
     }
 
     @Override
-    public void save(Order order) {
-        repository.save(order);
+    public void save(OrderSaveDto order) {
+        repository.save(OrderDtoMapper.fromSaveDto(order));
     }
 
     @Override
-    public void update(Order order) {
-        repository.save(order);
+    public void update(OrderSaveDto order) {
+        repository.save(OrderDtoMapper.fromSaveDto(order));
     }
 
     @Override

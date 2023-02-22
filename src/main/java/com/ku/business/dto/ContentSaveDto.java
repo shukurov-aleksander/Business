@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ContentSaveOrUpdateDto {
+public class ContentSaveDto {
     private Long id;
     private Long quantity;
     private ServiceDto service;

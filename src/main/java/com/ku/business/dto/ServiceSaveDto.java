@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ServiceSaveOrUpdateDto {
+public class ServiceSaveDto {
     private Long id;
     private String serviceName;
     private Long sum;

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class DetailSaveOrUpdateDto {
+public class DetailSaveDto {
     private Long id;
     private Order order;
     private OperationType operationType;

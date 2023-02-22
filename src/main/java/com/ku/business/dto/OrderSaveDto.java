@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class OrderSaveOrUpdateDto {
+public class OrderSaveDto {
     private Long id;
     private OrderStatus orderStatus;
     private LocalDateTime createdAtUtc;
