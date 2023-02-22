@@ -5,6 +5,7 @@ import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveDto;
 import com.ku.business.entity.Storage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,15 +16,13 @@ public class StorageDtoMapper {
                 .setId(storage.getId())
                 .setQuantity(storage.getQuantity())
                 .setCompany(CompanyDtoMapper.toDto(storage.getCompany()))
-                .setService(ServiceDtoMapper.toDto(storage.getService())
-        );
+                .setService(ServiceDtoMapper.toDto(storage.getService()));
     }
 
     public static StorageListDto toListDto(Storage storage) {
         return new StorageListDto()
                 .setId(storage.getId())
-                .setQuantity(storage.getQuantity()
-        );
+                .setQuantity(storage.getQuantity());
     }
 
     public static Set<StorageListDto> toListDto(Set<Storage> storages) {
@@ -34,8 +33,8 @@ public class StorageDtoMapper {
         return storageListDtos;
     }
 
-    public static Set<StorageListDto> toListDto(List<Storage> storages) {
-        Set<StorageListDto> storageListDtos = new HashSet<>();
+    public static List<StorageListDto> toListDto(List<Storage> storages) {
+        List<StorageListDto> storageListDtos = new ArrayList<>();
         for (Storage storage : storages) {
             storageListDtos.add(toListDto(storage));
         }
@@ -45,14 +44,12 @@ public class StorageDtoMapper {
     public static StorageSaveDto toSaveDto(Storage storage) {
         return new StorageSaveDto()
                 .setId(storage.getId())
-                .setQuantity(storage.getQuantity()
-        );
+                .setQuantity(storage.getQuantity());
     }
 
     public static Storage fromSaveDto(StorageSaveDto saveOrUpdateDto) {
         return new Storage()
                 .setId(saveOrUpdateDto.getId())
-                .setQuantity(saveOrUpdateDto.getQuantity()
-        );
+                .setQuantity(saveOrUpdateDto.getQuantity());
     }
 }

@@ -3,7 +3,7 @@ package com.ku.business.controller;
 import com.ku.business.dto.StorageDto;
 import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveDto;
-import com.ku.business.service.impl.StorageServiceImpl;
+import com.ku.business.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/storages")
+@RequestMapping("/storages")
 public class StorageController {
+    private StorageService service;
     @Autowired
-    private StorageServiceImpl service;
+    public void setService(StorageService service) {
+        this.service = service;
+    }
 
     @GetMapping("{id}")
     public Optional<StorageDto> findById(@PathVariable Long id) {
@@ -28,7 +31,7 @@ public class StorageController {
     }
 
     @GetMapping
-    public Set<StorageListDto> findAll() {
+    public List<StorageListDto> findAll() {
         return service.findAll();
     }
 

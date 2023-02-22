@@ -5,6 +5,7 @@ import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.entity.Content;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,26 +16,24 @@ public class ContentDtoMapper {
                 .setId(content.getId())
                 .setQuantity(content.getQuantity())
                 .setService(ServiceDtoMapper.toDto(content.getService()))
-                .setOrders(OrderDtoMapper.toListDto(content.getOrders())
-        );
+                .setOrders(OrderDtoMapper.toListDto(content.getOrders()));
     }
 
     public static ContentListDto toListDto(Content content) {
         return new ContentListDto()
                 .setId(content.getId())
-                .setQuantity(content.getQuantity()
-        );
+                .setQuantity(content.getQuantity());
     }
 
-    public static Set<ContentListDto> toListDto(Set<Content> contents) {
-        Set<ContentListDto> contentsListDto = new HashSet<>();
+    public static List<ContentListDto> toListDto(List<Content> contents) {
+        List<ContentListDto> contentsListDto = new ArrayList<>();
         for (Content content : contents) {
             contentsListDto.add(toListDto(content));
         }
         return contentsListDto;
     }
 
-    public static Set<ContentListDto> toListDto(List<Content> contents) {
+    public static Set<ContentListDto> toListDto(Set<Content> contents) {
         Set<ContentListDto> contentsListDto = new HashSet<>();
         for (Content content : contents) {
             contentsListDto.add(toListDto(content));
@@ -53,7 +52,6 @@ public class ContentDtoMapper {
     public static Content fromSaveDto(ContentSaveDto contentSaveDto) {
         return new Content()
                 .setId(contentSaveDto.getId())
-                .setQuantity(contentSaveDto.getQuantity()
-        );
+                .setQuantity(contentSaveDto.getQuantity());
     }
 }

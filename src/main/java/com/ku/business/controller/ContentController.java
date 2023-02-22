@@ -3,7 +3,7 @@ package com.ku.business.controller;
 import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
-import com.ku.business.service.impl.ContentServiceImpl;
+import com.ku.business.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/contents")
+@RequestMapping("/contents")
 public class ContentController {
+    private ContentService service;
     @Autowired
-    private ContentServiceImpl service;
+    public void setService(ContentService service) {
+        this.service = service;
+    }
 
     @GetMapping("/{id}")
     public Optional<ContentDto> findById(@PathVariable Long id) {
@@ -28,7 +31,7 @@ public class ContentController {
     }
 
     @GetMapping
-    public Set<ContentListDto> findAll() {
+    public List<ContentListDto> findAll() {
         return service.findAll();
     }
 

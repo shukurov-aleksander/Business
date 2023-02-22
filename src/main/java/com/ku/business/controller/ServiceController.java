@@ -3,7 +3,7 @@ package com.ku.business.controller;
 import com.ku.business.dto.ServiceDto;
 import com.ku.business.dto.ServiceListDto;
 import com.ku.business.dto.ServiceSaveDto;
-import com.ku.business.service.impl.ServiceServiceImpl;
+import com.ku.business.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/services")
+@RequestMapping("/services")
 public class ServiceController {
+    private ServiceService service;
     @Autowired
-    private ServiceServiceImpl service;
+    public void setService(ServiceService service) {
+        this.service = service;
+    }
 
     @GetMapping("{id}")
     public Optional<ServiceDto> findById(@PathVariable Long id) {
@@ -28,7 +31,7 @@ public class ServiceController {
     }
 
     @GetMapping
-    public Set<ServiceListDto> findAll() {
+    public List<ServiceListDto> findAll() {
         return service.findAll();
     }
 

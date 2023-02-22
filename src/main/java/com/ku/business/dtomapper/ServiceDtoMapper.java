@@ -5,6 +5,7 @@ import com.ku.business.dto.ServiceListDto;
 import com.ku.business.dto.ServiceSaveDto;
 import com.ku.business.entity.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,15 +16,13 @@ public class ServiceDtoMapper {
                 .setId(service.getId())
                 .setServiceName(service.getServiceName())
                 .setSum(service.getSum())
-                .setServiceDescription(service.getServiceDescription()
-        );
+                .setServiceDescription(service.getServiceDescription());
     }
 
     public static ServiceListDto toListDto(Service service) {
         return new ServiceListDto()
                 .setId(service.getId())
-                .setServiceName(service.getServiceName()
-        );
+                .setServiceName(service.getServiceName());
     }
 
     public static Set<ServiceListDto> toListDto(Set<Service> services) {
@@ -34,8 +33,8 @@ public class ServiceDtoMapper {
         return serviceListDtos;
     }
 
-    public static Set<ServiceListDto> toListDto(List<Service> services) {
-        Set<ServiceListDto> serviceListDtos = new HashSet<>();
+    public static List<ServiceListDto> toListDto(List<Service> services) {
+        List<ServiceListDto> serviceListDtos = new ArrayList<>();
         for (Service service : services) {
             serviceListDtos.add(toListDto(service));
         }
@@ -46,15 +45,13 @@ public class ServiceDtoMapper {
         return new ServiceSaveDto()
                 .setId(service.getId())
                 .setServiceName(service.getServiceName())
-                .setSum(service.getSum()
-        );
+                .setSum(service.getSum());
     }
 
     public static Service fromSaveDto(ServiceSaveDto saveOrUpdateDto) {
         return new Service()
                 .setId(saveOrUpdateDto.getId())
                 .setServiceName(saveOrUpdateDto.getServiceName())
-                .setSum(saveOrUpdateDto.getSum()
-        );
+                .setSum(saveOrUpdateDto.getSum());
     }
 }

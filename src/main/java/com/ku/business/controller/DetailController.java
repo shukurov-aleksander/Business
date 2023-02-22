@@ -3,7 +3,7 @@ package com.ku.business.controller;
 import com.ku.business.dto.DetailDto;
 import com.ku.business.dto.DetailListDto;
 import com.ku.business.dto.DetailSaveDto;
-import com.ku.business.service.impl.DetailServiceImpl;
+import com.ku.business.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/details")
+@RequestMapping("/details")
 public class DetailController {
+    private DetailService service;
     @Autowired
-    private DetailServiceImpl service;
+    public void setService(DetailService service) {
+        this.service = service;
+    }
 
     @GetMapping("{id}")
     public Optional<DetailDto> findById(@PathVariable Long id) {
@@ -28,7 +31,7 @@ public class DetailController {
     }
 
     @GetMapping
-    public Set<DetailListDto> findAll() {
+    public List<DetailListDto> findAll() {
         return service.findAll();
     }
 
