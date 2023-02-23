@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Companies", description = "Table of companies")
+@Tag(name = "Companies", description = "Companies information")
 @RequestMapping("/companies")
 public class CompanyController {
     private CompanyService service;
@@ -31,36 +31,38 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Information about company by ID")
+    @Operation(summary = "Find company by id")
     public Optional<CompanyDto> findById(
-            @Parameter(description = "Uniq identification of the company")
-            @PathVariable("id") Long id){
+        @Parameter( description = "Company id", required = true, example = "1")
+        @PathVariable("id") Long id
+    ){
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all companies from table")
+    @Operation(summary = "Find companies")
     public List<CompanyListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save company to database")
+    @Operation(summary = "Save company")
     public void save(CompanySaveDto company) {
         service.save(company);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing company in database")
+    @Operation(summary = "Update company")
     public void update(CompanySaveDto company) {
         service.update(company);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete company from table by id")
+    @Operation(summary = "Delete company by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the company")
-            @PathVariable Long id) {
+        @Parameter(description = "Company id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

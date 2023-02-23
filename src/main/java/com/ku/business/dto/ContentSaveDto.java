@@ -10,11 +10,11 @@ import javax.validation.constraints.Min;
 @Schema(description = "Content save or update data transfer object")
 @Accessors(chain = true)
 public class ContentSaveDto {
-    @Schema(description = "Uniq identification of the content data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Quantity of the product in contents")
+    @Schema(description = "Content quantity")
     @Min(1)
     private Long quantity;
-    @Schema(description = "Service of the current content data transfer object")
+    @Schema(description = "Content service")
     private ServiceDto service;
 }

@@ -9,10 +9,10 @@ import lombok.experimental.Accessors;
 @Schema(description = "Detail list data transfer object for list of the companies")
 @Accessors(chain = true)
 public class DetailListDto {
-    @Schema(description = "Uniq identification of the detail data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Order of the detail data transfer object")
+    @Schema(description = "Detail order")
     private OrderDto order;
-    @Schema(description = "Type of operation")
+    @Schema(description = "Detail operation type")
     private OperationType operationType;
 }

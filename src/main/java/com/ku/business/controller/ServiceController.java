@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Services", description = "Table of services")
+@Tag(name = "Services", description = "Services information")
 @RequestMapping("/services")
 public class ServiceController {
     private ServiceService service;
@@ -30,36 +30,38 @@ public class ServiceController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Information about service by ID")
+    @Operation(summary = "Find service by id")
     public Optional<ServiceDto> findById(
-            @Parameter(description = "Uniq identification of the service")
-            @PathVariable Long id) {
+        @Parameter(description = "Service id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all services from table")
+    @Operation(summary = "Find services")
     public List<ServiceListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save service to database")
+    @Operation(summary = "Save service")
     public void save(ServiceSaveDto service) {
         this.service.save(service);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing service in database")
+    @Operation(summary = "Update service")
     public void update(ServiceSaveDto service) {
         this.service.update(service);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete service from table by id")
+    @Operation(summary = "Delete service by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the service")
-            @PathVariable Long id) {
+        @Parameter(description = "Service id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

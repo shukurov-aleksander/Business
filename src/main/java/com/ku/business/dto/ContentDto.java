@@ -11,13 +11,13 @@ import java.util.Set;
 @Schema(description = "Content data transfer object")
 @Accessors(chain = true)
 public class ContentDto {
-    @Schema(description = "Uniq identification of the content data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Quantity of the product in contents")
+    @Schema(description = "Content quantity")
     @Min(1)
     private Long quantity;
-    @Schema(description = "Service of the current content data transfer object")
+    @Schema(description = "Content service")
     private ServiceDto service;
-    @Schema(description = "List of the orders of the current content data transfer object")
+    @Schema(description = "Content orders", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<OrderListDto> orders;
 }

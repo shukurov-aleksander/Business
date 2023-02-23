@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Storages", description = "Table of storages")
+@Tag(name = "Storages", description = "Storages information")
 @RequestMapping("/storages")
 public class StorageController {
     private StorageService service;
@@ -30,36 +30,38 @@ public class StorageController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Information about storage by ID")
+    @Operation(summary = "Find storage by id")
     public Optional<StorageDto> findById(
-            @Parameter(description = "Uniq identification of the storage")
-            @PathVariable Long id) {
+        @Parameter(description = "Storage id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all storages from table")
+    @Operation(summary = "Find storages")
     public List<StorageListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save storage to database")
+    @Operation(summary = "Save storage")
     public void save(StorageSaveDto storage) {
         service.save(storage);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing storage in database")
+    @Operation(summary = "Update storage")
     public void update(StorageSaveDto storage) {
         service.update(storage);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete detail from storage by id")
+    @Operation(summary = "Delete storage by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the storage")
-            @PathVariable Long id) {
+        @Parameter(description = "Storage id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

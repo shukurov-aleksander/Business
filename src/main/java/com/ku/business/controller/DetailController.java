@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Details", description = "Table of details")
+@Tag(name = "Details", description = "Details information")
 @RequestMapping("/details")
 public class DetailController {
     private DetailService service;
@@ -30,36 +30,38 @@ public class DetailController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Information about detail by ID")
+    @Operation(summary = "Find detail by id")
     public Optional<DetailDto> findById(
-            @Parameter(description = "Uniq identification of the detail")
-            @PathVariable Long id) {
+        @Parameter(description = "Detail id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all details from table")
+    @Operation(summary = "Find details")
     public List<DetailListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save detail to database")
+    @Operation(summary = "Save detail")
     public void save(DetailSaveDto detail) {
         service.save(detail);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing detail in database")
+    @Operation(summary = "Update detail")
     public void update(DetailSaveDto detail) {
         service.update(detail);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete detail from table by id")
+    @Operation(summary = "Delete detail by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the detail")
-            @PathVariable Long id) {
+        @Parameter(description = "Detail id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Orders", description = "Table of orders")
+@Tag(name = "Orders", description = "Orders information")
 @RequestMapping("/orders")
 public class OrderController {
     private OrderService service;
@@ -30,36 +30,38 @@ public class OrderController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Information about order by ID")
+    @Operation(summary = "Find order by id")
     public Optional<OrderDto> findById(
-            @Parameter(description = "Uniq identification of the order")
-            @PathVariable Long id) {
+        @Parameter(description = "Order id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all orders from table")
+    @Operation(summary = "Find orders")
     public List<OrderListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save order to database")
+    @Operation(summary = "Save order")
     public void save(OrderSaveDto order) {
         service.save(order);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing order in database")
+    @Operation(summary = "Update order")
     public void update(OrderSaveDto order) {
         service.update(order);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete order from table by id")
+    @Operation(summary = "Delete order by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the order")
-            @PathVariable Long id) {
+        @Parameter(description = "Order id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

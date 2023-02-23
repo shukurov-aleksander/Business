@@ -10,19 +10,19 @@ import java.util.Set;
 @Schema(description = "Company data transfer object")
 @Accessors(chain = true)
 public class CompanyDto {
-    @Schema(description = "Uniq identification of the company data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Name of the company data transfer object")
+    @Schema(description = "Company name")
     private String companyName;
-    @Schema(description = "Tax number of the company data transfer object")
+    @Schema(description = "Company tax number")
     private String taxNumber;
-    @Schema(description = "Does company data transfer object government agency?")
+    @Schema(description = "Does company government agency?")
     private Boolean isGovernmentAgency;
-    @Schema(description = "User of the company data transfer object")
+    @Schema(description = "Company user")
     private Long userId;
-    @Schema(description = "Actual storages of the company data transfer object")
+    @Schema(description = "Company storages", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<StorageListDto> storages;
-    @Schema(description = "Details of the company data transfer object")
+    @Schema(description = "Company details", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<DetailListDto> details;
 }
 

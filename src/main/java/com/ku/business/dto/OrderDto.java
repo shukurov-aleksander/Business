@@ -12,14 +12,14 @@ import java.util.Set;
 @Schema(description = "Order data transfer object")
 @Accessors(chain = true)
 public class OrderDto {
-    @Schema(description = "Uniq identification of the order data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Status of the order")
+    @Schema(description = "Order status")
     private OrderStatus orderStatus;
-    @Schema(description = "What time order was created")
+    @Schema(description = "Order created at")
     private LocalDateTime createdAtUtc;
-    @Schema(description = "What time order was completed")
+    @Schema(description = "Order completed at")
     private LocalDateTime completedAtUtc;
-    @Schema(description = "List of the contents of the order data transfer object")
+    @Schema(description = "Order contents", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<ContentListDto> contents;
 }

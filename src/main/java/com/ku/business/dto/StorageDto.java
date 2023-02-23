@@ -10,13 +10,13 @@ import javax.validation.constraints.Min;
 @Schema(description = "Storage data transfer object")
 @Accessors(chain = true)
 public class StorageDto {
-    @Schema(description = "Uniq identification of the storage data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Quantity of the products on the storage")
+    @Schema(description = "Storage quantity")
     @Min(1)
     private Integer quantity;
-    @Schema(description = "Company of that storage")
+    @Schema(description = "Storage company")
     private CompanyDto company;
-    @Schema(description = "Service of that storage")
+    @Schema(description = "Storage service")
     private ServiceDto service;
 }

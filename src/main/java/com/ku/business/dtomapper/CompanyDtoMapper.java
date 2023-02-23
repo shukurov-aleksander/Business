@@ -30,7 +30,7 @@ public class CompanyDtoMapper {
                 .setIsGovernmentAgency(company.getIsGovernmentAgency());
     }
 
-    public static List<CompanyListDto> toListDto(List<Company> companies){
+    public static List<CompanyListDto> toListDto(List<Company> companies) {
         List<CompanyListDto> companiesListDTO = new ArrayList<>();
         for (Company company : companies) {
             companiesListDTO.add(toListDto(company));
@@ -38,7 +38,7 @@ public class CompanyDtoMapper {
         return companiesListDTO;
     }
 
-    public static Set<CompanyListDto> toListDto(Set<Company> companies){
+    public static Set<CompanyListDto> toListDto(Set<Company> companies) {
         Set<CompanyListDto> companiesListDTO = new HashSet<>();
         for (Company company : companies) {
             companiesListDTO.add(toListDto(company));
@@ -46,7 +46,7 @@ public class CompanyDtoMapper {
         return companiesListDTO;
     }
 
-    public static CompanySaveDto toSaveDto(Company company){
+    public static CompanySaveDto toSaveDto(Company company) {
         return new CompanySaveDto()
                 .setId(company.getId())
                 .setCompanyName(company.getCompanyName())
@@ -55,7 +55,7 @@ public class CompanyDtoMapper {
                 .setUserId(company.getUserId());
     }
 
-    public static Company fromSaveDto(CompanySaveDto companySaveDto){
+    public static Company fromSaveDto(CompanySaveDto companySaveDto) {
         return new Company()
                 .setId(companySaveDto.getId())
                 .setCompanyName(companySaveDto.getCompanyName())

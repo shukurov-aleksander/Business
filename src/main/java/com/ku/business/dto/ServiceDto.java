@@ -10,11 +10,11 @@ import javax.validation.constraints.Min;
 @Schema(description = "Service data transfer object")
 @Accessors(chain = true)
 public class ServiceDto {
-    @Schema(description = "Uniq identification of the service data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Name of the service")
+    @Schema(description = "Service name")
     private String serviceName;
-    @Schema(description = "Sum of the service")
+    @Schema(description = "Service sum")
     @Min(1)
     private Long sum;
     @Schema(description = "Service description")

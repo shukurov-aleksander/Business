@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Contents", description = "Table of contents")
+@Tag(name = "Contents", description = "Contents information")
 @RequestMapping("/contents")
 public class ContentController {
     private ContentService service;
@@ -30,36 +30,38 @@ public class ContentController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Information about content by ID")
+    @Operation(summary = "Find content by id")
     public Optional<ContentDto> findById(
-            @Parameter(description = "Uniq identification of the content")
-            @PathVariable Long id) {
+        @Parameter(description = "Content id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all contents from table")
+    @Operation(summary = "Find contents")
     public List<ContentListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save content to database")
+    @Operation(summary = "Save content")
     public void save(ContentSaveDto content) {
         service.save(content);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing content in database")
+    @Operation(summary = "Update content")
     public void update(ContentSaveDto content) {
         service.update(content);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete content from table by id")
+    @Operation(summary = "Delete content by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the content")
-            @PathVariable Long id) {
+        @Parameter(description = "Content id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

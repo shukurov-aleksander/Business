@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @Schema(description = "Order save or update data transfer object")
 @Accessors(chain = true)
 public class OrderSaveDto {
-    @Schema(description = "Uniq identification of the order data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Status of the order")
+    @Schema(description = "Order status")
     private OrderStatus orderStatus;
-    @Schema(description = "What time order was created")
+    @Schema(description = "Order created at")
     private LocalDateTime createdAtUtc;
-    @Schema(description = "What time order was completed")
+    @Schema(description = "Order completed at")
     private LocalDateTime completedAtUtc;
 }

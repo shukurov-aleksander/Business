@@ -8,14 +8,14 @@ import lombok.experimental.Accessors;
 @Schema(description = "Company save or update data transfer object")
 @Accessors(chain = true)
 public class CompanySaveDto {
-    @Schema(description = "Uniq identification of the company data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Name of the company data transfer object")
+    @Schema(description = "Company name")
     private String companyName;
-    @Schema(description = "Tax number of the company data transfer object")
+    @Schema(description = "Company tax number")
     private String taxNumber;
-    @Schema(description = "Does company data transfer object government agency?")
+    @Schema(description = "Does company government agency?")
     private Boolean isGovernmentAgency;
-    @Schema(description = "User of the company data transfer object")
+    @Schema(description = "Company user")
     private Long userId;
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "Documents", description = "Table of documents")
+@Tag(name = "Documents", description = "Documents information")
 @RequestMapping("/documents")
 public class DocumentController {
     private DocumentService service;
@@ -30,36 +30,38 @@ public class DocumentController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Information about document by ID")
+    @Operation(summary = "Find document by id")
     public Optional<DocumentDto> findById(
-            @Parameter(description = "Uniq identification of the document")
-            @PathVariable Long id) {
+        @Parameter(description = "Detail id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         return service.findById(id);
     }
 
     @GetMapping
-    @Operation(summary = "Get all documents from table")
+    @Operation(summary = "Find documents")
     public List<DocumentListDto> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    @Operation(summary = "Save document to database")
+    @Operation(summary = "Save document")
     public void save(DocumentSaveDto document) {
         service.save(document);
     }
 
     @PutMapping
-    @Operation(summary = "Update existing document in database")
+    @Operation(summary = "Update document")
     public void update(DocumentSaveDto document) {
         service.update(document);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete document from table by id")
+    @Operation(summary = "Delete document by id")
     public void delete(
-            @Parameter(description = "Uniq identification of the document")
-            @PathVariable Long id) {
+        @Parameter(description = "Document id", required = true, example = "1")
+        @PathVariable Long id
+    ) {
         service.delete(id);
     }
 }

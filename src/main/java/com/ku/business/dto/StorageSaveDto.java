@@ -7,12 +7,12 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.Min;
 
 @Data
-@Schema(description = "Company save or update data transfer object")
+@Schema(description = "Storage save or update data transfer object")
 @Accessors(chain = true)
 public class StorageSaveDto {
-    @Schema(description = "Uniq identification of the storage data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Quantity of the products on the storage")
+    @Schema(description = "Storage quantity")
     @Min(1)
     private Integer quantity;
 }

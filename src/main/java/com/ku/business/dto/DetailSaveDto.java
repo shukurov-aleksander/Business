@@ -9,9 +9,8 @@ import lombok.experimental.Accessors;
 @Schema(description = "Detail save or update data transfer object")
 @Accessors(chain = true)
 public class DetailSaveDto {
-    @Schema(description = "Uniq identification of the detail data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-
-    @Schema(description = "Type of operation")
+    @Schema(description = "Detail operation type")
     private OperationType operationType;
 }

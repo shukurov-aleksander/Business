@@ -10,9 +10,9 @@ import javax.validation.constraints.Min;
 @Schema(description = "Content list data transfer object for the list of the contents")
 @Accessors(chain = true)
 public class ContentListDto {
-    @Schema(description = "Uniq identification of the content data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Quantity of the product in contents")
+    @Schema(description = "Content quantity")
     @Min(1)
     private Long quantity;
 }

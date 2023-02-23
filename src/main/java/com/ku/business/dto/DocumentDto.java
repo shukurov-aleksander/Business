@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 @Schema(description = "Document data transfer object")
 @Accessors(chain = true)
 public class DocumentDto {
-    @Schema(description = "Uniq identification of the document data transfer object")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Order of the document data transfer object")
+    @Schema(description = "Document order")
     private OrderDto order;
-    @Schema(description = "Document content of the document data transfer object")
+    @Schema(description = "Document content")
     private String documentContent;
 }
