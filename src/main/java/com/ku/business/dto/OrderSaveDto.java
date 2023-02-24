@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Schema(description = "Order save or update data transfer object")
 @Accessors(chain = true)
 public class OrderSaveDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Order status")
     private OrderStatus orderStatus;

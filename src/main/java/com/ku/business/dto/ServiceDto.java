@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 @Schema(description = "Service data transfer object")
 @Accessors(chain = true)
 public class ServiceDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Service name")
     private String serviceName;

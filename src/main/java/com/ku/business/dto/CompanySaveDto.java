@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Schema(description = "Company save or update data transfer object")
 @Accessors(chain = true)
 public class CompanySaveDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Company name")
     private String companyName;

@@ -17,25 +17,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Tag(name = "Details", description = "Details information")
 @RequestMapping("/details")
 public class DetailController {
     private DetailService service;
-    @Autowired
-    public void setService(DetailService service) {
-        this.service = service;
-    }
 
     @GetMapping("{id}")
     @Operation(summary = "Find detail by id")
-    public Optional<DetailDto> findById(
+    public DetailDto findById(
         @Parameter(description = "Detail id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id);
+        return service.findById(id).get();
     }
 
     @GetMapping
@@ -63,5 +58,10 @@ public class DetailController {
         @PathVariable Long id
     ) {
         service.delete(id);
+    }
+
+    @Autowired
+    public void setService(DetailService service) {
+        this.service = service;
     }
 }

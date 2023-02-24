@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 @Schema(description = "Content save or update data transfer object")
 @Accessors(chain = true)
 public class ContentSaveDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Content quantity")
     @Min(1)

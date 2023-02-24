@@ -12,7 +12,7 @@ import java.util.Set;
 @Schema(description = "Order data transfer object")
 @Accessors(chain = true)
 public class OrderDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Order status")
     private OrderStatus orderStatus;
@@ -20,6 +20,6 @@ public class OrderDto {
     private LocalDateTime createdAtUtc;
     @Schema(description = "Order completed at")
     private LocalDateTime completedAtUtc;
-    @Schema(description = "Order contents", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Order contents", required = true)
     private Set<ContentListDto> contents;
 }

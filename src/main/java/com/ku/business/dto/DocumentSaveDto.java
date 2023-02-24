@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Schema(description = "Document save or update data transfer object")
 @Accessors(chain = true)
 public class DocumentSaveDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Document content")
     private String documentContent;

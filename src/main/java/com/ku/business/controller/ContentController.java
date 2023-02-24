@@ -17,25 +17,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Tag(name = "Contents", description = "Contents information")
 @RequestMapping("/contents")
 public class ContentController {
     private ContentService service;
-    @Autowired
-    public void setService(ContentService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Find content by id")
-    public Optional<ContentDto> findById(
+    public ContentDto findById(
         @Parameter(description = "Content id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id);
+        return service.findById(id).get();
     }
 
     @GetMapping
@@ -63,5 +58,10 @@ public class ContentController {
         @PathVariable Long id
     ) {
         service.delete(id);
+    }
+
+    @Autowired
+    public void setService(ContentService service) {
+        this.service = service;
     }
 }

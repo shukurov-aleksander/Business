@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Schema(description = "Company list data transfer object for list of the companies")
 @Accessors(chain = true)
 public class CompanyListDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Company name")
     private String companyName;

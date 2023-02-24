@@ -10,7 +10,7 @@ import java.util.Set;
 @Schema(description = "Company data transfer object")
 @Accessors(chain = true)
 public class CompanyDto {
-    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Company name")
     private String companyName;
@@ -20,9 +20,9 @@ public class CompanyDto {
     private Boolean isGovernmentAgency;
     @Schema(description = "Company user")
     private Long userId;
-    @Schema(description = "Company storages", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Company storages", required = true)
     private Set<StorageListDto> storages;
-    @Schema(description = "Company details", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Company details", required = true)
     private Set<DetailListDto> details;
 }
 
