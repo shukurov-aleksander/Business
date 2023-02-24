@@ -12,29 +12,29 @@ import java.util.Optional;
 
 @Service
 public class DetailService {
-    private final DetailRepository repository;
+    private final DetailRepository detailRepository;
 
-    public DetailService(DetailRepository repository) {
-        this.repository = repository;
+    public DetailService(DetailRepository detailRepository) {
+        this.detailRepository = detailRepository;
     }
 
     public Optional<DetailDto> findById(Long id) {
-        return Optional.of(DetailDtoMapper.toDto(repository.findById(id).get()));
+        return Optional.of(DetailDtoMapper.toDto(detailRepository.findById(id).get()));
     }
 
     public List<DetailListDto> findAll() {
-        return DetailDtoMapper.toListDto(repository.findAll());
+        return DetailDtoMapper.toListDto(detailRepository.findAll());
     }
 
     public void save(DetailSaveDto detail) {
-        repository.save(DetailDtoMapper.fromSaveDto(detail));
+        detailRepository.save(DetailDtoMapper.fromSaveDto(detail));
     }
 
     public void update(DetailSaveDto detail) {
-        repository.save(DetailDtoMapper.fromSaveDto(detail));
+        detailRepository.save(DetailDtoMapper.fromSaveDto(detail));
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        detailRepository.deleteById(id);
     }
 }

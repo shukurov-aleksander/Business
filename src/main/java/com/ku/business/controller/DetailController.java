@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Details", description = "Details information")
 @RequestMapping("/details")
 public class DetailController {
-    private DetailService service;
+    private DetailService detailService;
 
     @GetMapping("{id}")
     @Operation(summary = "Find detail by id")
@@ -30,25 +30,25 @@ public class DetailController {
         @Parameter(description = "Detail id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id).get();
+        return detailService.findById(id).get();
     }
 
     @GetMapping
     @Operation(summary = "Find details")
     public List<DetailListDto> findAll() {
-        return service.findAll();
+        return detailService.findAll();
     }
 
     @PostMapping
     @Operation(summary = "Save detail")
     public void save(DetailSaveDto detail) {
-        service.save(detail);
+        detailService.save(detail);
     }
 
     @PutMapping
     @Operation(summary = "Update detail")
     public void update(DetailSaveDto detail) {
-        service.update(detail);
+        detailService.update(detail);
     }
 
     @DeleteMapping("{id}")
@@ -57,11 +57,11 @@ public class DetailController {
         @Parameter(description = "Detail id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        service.delete(id);
+        detailService.delete(id);
     }
 
     @Autowired
-    public void setService(DetailService service) {
-        this.service = service;
+    public void setDetailService(DetailService detailService) {
+        this.detailService = detailService;
     }
 }

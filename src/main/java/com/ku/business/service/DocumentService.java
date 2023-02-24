@@ -12,29 +12,29 @@ import java.util.Optional;
 
 @Service
 public class DocumentService {
-    private final DocumentRepository repository;
+    private final DocumentRepository documentRepository;
 
-    public DocumentService(DocumentRepository repository) {
-        this.repository = repository;
+    public DocumentService(DocumentRepository documentRepository) {
+        this.documentRepository = documentRepository;
     }
 
     public Optional<DocumentDto> findById(Long id) {
-        return Optional.of(DocumentDtoMapper.toDto(repository.findById(id).get()));
+        return Optional.of(DocumentDtoMapper.toDto(documentRepository.findById(id).get()));
     }
 
     public List<DocumentListDto> findAll() {
-        return DocumentDtoMapper.toListDto(repository.findAll());
+        return DocumentDtoMapper.toListDto(documentRepository.findAll());
     }
 
     public void save(DocumentSaveDto document) {
-        repository.save(DocumentDtoMapper.fromSaveDto(document));
+        documentRepository.save(DocumentDtoMapper.fromSaveDto(document));
     }
 
     public void update(DocumentSaveDto document) {
-        repository.save(DocumentDtoMapper.fromSaveDto(document));
+        documentRepository.save(DocumentDtoMapper.fromSaveDto(document));
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        documentRepository.deleteById(id);
     }
 }

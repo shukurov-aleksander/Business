@@ -12,29 +12,29 @@ import java.util.Optional;
 
 @Service
 public class StorageService {
-    private final StorageRepository repository;
+    private final StorageRepository storageRepository;
 
-    public StorageService(StorageRepository repository) {
-        this.repository = repository;
+    public StorageService(StorageRepository storageRepository) {
+        this.storageRepository = storageRepository;
     }
 
     public Optional<StorageDto> findById(Long id) {
-        return Optional.of(StorageDtoMapper.toDto(repository.findById(id).get()));
+        return Optional.of(StorageDtoMapper.toDto(storageRepository.findById(id).get()));
     }
 
     public List<StorageListDto> findAll() {
-        return StorageDtoMapper.toListDto(repository.findAll());
+        return StorageDtoMapper.toListDto(storageRepository.findAll());
     }
 
     public void save(StorageSaveDto storage) {
-        repository.save(StorageDtoMapper.fromSaveDto(storage));
+        storageRepository.save(StorageDtoMapper.fromSaveDto(storage));
     }
 
     public void update(StorageSaveDto storage) {
-        repository.save(StorageDtoMapper.fromSaveDto(storage));
+        storageRepository.save(StorageDtoMapper.fromSaveDto(storage));
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        storageRepository.deleteById(id);
     }
 }

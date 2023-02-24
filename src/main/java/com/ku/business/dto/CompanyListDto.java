@@ -14,6 +14,6 @@ public class CompanyListDto {
     private String companyName;
     @Schema(description = "Company tax number", required = true, example = "0000000000000001")
     private String taxNumber;
-    @Schema(description = "Does company government agency?", required = true, example = "true")
+    @Schema(description = "Is government agency", required = true, example = "true")
     private Boolean isGovernmentAgency;
 }

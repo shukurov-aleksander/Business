@@ -11,29 +11,29 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class ServiceService {
-    private final ServiceRepository repository;
+    private final ServiceRepository serviceRepository;
 
-    public ServiceService(ServiceRepository repository) {
-        this.repository = repository;
+    public ServiceService(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
     }
 
     public Optional<ServiceDto> findById(Long id) {
-        return Optional.of(ServiceDtoMapper.toDto(repository.findById(id).get()));
+        return Optional.of(ServiceDtoMapper.toDto(serviceRepository.findById(id).get()));
     }
 
     public List<ServiceListDto> findAll() {
-        return ServiceDtoMapper.toListDto(repository.findAll());
+        return ServiceDtoMapper.toListDto(serviceRepository.findAll());
     }
 
     public void save(ServiceSaveDto service) {
-        repository.save(ServiceDtoMapper.fromSaveDto(service));
+        serviceRepository.save(ServiceDtoMapper.fromSaveDto(service));
     }
 
     public void update(ServiceSaveDto service) {
-        repository.save(ServiceDtoMapper.fromSaveDto(service));
+        serviceRepository.save(ServiceDtoMapper.fromSaveDto(service));
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        serviceRepository.deleteById(id);
     }
 }

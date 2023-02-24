@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Storages", description = "Storages information")
 @RequestMapping("/storages")
 public class StorageController {
-    private StorageService service;
+    private StorageService storageService;
 
     @GetMapping("{id}")
     @Operation(summary = "Find storage by id")
@@ -30,25 +30,25 @@ public class StorageController {
         @Parameter(description = "Storage id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id).get();
+        return storageService.findById(id).get();
     }
 
     @GetMapping
     @Operation(summary = "Find storages")
     public List<StorageListDto> findAll() {
-        return service.findAll();
+        return storageService.findAll();
     }
 
     @PostMapping
     @Operation(summary = "Save storage")
     public void save(StorageSaveDto storage) {
-        service.save(storage);
+        storageService.save(storage);
     }
 
     @PutMapping
     @Operation(summary = "Update storage")
     public void update(StorageSaveDto storage) {
-        service.update(storage);
+        storageService.update(storage);
     }
 
     @DeleteMapping("{id}")
@@ -57,11 +57,11 @@ public class StorageController {
         @Parameter(description = "Storage id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        service.delete(id);
+        storageService.delete(id);
     }
 
     @Autowired
-    public void setService(StorageService service) {
-        this.service = service;
+    public void setStorageService(StorageService storageService) {
+        this.storageService = storageService;
     }
 }

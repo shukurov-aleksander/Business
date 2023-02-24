@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Services", description = "Services information")
 @RequestMapping("/services")
 public class ServiceController {
-    private ServiceService service;
+    private ServiceService serviceService;
 
     @GetMapping("{id}")
     @Operation(summary = "Find service by id")
@@ -30,25 +30,25 @@ public class ServiceController {
         @Parameter(description = "Service id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id).get();
+        return serviceService.findById(id).get();
     }
 
     @GetMapping
     @Operation(summary = "Find services")
     public List<ServiceListDto> findAll() {
-        return service.findAll();
+        return serviceService.findAll();
     }
 
     @PostMapping
     @Operation(summary = "Save service")
     public void save(ServiceSaveDto service) {
-        this.service.save(service);
+        this.serviceService.save(service);
     }
 
     @PutMapping
     @Operation(summary = "Update service")
     public void update(ServiceSaveDto service) {
-        this.service.update(service);
+        this.serviceService.update(service);
     }
 
     @DeleteMapping("{id}")
@@ -57,11 +57,11 @@ public class ServiceController {
         @Parameter(description = "Service id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        service.delete(id);
+        serviceService.delete(id);
     }
 
     @Autowired
-    public void setService(ServiceService service) {
-        this.service = service;
+    public void setServiceService(ServiceService serviceService) {
+        this.serviceService = serviceService;
     }
 }

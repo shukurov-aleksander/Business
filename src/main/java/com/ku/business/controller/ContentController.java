@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Contents", description = "Contents information")
 @RequestMapping("/contents")
 public class ContentController {
-    private ContentService service;
+    private ContentService contentService;
 
     @GetMapping("/{id}")
     @Operation(summary = "Find content by id")
@@ -30,25 +30,25 @@ public class ContentController {
         @Parameter(description = "Content id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return service.findById(id).get();
+        return contentService.findById(id).get();
     }
 
     @GetMapping
     @Operation(summary = "Find contents")
     public List<ContentListDto> findAll() {
-        return service.findAll();
+        return contentService.findAll();
     }
 
     @PostMapping
     @Operation(summary = "Save content")
     public void save(ContentSaveDto content) {
-        service.save(content);
+        contentService.save(content);
     }
 
     @PutMapping
     @Operation(summary = "Update content")
     public void update(ContentSaveDto content) {
-        service.update(content);
+        contentService.update(content);
     }
 
     @DeleteMapping("/{id}")
@@ -57,11 +57,11 @@ public class ContentController {
         @Parameter(description = "Content id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        service.delete(id);
+        contentService.delete(id);
     }
 
     @Autowired
-    public void setService(ContentService service) {
-        this.service = service;
+    public void setContentService(ContentService contentService) {
+        this.contentService = contentService;
     }
 }

@@ -12,29 +12,29 @@ import java.util.Optional;
 
 @Service
 public class OrderService {
-    private final OrderRepository repository;
+    private final OrderRepository orderRepository;
 
-    public OrderService(OrderRepository repository) {
-        this.repository = repository;
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     public Optional<OrderDto> findById(Long id) {
-        return Optional.of(OrderDtoMapper.toDto(repository.findById(id).get()));
+        return Optional.of(OrderDtoMapper.toDto(orderRepository.findById(id).get()));
     }
 
     public List<OrderListDto> findAll() {
-        return OrderDtoMapper.toListDto(repository.findAll());
+        return OrderDtoMapper.toListDto(orderRepository.findAll());
     }
 
     public void save(OrderSaveDto order) {
-        repository.save(OrderDtoMapper.fromSaveDto(order));
+        orderRepository.save(OrderDtoMapper.fromSaveDto(order));
     }
 
     public void update(OrderSaveDto order) {
-        repository.save(OrderDtoMapper.fromSaveDto(order));
+        orderRepository.save(OrderDtoMapper.fromSaveDto(order));
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        orderRepository.deleteById(id);
     }
 }
