@@ -11,6 +11,6 @@ import lombok.experimental.Accessors;
 public class OrderListDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Order status")
+    @Schema(description = "Order status", required = true, example = "CREATED")
     private OrderStatus orderStatus;
 }

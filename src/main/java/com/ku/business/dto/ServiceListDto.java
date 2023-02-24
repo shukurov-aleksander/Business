@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 public class ServiceListDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Service name")
+    @Schema(description = "Service name", required = true, example = "Service")
     private String serviceName;
 }

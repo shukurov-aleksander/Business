@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 public class DocumentSaveDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Document content")
+    @Schema(description = "Document content", required = true, example = "Some content")
     private String documentContent;
 }

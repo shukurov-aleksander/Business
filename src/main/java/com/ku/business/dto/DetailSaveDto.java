@@ -11,6 +11,6 @@ import lombok.experimental.Accessors;
 public class DetailSaveDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Detail operation type")
+    @Schema(description = "Detail operation type", required = true, example = "PURCHASE")
     private OperationType operationType;
 }

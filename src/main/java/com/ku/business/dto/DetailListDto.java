@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
 public class DetailListDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Detail order")
+    @Schema(description = "Detail order", required = true)
     private OrderDto order;
-    @Schema(description = "Detail operation type")
+    @Schema(description = "Detail operation type", required = true, example = "PURCHASE")
     private OperationType operationType;
 }
