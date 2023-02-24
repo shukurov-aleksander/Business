@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-@Schema(description = "Company list data transfer object for list of the companies")
+@Schema(description = "Company save or update data transfer object")
 @Accessors(chain = true)
-public class CompanyListDto {
+public class CompanySaveDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
     @Schema(description = "Company name", required = true, example = "Company name")
@@ -16,4 +16,6 @@ public class CompanyListDto {
     private String taxNumber;
     @Schema(description = "Is government agency", required = true, example = "true")
     private Boolean isGovernmentAgency;
+    @Schema(description = "Company user", required = true, example = "1")
+    private Long userId;
 }

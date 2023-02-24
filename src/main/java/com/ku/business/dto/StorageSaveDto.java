@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-@Schema(description = "Document list data transfer object for list of the companies")
+@Schema(description = "Storage save or update data transfer object")
 @Accessors(chain = true)
-public class DocumentListDto {
+public class StorageSaveDto {
     @Schema(description = "Id", required = true, example = "1")
     private Long id;
-    @Schema(description = "Document content", required = true, example = "Some content")
-    private String documentContent;
+    @Schema(description = "Storage quantity", required = true, example = "1")
+    private Integer quantity;
 }
