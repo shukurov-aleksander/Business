@@ -6,11 +6,11 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CompanyFilter{
-    String taxNumber;
-    String companyName;
-    Boolean isGovernmentAgency;
-    Long userId;
-    Integer limit;
-    Integer offset;
-    String sortBy;
+    private String taxNumber;
+    private String companyName;
+    private Boolean isGovernmentAgency;
+    private Long userId;
+    private Integer limit;
+    private Integer offset;
+    private String sortBy;
 }
