@@ -4,6 +4,7 @@ import com.ku.business.dto.CompanyDto;
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.dto.CompanySaveDto;
 import com.ku.business.dtomapper.CompanyDtoMapper;
+import com.ku.business.filter.CompanyFilter;
 import com.ku.business.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,8 @@ public class CompanyService {
         return Optional.of(CompanyDtoMapper.toDto(companyRepository.findById(id).get()));
     }
 
-    public List<CompanyListDto> findAll() {
-        return CompanyDtoMapper.toListDto(companyRepository.findAll());
+    public List<CompanyListDto> findAll(CompanyFilter filter) {
+        return CompanyDtoMapper.toListDto(companyRepository.findAll(filter));
     }
 
     public void save(CompanySaveDto company) {
