@@ -43,8 +43,7 @@ public class CompanyController {
                         .setUserId(userId)
                         .setIsGovernmentAgency(isGovernmentAgency)
                         .setLimit(limit)
-                        .setOffset(offset)
-                );
+                        .setOffset(offset));
     }
 
     @Autowired

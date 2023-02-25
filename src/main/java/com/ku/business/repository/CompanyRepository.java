@@ -3,6 +3,7 @@ package com.ku.business.repository;
 import com.ku.business.entity.Company;
 import com.ku.business.filter.CompanyFilter;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,6 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 public class CompanyRepository {
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static final String QUERY_FIND_ALL_WITH_FILTER = """
         SELECT *
         FROM companies c
@@ -25,16 +25,14 @@ public class CompanyRepository {
         LIMIT :limit OFFSET :offset
     """;
 
-    public CompanyRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Company> findAll(CompanyFilter filter) {
-        return namedParameterJdbcTemplate.query(QUERY_FIND_ALL_WITH_FILTER, returnMap(filter), (rs, rowNum) -> getCompanyFromResultSet(rs));
+        return namedParameterJdbcTemplate.query(QUERY_FIND_ALL_WITH_FILTER, createMapOfFilteredFields(filter), (rs, rowNum) -> createCompanyFromResultSet(rs));
     }
 
     @SneakyThrows
-    public Company getCompanyFromResultSet(ResultSet rs) {
+    public Company createCompanyFromResultSet(ResultSet rs) {
         return new Company()
                 .setId(rs.getLong("id"))
                 .setCompanyName(rs.getString("company_name"))
@@ -43,7 +41,7 @@ public class CompanyRepository {
                 .setUserId(rs.getLong("user_id"));
     }
 
-    public MapSqlParameterSource returnMap(CompanyFilter filter) {
+    public MapSqlParameterSource createMapOfFilteredFields(CompanyFilter filter) {
        return new MapSqlParameterSource()
                .addValue("isCompanyNameNull",  !hasText(filter.getCompanyName()))
                .addValue("companyName", filter.getCompanyName())
@@ -55,5 +53,10 @@ public class CompanyRepository {
                .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
                .addValue("limit", filter.getLimit())
                .addValue("offset", filter.getOffset());
+    }
+
+    @Autowired
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 }
