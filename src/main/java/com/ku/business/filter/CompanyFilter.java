@@ -1,5 +1,6 @@
 package com.ku.business.filter;
 
+import com.ku.business.entity.CompanyStatus;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,4 +14,5 @@ public class CompanyFilter{
     private Integer limit;
     private Integer offset;
     private String sortBy;
+    private CompanyStatus companyStatus;
 }

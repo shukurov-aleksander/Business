@@ -1,6 +1,7 @@
 package com.ku.business.repository;
 
 import com.ku.business.entity.Company;
+import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class CompanyRepository {
             AND (:isTaxNumberNull OR c.tax_number = :taxNumber)
             AND (:isUserIdNull OR c.user_id = :userId)    
             AND (:isGovernmentAgencyNull OR c.is_government_agency = :isGovernmentAgency)
+            AND (:isCompanyStatusNull OR c.company_status = :companyStatus)
         LIMIT :limit OFFSET :offset
     """;
 
@@ -38,7 +40,8 @@ public class CompanyRepository {
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
-                .setUserId(rs.getLong("user_id"));
+                .setUserId(rs.getLong("user_id"))
+                .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
     }
 
     public MapSqlParameterSource createMapOfFilteredFields(CompanyFilter filter) {
@@ -51,6 +54,8 @@ public class CompanyRepository {
                .addValue("userId", filter.getUserId())
                .addValue("isGovernmentAgencyNull", filter.getIsGovernmentAgency() == null)
                .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
+               .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
+               .addValue("companyStatus", filter.getCompanyStatus())
                .addValue("limit", filter.getLimit())
                .addValue("offset", filter.getOffset());
     }

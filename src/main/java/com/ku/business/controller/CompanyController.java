@@ -1,6 +1,7 @@
 package com.ku.business.controller;
 
 import com.ku.business.dto.CompanyListDto;
+import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import com.ku.business.service.CompanyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +32,8 @@ public class CompanyController {
             @RequestParam(value = "user_id", required = false)  Long userId,
             @Parameter(description = "is government agency", example = "false")
             @RequestParam(value = "is_government_agency", required = false)  Boolean isGovernmentAgency,
+            @Parameter(description = "Company status", example = "REGISTERED")
+            @RequestParam(defaultValue = "REGISTERED") CompanyStatus companyStatus,
             @Parameter(description = "Offset", example = "0")
             @RequestParam(defaultValue = "0") Integer offset,
             @Parameter(description = "Limit", example = "20")
@@ -42,6 +45,7 @@ public class CompanyController {
                         .setTaxNumber(taxNumber)
                         .setUserId(userId)
                         .setIsGovernmentAgency(isGovernmentAgency)
+                        .setCompanyStatus(companyStatus)
                         .setLimit(limit)
                         .setOffset(offset));
     }
