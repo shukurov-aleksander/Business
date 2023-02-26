@@ -5,9 +5,10 @@
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
         <comment>fill in the table "companies" column "company_statuses_id" with test data</comment>
         <sql>
-            INSERT INTO companies (company_status_id)
-            SELECT FLOOR(RANDOM() * ((SELECT COUNT(*) FROM companies) - 1) + 1)
-            FROM (SELECT GENERATE_SERIES(1, 1000)) AS series ON CONFLICT DO NOTHING
+            WITH series AS ( SELECT GENERATE_SERIES(1,1000) sery)
+            UPDATE companies
+            SET company_status_id = FLOOR(RANDOM() *((SELECT COUNT(*) FROM COMPANIES) - 1) + 1)
+            FROM series s
         </sql>
     </changeSet>
 </databaseChangeLog>
