@@ -11,4 +11,5 @@
     <include file="2022-10-26__7_create-documents.xml" relativeToChangelogFile="true"/>
     <include file="2022-10-26__8_details.xml" relativeToChangelogFile="true"/>
     <include file="2022-10-26__9_storages.xml" relativeToChangelogFile="true"/>
+    <include file="2023-02-26__2_create-company-statuses.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

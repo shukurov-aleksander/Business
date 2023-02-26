@@ -7,14 +7,16 @@
         <sql>
             WITH series AS (SELECT GENERATE_SERIES(1, 1000) sery),
                  count_series AS (SELECT COUNT(*) AS quantity FROM series)
-            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency)
+            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency, company_status_id)
             SELECT 'Company name №' || CAST(s.sery AS VARCHAR(3)) || ' .inc',
                    LPAD(s.sery::VARCHAR, 16, '0'),
                    FLOOR(RANDOM() * (cs.quantity - 1) + 1),
                    CASE
                        WHEN s.sery % 100 = 0 THEN TRUE ELSE FALSE
-                   END
+                       END,
+                   FLOOR(RANDOM() *((SELECT COUNT(*) FROM COMPANIES) - 1) + 1)
             FROM series s, count_series cs
+            ON CONFLICT DO NOTHING
         </sql>
     </changeSet>
 </databaseChangeLog>

@@ -10,4 +10,5 @@
     <include file="2022-10-26__6_fill-table-details.xml" relativeToChangelogFile="true"/>
     <include file="2022-10-26__7_fill-table-documents.xml" relativeToChangelogFile="true"/>
     <include file="2022-10-26__8_fill-table-storages.xml" relativeToChangelogFile="true"/>
+<!--    <include file="2023-02-26__1_fill-table-company_statuses.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
 </databaseChangeLog>

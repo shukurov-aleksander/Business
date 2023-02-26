@@ -16,6 +16,9 @@
             </column>
             <column name="user_id" type="bigint"/>
             <column name="is_government_agency" type="boolean"/>
+            <column name="company_status_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

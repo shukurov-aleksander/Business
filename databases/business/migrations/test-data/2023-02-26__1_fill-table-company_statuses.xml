@@ -5,9 +5,7 @@
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
         <comment>fill in the table "company_statuses" with test data</comment>
         <sql>
-            with SERIES AS (
-                    SELECT generate_series(1,1000) sery
-                )
+            WITH series AS (SELECT generate_series(1,1000) sery)
             INSERT INTO company_statuses (company_status, inserted_at_utc, comment, company_id)
             SELECT
                 CASE

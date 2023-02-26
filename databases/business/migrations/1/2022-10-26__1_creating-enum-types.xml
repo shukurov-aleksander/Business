@@ -25,4 +25,15 @@
             </sql>
         </rollback>
     </changeSet>
+    <changeSet id="3" author="Aleksander.shukurov@gmail.com">
+        <comment>create type "company_status_enum"</comment>
+        <sql>
+            CREATE TYPE company_status_enum AS ENUM ('REGISTERED', 'ACTIVE', 'FREEZED','ELIMINATED');
+        </sql>
+        <rollback>
+            <sql>
+                DROP TYPE company_status_enum
+            </sql>
+        </rollback>
+    </changeSet>
 </databaseChangeLog>
