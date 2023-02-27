@@ -14,9 +14,8 @@
                    CASE
                        WHEN s.sery % 100 = 0 THEN TRUE ELSE FALSE
                        END,
-                   FLOOR(RANDOM() *((SELECT COUNT(*) FROM COMPANIES) - 1) + 1)
+                   FLOOR(RANDOM() *((SELECT COUNT(*) FROM series) - 1) + 1)
             FROM series s, count_series cs
-            ON CONFLICT DO NOTHING
         </sql>
     </changeSet>
 </databaseChangeLog>
