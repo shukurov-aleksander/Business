@@ -25,7 +25,7 @@ public class CompanyDto {
     private Set<StorageListDto> storages;
     @Schema(description = "Company details", required = true)
     private Set<DetailListDto> details;
-    @Schema(description = "Company status", required = true, example = "REGISTERED")
+    @Schema(description = "Company status", required = true, example = "ACTIVE")
     private CompanyStatus companyStatus;
 }
 

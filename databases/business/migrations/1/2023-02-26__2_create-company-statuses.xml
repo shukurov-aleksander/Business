@@ -8,11 +8,8 @@
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="company_id" type="bigint">
-                <constraints nullable="false" unique="true"/>
-            </column>
             <column name="company_status" type="company_status_enum">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="inserted_at_utc" type="timestamp without time zone">
                 <constraints nullable="false"/>
@@ -21,18 +18,5 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
-
-    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
-        <comment>add foreign key to "company_id" column</comment>
-        <sql>
-            ALTER TABLE company_statuses
-                ADD CONSTRAINT fk_company_statuses_company FOREIGN KEY (company_id) REFERENCES companies (id)
-        </sql>
-        <rollback>
-            <sql>
-                ALTER TABLE details DROP CONSTRAINT fk_company_statuses_company
-            </sql>
-        </rollback>
     </changeSet>
 </databaseChangeLog>
