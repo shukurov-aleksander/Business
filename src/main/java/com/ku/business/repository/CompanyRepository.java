@@ -44,16 +44,16 @@ public class CompanyRepository {
         return namedParameterJdbcTemplate.query(
                 QUERY_FIND_ALL_WITH_FILTER,
                 createMapOfFilteredFields(filter),
-                new ResultSetExtractor<List<Company>>() {
-            @Override
-            public List<Company> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                List<Company> companies = new ArrayList<>();
-                while (rs.next()){
-                   companies.add(createCompanyFromResultSet(rs));
-                }
-                return companies;
-            }
-        });
+                new ResultSetExtractor<>() {
+                    @Override
+                    public List<Company> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                        List<Company> companies = new ArrayList<>();
+                        while (rs.next()) {
+                            companies.add(createCompanyFromResultSet(rs));
+                        }
+                        return companies;
+                    }
+                });
     }
 
     @SneakyThrows
