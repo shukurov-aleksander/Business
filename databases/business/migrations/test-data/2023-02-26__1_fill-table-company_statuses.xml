@@ -16,8 +16,8 @@
                 END,
                 NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day',
                 lpad('comment about company status', (FLOOR(RANDOM() * ((248 - 32) + 32)))::INTEGER, 'different comment and another'),
-                FLOOR(RANDOM() *((SELECT COUNT(*) FROM companies) - 1) + 1)
-            FROM series s
+                FLOOR(RANDOM() *((SELECT COUNT(*) FROM series) - 1) + 1)
+            FROM series s ON CONFLICT DO NOTHING
         </sql>
     </changeSet>
 </databaseChangeLog>

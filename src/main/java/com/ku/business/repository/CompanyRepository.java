@@ -17,13 +17,14 @@ import static org.springframework.util.StringUtils.hasText;
 @Repository
 public class CompanyRepository {
     private static final String QUERY_FIND_ALL_WITH_FILTER = """
-        SELECT *
+        SELECT c.id, c.company_name as company_name, c.tax_number as tax_number, c.is_government_agency as is_government_agency, c.user_id as user_id, cs.company_status as company_status
         FROM companies c
+        LEFT JOIN company_statuses cs on c.id = cs.company_id
         WHERE (:isCompanyNameNull OR c.company_name = :companyName)
             AND (:isTaxNumberNull OR c.tax_number = :taxNumber)
             AND (:isUserIdNull OR c.user_id = :userId)    
             AND (:isGovernmentAgencyNull OR c.is_government_agency = :isGovernmentAgency)
-            AND (:isCompanyStatusNull OR c.company_status = :companyStatus)
+            AND (:isCompanyStatusNull OR cs.company_status = :companyStatus::company_status_enum)
         LIMIT :limit OFFSET :offset
     """;
 
@@ -45,19 +46,19 @@ public class CompanyRepository {
     }
 
     public MapSqlParameterSource createMapOfFilteredFields(CompanyFilter filter) {
-       return new MapSqlParameterSource()
-               .addValue("isCompanyNameNull",  !hasText(filter.getCompanyName()))
-               .addValue("companyName", filter.getCompanyName())
-               .addValue("isTaxNumberNull", !hasText(filter.getTaxNumber()))
-               .addValue("taxNumber", filter.getTaxNumber())
-               .addValue("isUserIdNull", filter.getUserId() == null)
-               .addValue("userId", filter.getUserId())
-               .addValue("isGovernmentAgencyNull", filter.getIsGovernmentAgency() == null)
-               .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
-               .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
-               .addValue("companyStatus", filter.getCompanyStatus())
-               .addValue("limit", filter.getLimit())
-               .addValue("offset", filter.getOffset());
+        return new MapSqlParameterSource()
+                .addValue("isCompanyNameNull", !hasText(filter.getCompanyName()))
+                .addValue("companyName", filter.getCompanyName())
+                .addValue("isTaxNumberNull", !hasText(filter.getTaxNumber()))
+                .addValue("taxNumber", filter.getTaxNumber())
+                .addValue("isUserIdNull", filter.getUserId() == null)
+                .addValue("userId", filter.getUserId())
+                .addValue("isGovernmentAgencyNull", filter.getIsGovernmentAgency() == null)
+                .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
+                .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
+                .addValue("companyStatus", filter.getCompanyStatus().toString())
+                .addValue("limit", filter.getLimit())
+                .addValue("offset", filter.getOffset());
     }
 
     @Autowired

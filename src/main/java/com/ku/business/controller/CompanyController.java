@@ -33,7 +33,7 @@ public class CompanyController {
             @Parameter(description = "is government agency", example = "false")
             @RequestParam(value = "is_government_agency", required = false)  Boolean isGovernmentAgency,
             @Parameter(description = "Company status", example = "REGISTERED")
-            @RequestParam(defaultValue = "REGISTERED") CompanyStatus companyStatus,
+            @RequestParam(value = "company_status", required = false) CompanyStatus companyStatus,
             @Parameter(description = "Offset", example = "0")
             @RequestParam(defaultValue = "0") Integer offset,
             @Parameter(description = "Limit", example = "20")
