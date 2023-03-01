@@ -4,14 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
         <comment>add column "company_status_id" to "companies"</comment>
-        <sql>
-            ALTER TABLE companies ADD COLUMN company_status_id BIGINT NOT NULL
-        </sql>
-        <rollback>
-            <sql>
-                ALTER TABLE companies DROP COLUMN company_status_id
-            </sql>
-        </rollback>
+        <addColumn tableName="companies">
+            <column name="company_status_id" type="bigint"/>
+        </addColumn>
     </changeSet>
 
     <changeSet id="2" author="Aleksander.shukurov@gmail.com">
