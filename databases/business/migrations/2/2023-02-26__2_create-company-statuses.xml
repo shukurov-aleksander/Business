@@ -19,4 +19,17 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <comment>make "company_status" column unique</comment>
+        <sql>
+            ALTER TABLE company_statuses
+                ADD CONSTRAINT uc_company_status UNIQUE (company_status);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE company_statuses DROP CONSTRAINT uc_company_status
+            </sql>
+        </rollback>
+    </changeSet>
 </databaseChangeLog>

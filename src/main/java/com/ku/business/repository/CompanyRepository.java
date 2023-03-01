@@ -5,29 +5,20 @@ import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 public class CompanyRepository {
     private static final String QUERY_FIND_ALL_WITH_FILTER = """
-        SELECT 
-            c.id, 
-            c.company_name as company_name, 
-            c.tax_number as tax_number, 
-            c.is_government_agency as is_government_agency, 
-            c.user_id as user_id, 
-            cs.company_status as company_status
+        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
         FROM companies c
         LEFT JOIN company_statuses cs on c.company_status_id = cs.id
         WHERE (:isCompanyNameNull OR c.company_name = :companyName)
@@ -44,20 +35,11 @@ public class CompanyRepository {
         return namedParameterJdbcTemplate.query(
                 QUERY_FIND_ALL_WITH_FILTER,
                 createMapOfFilteredFields(filter),
-                new ResultSetExtractor<>() {
-                    @Override
-                    public List<Company> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                        List<Company> companies = new ArrayList<>();
-                        while (rs.next()) {
-                            companies.add(createCompanyFromResultSet(rs));
-                        }
-                        return companies;
-                    }
-                });
+                this::buildCompanyListDto);
     }
 
     @SneakyThrows
-    public Company createCompanyFromResultSet(ResultSet rs) {
+    public Company buildCompanyListDto(ResultSet rs, int rowNum) {
         return new Company()
                 .setId(rs.getLong("id"))
                 .setCompanyName(rs.getString("company_name"))
@@ -78,7 +60,7 @@ public class CompanyRepository {
                 .addValue("isGovernmentAgencyNull", filter.getIsGovernmentAgency() == null)
                 .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
                 .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
-                .addValue("companyStatus", filter.getCompanyStatus() != null ? filter.getCompanyStatus().toString() : "")
+                .addValue("companyStatus", Objects.toString(filter.getCompanyStatus(),""))
                 .addValue("limit", filter.getLimit())
                 .addValue("offset", filter.getOffset());
     }
