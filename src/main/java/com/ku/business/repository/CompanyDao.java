@@ -16,7 +16,7 @@ import java.util.Objects;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
-public class CompanyRepository {
+public class CompanyDao {
     private static final String FIND_ALL_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
         FROM companies c

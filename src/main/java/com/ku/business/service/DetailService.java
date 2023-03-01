@@ -4,7 +4,7 @@ import com.ku.business.dto.DetailDto;
 import com.ku.business.dto.DetailListDto;
 import com.ku.business.dto.DetailSaveDto;
 import com.ku.business.dtomapper.DetailDtoMapper;
-import com.ku.business.repository.DetailRepository;
+import com.ku.business.repository.DetailDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class DetailService {
-    private final DetailRepository detailRepository;
+    private final DetailDao detailRepository;
 
-    public DetailService(DetailRepository detailRepository) {
+    public DetailService(DetailDao detailRepository) {
         this.detailRepository = detailRepository;
     }
 

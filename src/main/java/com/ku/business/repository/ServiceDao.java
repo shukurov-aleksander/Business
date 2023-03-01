@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface ServiceRepository extends JpaRepository<Service, Long> {
+public interface ServiceDao extends JpaRepository<Service, Long> {
     @Override
     @Query("FROM Service s WHERE s.id = :id")
     Optional<Service> findById(Long id);
