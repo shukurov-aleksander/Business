@@ -33,9 +33,12 @@ public class CompanyController {
             @RequestParam(value = "userId", required = false)  Long userId,
             @Parameter(description = "is government agency", example = "false")
             @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
-            @Parameter(description = "Company status", example = "REGISTERED")
             @RequestParam(value = "companyStatus", required = false)
-            @Schema(type = "string", allowableValues = {"REGISTERED", "ACTIVE", "FREEZED", "ELIMINATED"}) CompanyStatus companyStatus,
+            @Schema(
+                    type = "string", allowableValues = {"REGISTERED", "ACTIVE", "FREEZED", "ELIMINATED"},
+                    description = "Company status",
+                    example = "REGISTERED")
+            CompanyStatus companyStatus,
             @Parameter(description = "Offset", example = "0")
             @RequestParam(defaultValue = "0") Integer offset,
             @Parameter(description = "Limit", example = "20")

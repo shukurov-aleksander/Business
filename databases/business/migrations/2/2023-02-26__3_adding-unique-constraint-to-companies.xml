@@ -3,6 +3,18 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>add column "company_status_id" to "companies"</comment>
+        <sql>
+            ALTER TABLE companies ADD COLUMN company_status_id BIGINT NOT NULL
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE companies DROP COLUMN company_status_id
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
         <comment>add foreign key to "company_status_id" column</comment>
         <sql>
             ALTER TABLE companies
@@ -10,7 +22,7 @@
         </sql>
         <rollback>
             <sql>
-                ALTER TABLE details DROP CONSTRAINT fk_company_company_statuses
+                ALTER TABLE companies DROP CONSTRAINT fk_company_company_statuses
             </sql>
         </rollback>
     </changeSet>

@@ -13,7 +13,7 @@
                    FLOOR(RANDOM() * (cs.quantity - 1) + 1),
                    CASE
                        WHEN s.sery % 100 = 0 THEN TRUE ELSE FALSE
-                       END,
+                    END,
                    FLOOR(RANDOM() * (5 - 1) + 1)
             FROM series s, count_series cs
         </sql>

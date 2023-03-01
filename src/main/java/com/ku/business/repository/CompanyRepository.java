@@ -1,6 +1,6 @@
 package com.ku.business.repository;
 
-import com.ku.business.entity.Company;
+import com.ku.business.dto.CompanyListDto;
 import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import lombok.SneakyThrows;
@@ -17,10 +17,10 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 public class CompanyRepository {
-    private static final String QUERY_FIND_ALL_WITH_FILTER = """
+    private static final String FIND_ALL_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
         FROM companies c
-        LEFT JOIN company_statuses cs on c.company_status_id = cs.id
+            LEFT JOIN company_statuses cs on c.company_status_id = cs.id
         WHERE (:isCompanyNameNull OR c.company_name = :companyName)
             AND (:isTaxNumberNull OR c.tax_number = :taxNumber)
             AND (:isUserIdNull OR c.user_id = :userId)    
@@ -31,25 +31,21 @@ public class CompanyRepository {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Company> findAll(CompanyFilter filter) {
-        return namedParameterJdbcTemplate.query(
-                QUERY_FIND_ALL_WITH_FILTER,
-                createMapOfFilteredFields(filter),
-                this::buildCompanyListDto);
+    public List<CompanyListDto> findAll(CompanyFilter filter) {
+        return namedParameterJdbcTemplate.query(FIND_ALL_QUERY, filteredFieldsMap(filter), this::buildCompanyListDto);
     }
 
     @SneakyThrows
-    public Company buildCompanyListDto(ResultSet rs, int rowNum) {
-        return new Company()
+    public CompanyListDto buildCompanyListDto(ResultSet rs, int rowNum) {
+        return new CompanyListDto()
                 .setId(rs.getLong("id"))
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
-                .setUserId(rs.getLong("user_id"))
                 .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
     }
 
-    public MapSqlParameterSource createMapOfFilteredFields(CompanyFilter filter) {
+    public MapSqlParameterSource filteredFieldsMap(CompanyFilter filter) {
         return new MapSqlParameterSource()
                 .addValue("isCompanyNameNull", !hasText(filter.getCompanyName()))
                 .addValue("companyName", filter.getCompanyName())
@@ -60,7 +56,7 @@ public class CompanyRepository {
                 .addValue("isGovernmentAgencyNull", filter.getIsGovernmentAgency() == null)
                 .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
                 .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
-                .addValue("companyStatus", Objects.toString(filter.getCompanyStatus(),""))
+                .addValue("companyStatus", Objects.toString(filter.getCompanyStatus()))
                 .addValue("limit", filter.getLimit())
                 .addValue("offset", filter.getOffset());
     }
