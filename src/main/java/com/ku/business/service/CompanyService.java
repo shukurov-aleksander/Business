@@ -1,7 +1,6 @@
 package com.ku.business.service;
 
 import com.ku.business.dto.CompanyListDto;
-import com.ku.business.dtomapper.CompanyDtoMapper;
 import com.ku.business.filter.CompanyFilter;
 import com.ku.business.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,6 @@ public class CompanyService {
     }
 
     public List<CompanyListDto> findAll(CompanyFilter filter) {
-        return CompanyDtoMapper.toListDto(companyRepository.findAll(filter));
+        return companyRepository.findAll(filter);
     }
 }

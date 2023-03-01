@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,4 +42,7 @@ public class Company {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private Set<Detail> details;
+    @Column(name = "company_status")
+    @Enumerated(EnumType.STRING)
+    private CompanyStatus companyStatus;
 }

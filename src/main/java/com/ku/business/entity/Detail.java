@@ -31,7 +31,6 @@ public class Detail {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
-
     @Column(name = "operation_type")
     @Enumerated(EnumType.STRING)
     private OperationType operationType;

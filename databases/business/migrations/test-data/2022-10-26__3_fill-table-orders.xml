@@ -12,7 +12,8 @@
                        WHEN s.sery % 3 = 0  THEN 'COMPLETED'::order_status_enum
                        ELSE 'CREATED'::order_status_enum
                    END,
-                   NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day', NOW() - FLOOR((RANDOM() * (499 - 1) + 1)) * INTERVAL '1 day'
+                   NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day',
+                   NOW() - FLOOR((RANDOM() * (499 - 1) + 1)) * INTERVAL '1 day'
             FROM series s
         </sql>
     </changeSet>

@@ -1,5 +1,6 @@
 package com.ku.business.dto;
 
+import com.ku.business.entity.CompanyStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,4 +17,6 @@ public class CompanyListDto {
     private String taxNumber;
     @Schema(description = "Is government agency", required = true, example = "true")
     private Boolean isGovernmentAgency;
+    @Schema(description = "Company status", required = true, example = "ACTIVE")
+    private CompanyStatus companyStatus;
 }

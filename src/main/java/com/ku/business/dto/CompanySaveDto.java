@@ -1,5 +1,6 @@
 package com.ku.business.dto;
 
+import com.ku.business.entity.CompanyStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -18,4 +19,6 @@ public class CompanySaveDto {
     private Boolean isGovernmentAgency;
     @Schema(description = "Company user", required = true, example = "1")
     private Long userId;
+    @Schema(description = "Company status", required = true, example = "ACTIVE")
+    private CompanyStatus companyStatus;
 }

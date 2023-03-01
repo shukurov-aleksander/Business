@@ -1,5 +1,6 @@
 package com.ku.business.dto;
 
+import com.ku.business.entity.CompanyStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,5 +25,7 @@ public class CompanyDto {
     private Set<StorageListDto> storages;
     @Schema(description = "Company details", required = true)
     private Set<DetailListDto> details;
+    @Schema(description = "Company status", required = true, example = "ACTIVE")
+    private CompanyStatus companyStatus;
 }
 
