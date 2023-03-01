@@ -5,6 +5,7 @@ import com.ku.business.dto.DocumentListDto;
 import com.ku.business.dto.DocumentSaveDto;
 import com.ku.business.dtomapper.DocumentDtoMapper;
 import com.ku.business.repository.DocumentDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,7 @@ import java.util.Optional;
 
 @Service
 public class DocumentService {
-    private final DocumentDao documentDao;
-
-    public DocumentService(DocumentDao documentDao) {
-        this.documentDao = documentDao;
-    }
+    private DocumentDao documentDao;
 
     public Optional<DocumentDto> findById(Long id) {
         return Optional.of(DocumentDtoMapper.toDto(documentDao.findById(id).get()));
@@ -36,5 +33,10 @@ public class DocumentService {
 
     public void delete(Long id) {
         documentDao.deleteById(id);
+    }
+
+    @Autowired
+    public void setDocumentDao(DocumentDao documentDao) {
+        this.documentDao = documentDao;
     }
 }

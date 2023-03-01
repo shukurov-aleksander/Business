@@ -5,6 +5,7 @@ import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.dtomapper.ContentDtoMapper;
 import com.ku.business.repository.ContentDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,7 @@ import java.util.Optional;
 
 @Service
 public class ContentService {
-    private final ContentDao contentDao;
-
-    public ContentService(ContentDao contentDao) {
-        this.contentDao = contentDao;
-    }
+    private ContentDao contentDao;
 
     public Optional<ContentDto> findById(Long id) {
         return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
@@ -36,5 +33,10 @@ public class ContentService {
 
     public void delete(Long id) {
         contentDao.deleteById(id);
+    }
+
+    @Autowired
+    public void setContentDao(ContentDao contentDao) {
+        this.contentDao = contentDao;
     }
 }

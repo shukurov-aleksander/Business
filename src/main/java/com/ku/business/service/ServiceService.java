@@ -5,17 +5,14 @@ import com.ku.business.dto.ServiceListDto;
 import com.ku.business.dto.ServiceSaveDto;
 import com.ku.business.dtomapper.ServiceDtoMapper;
 import com.ku.business.repository.ServiceDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class ServiceService {
-    private final ServiceDao serviceDao;
-
-    public ServiceService(ServiceDao serviceDao) {
-        this.serviceDao = serviceDao;
-    }
+    private ServiceDao serviceDao;
 
     public Optional<ServiceDto> findById(Long id) {
         return Optional.of(ServiceDtoMapper.toDto(serviceDao.findById(id).get()));
@@ -35,5 +32,10 @@ public class ServiceService {
 
     public void delete(Long id) {
         serviceDao.deleteById(id);
+    }
+
+    @Autowired
+    public void setServiceDao(ServiceDao serviceDao) {
+        this.serviceDao = serviceDao;
     }
 }

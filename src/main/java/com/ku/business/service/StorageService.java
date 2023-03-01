@@ -5,6 +5,7 @@ import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveDto;
 import com.ku.business.dtomapper.StorageDtoMapper;
 import com.ku.business.repository.StorageDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,7 @@ import java.util.Optional;
 
 @Service
 public class StorageService {
-    private final StorageDao storageDao;
-
-    public StorageService(StorageDao storageDao) {
-        this.storageDao = storageDao;
-    }
+    private StorageDao storageDao;
 
     public Optional<StorageDto> findById(Long id) {
         return Optional.of(StorageDtoMapper.toDto(storageDao.findById(id).get()));
@@ -36,5 +33,10 @@ public class StorageService {
 
     public void delete(Long id) {
         storageDao.deleteById(id);
+    }
+
+    @Autowired
+    public void setStorageDao(StorageDao storageDao) {
+        this.storageDao = storageDao;
     }
 }
