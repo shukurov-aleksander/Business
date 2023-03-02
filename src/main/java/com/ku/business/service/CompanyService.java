@@ -1,6 +1,8 @@
 package com.ku.business.service;
 
 import com.ku.business.dto.CompanyListDto;
+import com.ku.business.dto.CompanySaveDto;
+import com.ku.business.dtomapper.CompanyDtoMapper;
 import com.ku.business.filter.CompanyFilter;
 import com.ku.business.repository.CompanyDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,10 @@ public class CompanyService {
 
     public List<CompanyListDto> findAll(CompanyFilter filter) {
         return companyDao.findAll(filter);
+    }
+
+    public void save(CompanySaveDto company) {
+        companyDao.save(CompanyDtoMapper.fromSaveDto(company));
     }
 
     @Autowired

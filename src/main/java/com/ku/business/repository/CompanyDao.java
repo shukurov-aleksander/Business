@@ -1,6 +1,7 @@
 package com.ku.business.repository;
 
 import com.ku.business.dto.CompanyListDto;
+import com.ku.business.entity.Company;
 import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import lombok.SneakyThrows;
@@ -10,7 +11,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -20,7 +23,7 @@ public class CompanyDao {
     private static final String FIND_ALL_QUERY = """
         SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
         FROM companies c
-            LEFT JOIN company_statuses cs on c.company_status_id = cs.id
+            LEFT JOIN company_statuses cs on c.deprecated_company_status_id = cs.id
         WHERE (:isCompanyNameNull OR c.company_name = :companyName)
             AND (:isTaxNumberNull OR c.tax_number = :taxNumber)
             AND (:isUserIdNull OR c.user_id = :userId)    
@@ -28,6 +31,11 @@ public class CompanyDao {
             AND (:isCompanyStatusNull OR cs.company_status = :companyStatus::company_status_enum)
         LIMIT :limit OFFSET :offset
     """;
+
+    public static final String INSERT_QUERY = """
+            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency, company_status)
+                VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency, :companyStatus)
+            """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -59,6 +67,16 @@ public class CompanyDao {
                 .addValue("companyStatus", Objects.toString(filter.getCompanyStatus()))
                 .addValue("limit", filter.getLimit())
                 .addValue("offset", filter.getOffset());
+    }
+
+    public void save(Company company) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("companyName", company.getCompanyName());
+        paramMap.put("taxNumber", company.getTaxNumber());
+        paramMap.put("userId", company.getTaxNumber());
+        paramMap.put("isGovernmentAgency)", company.getIsGovernmentAgency());
+        paramMap.put("companyStatus", company.getCompanyStatus());
+        namedParameterJdbcTemplate.update(INSERT_QUERY, paramMap);
     }
 
     @Autowired

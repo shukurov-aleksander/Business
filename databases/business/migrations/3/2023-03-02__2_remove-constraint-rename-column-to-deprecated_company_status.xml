@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>remove constraint not null from column "company_status_id" of table "companies"</comment>
+        <sql>
+            ALTER TABLE companies ALTER COLUMN company_status_id DROP NOT NULL;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE companies ALTER COLUMN company_status_id SET NOT NULL;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="Aleksander.shukurov@gmail.com">
+        <comment>in company table rename column "company_status_id" to "deprecated_company_status_id"</comment>
+        <sql>
+            ALTER TABLE companies
+                RENAME COLUMN company_status_id TO deprecated_company_status_id;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE companies
+                    RENAME COLUMN deprecated_company_status_id TO company_status_id;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
