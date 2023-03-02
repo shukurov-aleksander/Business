@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface DocumentRepository extends JpaRepository<Document, Long> {
+public interface DocumentDao extends JpaRepository<Document, Long> {
     @Override
     @Query("FROM Document d LEFT JOIN FETCH d.order WHERE d.id = :id")
     Optional<Document> findById(Long id);

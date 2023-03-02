@@ -4,7 +4,8 @@ import com.ku.business.dto.DetailDto;
 import com.ku.business.dto.DetailListDto;
 import com.ku.business.dto.DetailSaveDto;
 import com.ku.business.dtomapper.DetailDtoMapper;
-import com.ku.business.repository.DetailRepository;
+import com.ku.business.repository.DetailDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,7 @@ import java.util.Optional;
 
 @Service
 public class DetailService {
-    private final DetailRepository detailRepository;
-
-    public DetailService(DetailRepository detailRepository) {
-        this.detailRepository = detailRepository;
-    }
+    private DetailDao detailRepository;
 
     public Optional<DetailDto> findById(Long id) {
         return Optional.of(DetailDtoMapper.toDto(detailRepository.findById(id).get()));
@@ -36,5 +33,10 @@ public class DetailService {
 
     public void delete(Long id) {
         detailRepository.deleteById(id);
+    }
+
+    @Autowired
+    public void setDetailRepository(DetailDao detailRepository) {
+        this.detailRepository = detailRepository;
     }
 }

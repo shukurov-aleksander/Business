@@ -4,7 +4,8 @@ import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.dtomapper.ContentDtoMapper;
-import com.ku.business.repository.ContentRepository;
+import com.ku.business.repository.ContentDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,29 +13,30 @@ import java.util.Optional;
 
 @Service
 public class ContentService {
-    private final ContentRepository contentRepository;
-
-    public ContentService(ContentRepository contentRepository) {
-        this.contentRepository = contentRepository;
-    }
+    private ContentDao contentDao;
 
     public Optional<ContentDto> findById(Long id) {
-        return Optional.of(ContentDtoMapper.toDto(contentRepository.findById(id).get()));
+        return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
     }
 
     public List<ContentListDto> findAll() {
-        return ContentDtoMapper.toListDto(contentRepository.findAll());
+        return ContentDtoMapper.toListDto(contentDao.findAll());
     }
 
     public void save(ContentSaveDto content) {
-        contentRepository.save(ContentDtoMapper.fromSaveDto(content));
+        contentDao.save(ContentDtoMapper.fromSaveDto(content));
     }
 
     public void update(ContentSaveDto content) {
-        contentRepository.save(ContentDtoMapper.fromSaveDto(content));
+        contentDao.save(ContentDtoMapper.fromSaveDto(content));
     }
 
     public void delete(Long id) {
-        contentRepository.deleteById(id);
+        contentDao.deleteById(id);
+    }
+
+    @Autowired
+    public void setContentDao(ContentDao contentDao) {
+        this.contentDao = contentDao;
     }
 }
