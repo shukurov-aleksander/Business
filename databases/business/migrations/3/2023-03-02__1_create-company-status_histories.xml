@@ -27,12 +27,11 @@
     <changeSet id="2" author="Aleksander.shukurov@gmail.com">
         <comment>make "company_id" and "company_status_id" columns unique</comment>
         <sql>
-            ALTER TABLE company_status_histories
-                ADD CONSTRAINT uc_company_company_status UNIQUE (company_id, company_status_id);
+            CREATE UNIQUE INDEX ui_company_company_status ON company_status_histories (company_id) WHERE (active = true);
         </sql>
         <rollback>
             <sql>
-                ALTER TABLE company_status_histories DROP CONSTRAINT uc_company_company_status
+                DROP INDEX if exists ui_company_company_status
             </sql>
         </rollback>
     </changeSet>
