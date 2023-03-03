@@ -11,9 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -31,10 +29,14 @@ public class CompanyDao {
             AND (:isCompanyStatusNull OR cs.company_status = :companyStatus::company_status_enum)
         LIMIT :limit OFFSET :offset
     """;
-
     public static final String INSERT_QUERY = """
-            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency, company_status)
-                VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency, :companyStatus)
+            INSERT INTO companies (company_name, tax_number, user_id, is_government_agency)
+                            VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency)                
+            """;
+    public static final String FIND_BY_ID_QUERY = """
+            SELECT (id) 
+            FROM company 
+            WHERE company_status = :companyStatus AND tax_number = :tax_number              
             """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -70,14 +72,24 @@ public class CompanyDao {
     }
 
     public void save(Company company) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("companyName", company.getCompanyName());
-        paramMap.put("taxNumber", company.getTaxNumber());
-        paramMap.put("userId", company.getTaxNumber());
-        paramMap.put("isGovernmentAgency)", company.getIsGovernmentAgency());
-        paramMap.put("companyStatus", company.getCompanyStatus());
-        namedParameterJdbcTemplate.update(INSERT_QUERY, paramMap);
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("companyName", company.getCompanyName())
+                .addValue("taxNumber", company.getTaxNumber())
+                .addValue("userId", company.getUserId())
+                .addValue("isGovernmentAgency", company.getIsGovernmentAgency())
+                .addValue("isGovernmentAgency", company.getIsGovernmentAgency());
+
+        namedParameterJdbcTemplate.update(INSERT_QUERY, mapSqlParameterSource);
     }
+    public Long findIdByName(Company company) {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("companyStatus", company.getCompanyStatus().toString())
+                .addValue("tax_number", company.getTaxNumber());
+        return namedParameterJdbcTemplate.query(FIND_BY_ID_QUERY, mapSqlParameterSource, rs -> {
+            return rs.getLong("id");
+        });
+    }
+
 
     @Autowired
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

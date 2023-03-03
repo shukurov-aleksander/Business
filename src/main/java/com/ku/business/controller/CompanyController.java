@@ -60,11 +60,11 @@ public class CompanyController {
     @PostMapping
     @Operation(summary = "Save company")
     public void save(
-            @Parameter(description = "Company name", example = "Company name №709 .inc")
+            @Parameter(description = "Company name", example = "Company name №1001 .inc")
             @RequestParam(value = "companyName", required = false) String companyName,
-            @Parameter(description = "Tax number", example = "0000000000000709")
+            @Parameter(description = "Tax number", example = "0000000000001001")
             @RequestParam(value = "taxNumber", required = false)  String taxNumber,
-            @Parameter(description = "User id", example = "4")
+            @Parameter(description = "User id", example = "327")
             @RequestParam(value = "userId", required = false)  Long userId,
             @Parameter(description = "is government agency", example = "false")
             @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
