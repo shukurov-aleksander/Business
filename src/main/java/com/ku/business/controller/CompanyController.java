@@ -85,7 +85,7 @@ public class CompanyController {
     }
 
     @PutMapping
-    @Operation(summary = "Save company")
+    @Operation(summary = "Update company")
     public void update(
             @Parameter(description = "Company name", example = "Company name №1001 .inc")
             @RequestParam(value = "companyName", required = false) String companyName,

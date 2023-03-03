@@ -19,7 +19,7 @@ public class CompanyStatusDao {
     public static final String UPDATE_QUERY = """
             UPDATE company_status_histories 
             SET active = :active
-            WHERE company_id = :company_id AND avtive = true;               
+            WHERE company_id = :company_id AND active = true;               
             """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -38,9 +38,7 @@ public class CompanyStatusDao {
     public void update(Company company) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("company_id", company.getCompanyName())
-                .addValue("company_status_id", company.getCompanyStatus())
-                .addValue("active", false)
-                .addValue("updated_at_utc", LocalDateTime.now());
+                .addValue("active", false);
         namedParameterJdbcTemplate.update(UPDATE_QUERY, mapSqlParameterSource);
         save(company);
     }
