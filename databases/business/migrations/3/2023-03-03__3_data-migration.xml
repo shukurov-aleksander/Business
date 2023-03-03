@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com">
+        <comment>data migration into table "company_status_histories"</comment>
+        <sql>
+            INSERT INTO company_status_histories(company_id, company_status_id, active, inserted_at_utc, updated_at_utc)
+            SELECT id,
+                   deprecated_company_status_id,
+                   TRUE,
+                   now(),
+                   now()
+            FROM companies
+        </sql>
+    </changeSet>
+</databaseChangeLog>

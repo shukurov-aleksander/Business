@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     private CompanyDao companyDao;
+    private CompanyStatusService companyStatusService;
 
     public List<CompanyListDto> findAll(CompanyFilter filter) {
         return companyDao.findAll(filter);
@@ -20,10 +21,19 @@ public class CompanyService {
 
     public void save(CompanySaveDto company) {
         companyDao.save(CompanyDtoMapper.fromSaveDto(company));
+        companyStatusService.save(CompanyDtoMapper.fromSaveDto(company));
+    }
+    public void update(CompanySaveDto company) {
+        companyStatusService.update(CompanyDtoMapper.fromSaveDto(company));
     }
 
     @Autowired
     public void setCompanyDao(CompanyDao companyDao) {
         this.companyDao = companyDao;
+    }
+
+    @Autowired
+    public void setCompanyStatusService(CompanyStatusService companyStatusService) {
+        this.companyStatusService = companyStatusService;
     }
 }

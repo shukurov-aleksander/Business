@@ -4,4 +4,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <include file="2023-03-02__1_create-company-status_histories.xml" relativeToChangelogFile="true"/>
     <include file="2023-03-02__2_remove-constraint-rename-column-to-deprecated_company_status.xml" relativeToChangelogFile="true"/>
+    <include file="2023-03-03__3_data-migration.xml" relativeToChangelogFile="true"/>
+    <include file="2023-03-03__4_next-day.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

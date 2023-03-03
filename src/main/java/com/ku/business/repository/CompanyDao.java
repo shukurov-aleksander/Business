@@ -33,11 +33,6 @@ public class CompanyDao {
             INSERT INTO companies (company_name, tax_number, user_id, is_government_agency)
                             VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency)                
             """;
-    public static final String FIND_BY_ID_QUERY = """
-            SELECT (id) 
-            FROM company 
-            WHERE company_status = :companyStatus AND tax_number = :tax_number              
-            """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -76,20 +71,9 @@ public class CompanyDao {
                 .addValue("companyName", company.getCompanyName())
                 .addValue("taxNumber", company.getTaxNumber())
                 .addValue("userId", company.getUserId())
-                .addValue("isGovernmentAgency", company.getIsGovernmentAgency())
                 .addValue("isGovernmentAgency", company.getIsGovernmentAgency());
-
         namedParameterJdbcTemplate.update(INSERT_QUERY, mapSqlParameterSource);
     }
-    public Long findIdByName(Company company) {
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                .addValue("companyStatus", company.getCompanyStatus().toString())
-                .addValue("tax_number", company.getTaxNumber());
-        return namedParameterJdbcTemplate.query(FIND_BY_ID_QUERY, mapSqlParameterSource, rs -> {
-            return rs.getLong("id");
-        });
-    }
-
 
     @Autowired
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

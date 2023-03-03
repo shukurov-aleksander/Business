@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,14 +76,25 @@ public class CompanyController {
                     example = "REGISTERED")
             CompanyStatus companyStatus
     ) {
-        companyService.save(
-                new CompanySaveDto()
-                        .setCompanyName(companyName)
-                        .setTaxNumber(taxNumber)
-                        .setUserId(userId)
-                        .setIsGovernmentAgency(isGovernmentAgency)
-                        .setCompanyStatus(companyStatus)
-        );
+        companyService.save(new CompanySaveDto()
+                .setCompanyName(companyName)
+                .setTaxNumber(taxNumber)
+                .setUserId(userId)
+                .setIsGovernmentAgency(isGovernmentAgency)
+                .setCompanyStatus(companyStatus));
+    }
+
+    @PutMapping
+    @Operation(summary = "Save company")
+    public void update(
+            @RequestParam(value = "companyStatus", required = false)
+            @Schema(
+                    type = "string", allowableValues = {"REGISTERED", "ACTIVE", "FREEZED", "ELIMINATED"},
+                    description = "Company status",
+                    example = "REGISTERED")
+            CompanyStatus companyStatus
+    ) {
+        companyService.update(new CompanySaveDto().setCompanyStatus(companyStatus));
     }
 
     @Autowired

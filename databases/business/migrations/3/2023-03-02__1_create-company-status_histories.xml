@@ -27,11 +27,11 @@
     <changeSet id="2" author="Aleksander.shukurov@gmail.com">
         <comment>make "company_id" and "company_status_id" columns unique</comment>
         <sql>
-            CREATE UNIQUE INDEX ui_company_company_status ON company_status_histories (company_id) WHERE (active = true);
+            CREATE UNIQUE INDEX ui_company_company_status ON company_status_histories (company_id) WHERE (active = TRUE);
         </sql>
         <rollback>
             <sql>
-                DROP INDEX if exists ui_company_company_status
+                DROP INDEX IF EXISTS ui_company_company_status
             </sql>
         </rollback>
     </changeSet>
