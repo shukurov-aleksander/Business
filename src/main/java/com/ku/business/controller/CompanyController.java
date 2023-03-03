@@ -87,6 +87,14 @@ public class CompanyController {
     @PutMapping
     @Operation(summary = "Save company")
     public void update(
+            @Parameter(description = "Company name", example = "Company name №1001 .inc")
+            @RequestParam(value = "companyName", required = false) String companyName,
+            @Parameter(description = "Tax number", example = "0000000000001001")
+            @RequestParam(value = "taxNumber", required = false)  String taxNumber,
+            @Parameter(description = "User id", example = "327")
+            @RequestParam(value = "userId", required = false)  Long userId,
+            @Parameter(description = "is government agency", example = "false")
+            @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
             @RequestParam(value = "companyStatus", required = false)
             @Schema(
                     type = "string", allowableValues = {"REGISTERED", "ACTIVE", "FREEZED", "ELIMINATED"},
@@ -94,7 +102,12 @@ public class CompanyController {
                     example = "REGISTERED")
             CompanyStatus companyStatus
     ) {
-        companyService.update(new CompanySaveDto().setCompanyStatus(companyStatus));
+        companyService.update(new CompanySaveDto()
+                .setCompanyName(companyName)
+                .setTaxNumber(taxNumber)
+                .setUserId(userId)
+                .setIsGovernmentAgency(isGovernmentAgency)
+                .setCompanyStatus(companyStatus));
     }
 
     @Autowired
