@@ -87,6 +87,8 @@ public class CompanyController {
     @PutMapping
     @Operation(summary = "Update company")
     public void update(
+            @Parameter(description = "Company id", example = "1")
+            @RequestParam(value = "id", required = false) Long id,
             @Parameter(description = "Company name", example = "Company name №1001 .inc")
             @RequestParam(value = "companyName", required = false) String companyName,
             @Parameter(description = "Tax number", example = "0000000000001001")
@@ -103,6 +105,7 @@ public class CompanyController {
             CompanyStatus companyStatus
     ) {
         companyService.update(new CompanySaveDto()
+                .setId(id)
                 .setCompanyName(companyName)
                 .setTaxNumber(taxNumber)
                 .setUserId(userId)

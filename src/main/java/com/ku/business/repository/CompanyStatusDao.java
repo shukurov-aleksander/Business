@@ -26,7 +26,7 @@ public class CompanyStatusDao {
 
     public void save(Company company) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                .addValue("company_id", company.getCompanyName())
+                .addValue("company_id", company.getId())
                 .addValue("company_status_id", company.getCompanyStatus())
                 .addValue("active", true)
                 .addValue("inserted_at_utc", LocalDateTime.now())
@@ -37,7 +37,7 @@ public class CompanyStatusDao {
     @Transactional
     public void update(Company company) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                .addValue("company_id", company.getCompanyName())
+                .addValue("company_id", company.getId())
                 .addValue("active", false);
         namedParameterJdbcTemplate.update(UPDATE_QUERY, mapSqlParameterSource);
         save(company);
