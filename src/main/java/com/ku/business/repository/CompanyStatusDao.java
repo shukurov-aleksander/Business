@@ -13,34 +13,54 @@ import java.time.LocalDateTime;
 public class CompanyStatusDao {
     public static final String INSERT_QUERY = """
             INSERT INTO company_status_histories (company_id, company_status_id, active, inserted_at_utc, updated_at_utc)
-                            VALUES (:company_id, :company_status_id, :active, :inserted_at_utc, updated_at_utc)                
+                            VALUES (
+                                (SELECT COUNT(*) FROM companies),
+                                (SELECT id FROM company_statuses WHERE company_status = :companyStatus::company_status_enum),
+                                :active, 
+                                :insertedAtUtc, :updatedAtUtc)                
+            """;
+
+    public static final String SAVE_QUERY = """
+            INSERT INTO company_status_histories (company_id, company_status_id, active, inserted_at_utc, updated_at_utc)
+                            VALUES (
+                            :companyId,
+                            (SELECT id FROM company_statuses WHERE company_status = :companyStatus::company_status_enum),
+                            TRUE,
+             	            (SELECT inserted_at_utc
+            	            FROM company_status_histories
+            	            WHERE (company_id = :companyId AND company_status_id = 
+            	                (SELECT company_status_id FROM company_status_histories WHERE company_id = :companyId 
+            	                AND id = (SELECT max(id) FROM company_status_histories)) 
+            	                AND id = (SELECT max(id) FROM company_status_histories))),
+                            :updatedAtUtc)                            
             """;
 
     public static final String UPDATE_QUERY = """
             UPDATE company_status_histories 
             SET active = :active
-            WHERE company_id = :company_id AND active = true;               
+            WHERE company_id = :companyId AND active = true;               
             """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public void save(Company company) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                .addValue("company_id", company.getId())
-                .addValue("company_status_id", company.getCompanyStatus())
+                .addValue("companyStatus", company.getCompanyStatus().toString())
                 .addValue("active", true)
-                .addValue("inserted_at_utc", LocalDateTime.now())
-                .addValue("updated_at_utc", LocalDateTime.now());
+                .addValue("insertedAtUtc", LocalDateTime.now())
+                .addValue("updatedAtUtc", LocalDateTime.now());
         namedParameterJdbcTemplate.update(INSERT_QUERY, mapSqlParameterSource);
     }
 
     @Transactional
     public void update(Company company) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                .addValue("company_id", company.getId())
-                .addValue("active", false);
+                .addValue("companyId", company.getId())
+                .addValue("active", false)
+                .addValue("updatedAtUtc", LocalDateTime.now())
+                .addValue("companyStatus", company.getCompanyStatus().toString());
         namedParameterJdbcTemplate.update(UPDATE_QUERY, mapSqlParameterSource);
-        save(company);
+       namedParameterJdbcTemplate.update(SAVE_QUERY, mapSqlParameterSource);
     }
 
     @Autowired
