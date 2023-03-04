@@ -54,8 +54,7 @@ public class CompanyDtoMapper {
                 .setCompanyName(company.getCompanyName())
                 .setTaxNumber(company.getTaxNumber())
                 .setIsGovernmentAgency(company.getIsGovernmentAgency())
-                .setUserId(company.getUserId())
-                .setCompanyStatus(company.getCompanyStatus());
+                .setUserId(company.getUserId());
     }
 
     public static Company fromSaveDto(CompanySaveDto companySaveDto) {
@@ -64,7 +63,6 @@ public class CompanyDtoMapper {
                 .setCompanyName(companySaveDto.getCompanyName())
                 .setTaxNumber(companySaveDto.getTaxNumber())
                 .setIsGovernmentAgency(companySaveDto.getIsGovernmentAgency())
-                .setUserId(companySaveDto.getUserId())
-                .setCompanyStatus(companySaveDto.getCompanyStatus());
+                .setUserId(companySaveDto.getUserId());
     }
 }

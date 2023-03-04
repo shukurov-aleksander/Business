@@ -1,20 +1,20 @@
 package com.ku.business.service;
 
-import com.ku.business.entity.Company;
+import com.ku.business.entity.CompanyStatus;
 import com.ku.business.repository.CompanyStatusDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CompanyStatusService {
     private CompanyStatusDao companyStatusDao;
 
-    public void update(Company company) {
-        companyStatusDao.update(company);
-    }
-
-    public void save(Company company) {
-        companyStatusDao.save(company);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(Long companyId, CompanyStatus companyStatus) {
+        companyStatusDao.updateActiveToFalse(companyId);
+        companyStatusDao.updateStatus(companyId, companyStatus);
     }
 
     @Autowired

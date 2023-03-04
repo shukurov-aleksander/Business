@@ -3,6 +3,7 @@ package com.ku.business.service;
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.dto.CompanySaveDto;
 import com.ku.business.dtomapper.CompanyDtoMapper;
+import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import com.ku.business.repository.CompanyDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,9 @@ public class CompanyService {
         return companyDao.findAll(filter);
     }
 
-    public void save(CompanySaveDto company) {
-        companyDao.save(CompanyDtoMapper.fromSaveDto(company));
-        companyStatusService.save(CompanyDtoMapper.fromSaveDto(company));
-    }
-    public void update(CompanySaveDto company) {
-        companyStatusService.update(CompanyDtoMapper.fromSaveDto(company));
+    public void save(CompanySaveDto companySaveDto) {
+        Long id = companyDao.save(CompanyDtoMapper.fromSaveDto(companySaveDto));
+        companyStatusService.save(id, CompanyStatus.REGISTERED);
     }
 
     @Autowired
