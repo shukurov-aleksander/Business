@@ -4,6 +4,7 @@ import com.ku.business.dto.OrderDto;
 import com.ku.business.dto.OrderListDto;
 import com.ku.business.dto.OrderSaveDto;
 import com.ku.business.dtomapper.OrderDtoMapper;
+import com.ku.business.exception.NotFoundException;
 import com.ku.business.repository.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,11 @@ public class OrderService {
     private OrderDao orderDao;
 
     public Optional<OrderDto> findById(Long id) {
-        return Optional.of(OrderDtoMapper.toDto(orderDao.findById(id).get()));
+        try {
+            return Optional.of(OrderDtoMapper.toDto(orderDao.findById(id).get()));
+        } catch (RuntimeException runtimeException) {
+            throw new NotFoundException(String.format("Can't find order with id=%d!", id), runtimeException);
+        }
     }
 
     public List<OrderListDto> findAll() {

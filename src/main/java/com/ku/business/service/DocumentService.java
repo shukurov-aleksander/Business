@@ -4,6 +4,7 @@ import com.ku.business.dto.DocumentDto;
 import com.ku.business.dto.DocumentListDto;
 import com.ku.business.dto.DocumentSaveDto;
 import com.ku.business.dtomapper.DocumentDtoMapper;
+import com.ku.business.exception.NotFoundException;
 import com.ku.business.repository.DocumentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,11 @@ public class DocumentService {
     private DocumentDao documentDao;
 
     public Optional<DocumentDto> findById(Long id) {
-        return Optional.of(DocumentDtoMapper.toDto(documentDao.findById(id).get()));
+        try {
+            return Optional.of(DocumentDtoMapper.toDto(documentDao.findById(id).get()));
+        } catch (RuntimeException runtimeException) {
+            throw new NotFoundException(String.format("Can't find document with id=%d!", id), runtimeException);
+        }
     }
 
     public List<DocumentListDto> findAll() {

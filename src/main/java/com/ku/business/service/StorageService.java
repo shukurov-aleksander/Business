@@ -4,6 +4,7 @@ import com.ku.business.dto.StorageDto;
 import com.ku.business.dto.StorageListDto;
 import com.ku.business.dto.StorageSaveDto;
 import com.ku.business.dtomapper.StorageDtoMapper;
+import com.ku.business.exception.NotFoundException;
 import com.ku.business.repository.StorageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,11 @@ public class StorageService {
     private StorageDao storageDao;
 
     public Optional<StorageDto> findById(Long id) {
-        return Optional.of(StorageDtoMapper.toDto(storageDao.findById(id).get()));
+        try {
+            return Optional.of(StorageDtoMapper.toDto(storageDao.findById(id).get()));
+        } catch (RuntimeException runtimeException) {
+            throw new NotFoundException(String.format("Can't find storage with id=%d!", id), runtimeException);
+        }
     }
 
     public List<StorageListDto> findAll() {

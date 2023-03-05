@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Company status", description = "Companies status information")
-@RequestMapping("/company_status_histories")
+@RequestMapping("/companyStatusHistories")
 public class CompanyStatusController {
     private CompanyStatusService companyStatusService;
 
