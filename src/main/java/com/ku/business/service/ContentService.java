@@ -4,7 +4,7 @@ import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.dtomapper.ContentDtoMapper;
-import com.ku.business.exception.NotFoundException;
+import com.ku.business.exception.ServiceException;
 import com.ku.business.repository.ContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,9 @@ public class ContentService {
         try {
            return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
         } catch (RuntimeException runtimeException) {
-           throw new NotFoundException(String.format("Can't find content with id=%d!", id), runtimeException);
+           throw ServiceException.notFoundException(
+                   String.format("Can't find content with id=%d!", id),
+                   runtimeException);
         }
     }
 

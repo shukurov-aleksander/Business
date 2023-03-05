@@ -4,7 +4,7 @@ import com.ku.business.dto.ServiceDto;
 import com.ku.business.dto.ServiceListDto;
 import com.ku.business.dto.ServiceSaveDto;
 import com.ku.business.dtomapper.ServiceDtoMapper;
-import com.ku.business.exception.NotFoundException;
+import com.ku.business.exception.ServiceException;
 import com.ku.business.repository.ServiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,7 +19,9 @@ public class ServiceService {
         try {
             return Optional.of(ServiceDtoMapper.toDto(serviceDao.findById(id).get()));
         } catch (RuntimeException runtimeException) {
-            throw new NotFoundException(String.format("Can't find service with id=%d!", id), runtimeException);
+            throw ServiceException.notFoundException(
+                    String.format("Can't find service with id=%d!", id),
+                    runtimeException);
         }
     }
 

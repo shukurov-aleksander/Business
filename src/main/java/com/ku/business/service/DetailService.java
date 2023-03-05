@@ -4,7 +4,7 @@ import com.ku.business.dto.DetailDto;
 import com.ku.business.dto.DetailListDto;
 import com.ku.business.dto.DetailSaveDto;
 import com.ku.business.dtomapper.DetailDtoMapper;
-import com.ku.business.exception.NotFoundException;
+import com.ku.business.exception.ServiceException;
 import com.ku.business.repository.DetailDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,9 @@ public class DetailService {
         try {
             return Optional.of(DetailDtoMapper.toDto(detailRepository.findById(id).get()));
         } catch (RuntimeException runtimeException) {
-            throw new NotFoundException(String.format("Can't find detail with id=%d!", id), runtimeException);
+            throw ServiceException.notFoundException(String.format(
+                    "Can't find detail with id=%d!", id),
+                    runtimeException);
         }
     }
 
