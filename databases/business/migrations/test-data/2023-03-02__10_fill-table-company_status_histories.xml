@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com" context="test_data">
+        <comment>fill in the table "company_statuses" with test data</comment>
+        <sql>
+            WITH sequence_numbers AS (SELECT generate_series(1, 4) sequence_number),
+                 series_counts AS (SELECT COUNT(*) AS series_count FROM sequence_numbers),
+                 series AS (SELECT GENERATE_SERIES(1, (SELECT count(*) FROM companies c))  sery)
+            INSERT INTO company_status_histories (active, inserted_at_utc, updated_at_utc, company_id, company_status_id)
+            SELECT (CASE WHEN sn.sequence_number = sc.series_count THEN TRUE ELSE FALSE END),
+                   CASE WHEN sn.sequence_number = sc.series_count THEN NOW() AT TIME ZONE 'utc'
+                        ELSE now() AT TIME ZONE 'utc' - (sc.series_count - sn.sequence_number) * INTERVAL '1 day' END,
+                   CASE WHEN sn.sequence_number = sc.series_count THEN NOW() AT TIME ZONE 'utc'
+                        ELSE now() AT TIME ZONE 'utc' - (sc.series_count - sn.sequence_number) * INTERVAL '1 day' END,
+            FLOOR(RANDOM() * ((SELECT COUNT(*) FROM series) - 1) + 1),
+            FLOOR(RANDOM() * (sn.sequence_number - 1) + 1)
+            FROM sequence_numbers sn, series_counts sc, series s
+                ON CONFLICT DO NOTHING
+        </sql>
+    </changeSet>
+</databaseChangeLog>
