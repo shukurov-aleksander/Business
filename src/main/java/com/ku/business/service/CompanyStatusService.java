@@ -13,8 +13,9 @@ public class CompanyStatusService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void save(Long companyId, CompanyStatus companyStatus) {
-        companyStatusDao.updateActiveToFalse(companyId);
-        companyStatusDao.updateStatus(companyId, companyStatus);
+        if (companyStatusDao.updateStatus(companyId, companyStatus) != 0) {
+            companyStatusDao.updateStatus(companyId, companyStatus);
+        }
     }
 
     @Autowired
