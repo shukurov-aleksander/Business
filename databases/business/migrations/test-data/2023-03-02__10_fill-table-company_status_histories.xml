@@ -12,7 +12,7 @@
             SELECT (CASE WHEN sn.sequence_number = sc.series_count THEN TRUE ELSE FALSE END),
                    CASE WHEN sn.sequence_number = sc.series_count THEN NOW() AT TIME ZONE 'utc'
                         ELSE now() AT TIME ZONE 'utc' - (sc.series_count - sn.sequence_number) * INTERVAL '1 day' END,
-                    CASE WHEN sn.sequence_number = sc.series_count THEN NOW() AT TIME ZONE 'utc'
+                   CASE WHEN sn.sequence_number = sc.series_count THEN NOW() AT TIME ZONE 'utc'
                         ELSE now() AT TIME ZONE 'utc' - (sc.series_count - sn.sequence_number) * INTERVAL '1 day' END,
             FLOOR(RANDOM() * ((SELECT COUNT(*) FROM series) - 1) + 1),
             FLOOR(RANDOM() * (sn.sequence_number - 1) + 1)

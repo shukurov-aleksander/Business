@@ -29,12 +29,11 @@ public class CompanyDao {
             AND (:isUserIdNull OR c.user_id = :userId)    
             AND (:isGovernmentAgencyNull OR c.is_government_agency = :isGovernmentAgency)
             AND (:isCompanyStatusNull OR cs.company_status = :companyStatus::company_status_enum)
-        ORDER BY c.:sortBy
         LIMIT :limit OFFSET :offset
     """;
     public static final String INSERT_QUERY = """
         INSERT INTO companies (company_name, tax_number, user_id, is_government_agency)
-                        VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency)                
+            VALUES (:companyName, :taxNumber, :userId, :isGovernmentAgency)                
     """;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -50,7 +49,8 @@ public class CompanyDao {
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
-                .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
+                .setCompanyStatus(
+                        rs.getString("company_status") != null ? CompanyStatus.valueOf(rs.getString("company_status")) : null);
     }
 
     public MapSqlParameterSource filteredFieldsMap(CompanyFilter filter) {
@@ -66,7 +66,6 @@ public class CompanyDao {
                 .addValue("isCompanyStatusNull", filter.getCompanyStatus() == null)
                 .addValue("companyStatus", Objects.toString(filter.getCompanyStatus()))
                 .addValue("limit", filter.getLimit())
-                .addValue("sortBy", Objects.toString(filter.getSortBy()))
                 .addValue("offset", filter.getOffset());
     }
 

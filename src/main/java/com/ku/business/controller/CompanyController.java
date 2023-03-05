@@ -39,9 +39,7 @@ public class CompanyController {
             @Parameter(description = "Offset", example = "0")
             @RequestParam(defaultValue = "0") Integer offset,
             @Parameter(description = "Limit", example = "20")
-            @RequestParam(defaultValue = "20") Integer limit,
-            @Parameter(description = "Sort by", example = "user_id")
-            @RequestParam(defaultValue = "user_id") String sortBy
+            @RequestParam(defaultValue = "20") Integer limit
     ) {
         return companyService.findAll(
                 new CompanyFilter()
@@ -51,8 +49,7 @@ public class CompanyController {
                         .setIsGovernmentAgency(isGovernmentAgency)
                         .setCompanyStatus(companyStatus)
                         .setLimit(limit)
-                        .setOffset(offset)
-                        .setSortBy(sortBy));
+                        .setOffset(offset));
     }
 
     @PostMapping
@@ -65,9 +62,7 @@ public class CompanyController {
             @Parameter(description = "User id", example = "327")
             @RequestParam(value = "userId", required = false)  Long userId,
             @Parameter(description = "is government agency", example = "false")
-            @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
-            @RequestParam(value = "companyStatus", required = false)
-            @Parameter(description = "Company status",example = "REGISTERED") CompanyStatus companyStatus
+            @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency
     ) {
         companyService.save(new CompanySaveDto()
                 .setCompanyName(companyName)

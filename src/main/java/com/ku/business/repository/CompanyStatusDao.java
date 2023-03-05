@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 public class CompanyStatusDao {
     public static final String SAVE_QUERY = """
         INSERT INTO company_status_histories (company_id, company_status_id, active, inserted_at_utc)
-        VALUES (:companyId,
-               (SELECT id FROM company_statuses WHERE company_status = :companyStatus::company_status_enum),
-               TRUE,
-               NOW() AT TIME ZONE 'UTC')          
+            VALUES (:companyId,
+                    (SELECT id FROM company_statuses WHERE company_status = :companyStatus::company_status_enum),
+                    TRUE,
+                    NOW() AT TIME ZONE 'UTC')          
     """;
 
     public static final String UPDATE_ACTIVE_TO_FALSE = """
