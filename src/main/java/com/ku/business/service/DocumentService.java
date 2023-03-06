@@ -4,13 +4,14 @@ import com.ku.business.dto.DocumentDto;
 import com.ku.business.dto.DocumentListDto;
 import com.ku.business.dto.DocumentSaveDto;
 import com.ku.business.dtomapper.DocumentDtoMapper;
-import com.ku.business.exception.ServiceException;
 import com.ku.business.repository.DocumentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.ku.business.exception.ServiceException.notFoundException;
 
 @Service
 public class DocumentService {
@@ -20,9 +21,7 @@ public class DocumentService {
         try {
             return Optional.of(DocumentDtoMapper.toDto(documentDao.findById(id).get()));
         } catch (RuntimeException runtimeException) {
-            throw ServiceException.notFoundException(
-                    String.format("Can't find document with id=%d!", id),
-                    runtimeException);
+            throw notFoundException(String.format("Can't find document with id=%d!", id), runtimeException);
         }
     }
 
