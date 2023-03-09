@@ -4,6 +4,7 @@ import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import com.ku.business.dtomapper.ContentDtoMapper;
+import com.ku.business.exception.ServiceException;
 import com.ku.business.repository.ContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,13 @@ public class ContentService {
     private ContentDao contentDao;
 
     public Optional<ContentDto> findById(Long id) {
-        return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
+        try {
+           return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
+        } catch (RuntimeException runtimeException) {
+           throw ServiceException.notFoundException(
+                   String.format("Can't find content with id=%d!", id),
+                   runtimeException);
+        }
     }
 
     public List<ContentListDto> findAll() {
