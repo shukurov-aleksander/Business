@@ -2,22 +2,23 @@ package com.ku.business.service;
 
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.filter.CompanyFilter;
-import com.ku.business.repository.CompanyDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CompanyService {
-    private CompanyDao companyDao;
 
     public List<CompanyListDto> findAll(CompanyFilter filter) {
-        return companyDao.findAll(filter);
-    }
-
-    @Autowired
-    public void setCompanyDao(CompanyDao companyDao) {
-        this.companyDao = companyDao;
+        RestTemplate restTemplate = new RestTemplate();
+        String fooResourceUrl = "http://localhost:8080/swagger-ui/index.html";
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(fooResourceUrl, String.class, filter);
+        HttpEntity<List<CompanyListDto>> request = new HttpEntity<>(new ArrayList<>());
+        List<CompanyListDto> listDtos = restTemplate.postForObject(fooResourceUrl, request, List.class);
+        return listDtos;
     }
 }
