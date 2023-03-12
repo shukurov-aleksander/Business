@@ -14,11 +14,9 @@ public class ContentService {
 
     public Optional<ContentDto> findById(Long id) {
         RestTemplate restTemplate = new RestTemplate();
-        id = 1L;
-        String fooUrl = "http://localhost:8080/swagger-ui/index.html#/Contents/findById_5";
-        String dns =  restTemplate.getForObject(fooUrl, String.class, id);
-        System.out.println(dns);
-        return null;
+        String fooUrl = "http://localhost:8080/contents/";
+        ContentDto dns =  restTemplate.getForObject(fooUrl, ContentDto.class, id);
+        return Optional.of(dns);
     }
 
     public List<ContentListDto> findAll() {
