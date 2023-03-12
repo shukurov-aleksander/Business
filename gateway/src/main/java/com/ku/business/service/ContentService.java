@@ -4,6 +4,7 @@ import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,11 @@ import java.util.Optional;
 public class ContentService {
 
     public Optional<ContentDto> findById(Long id) {
-       // return Optional.of(ContentDtoMapper.toDto(contentDao.findById(id).get()));
+        RestTemplate restTemplate = new RestTemplate();
+        id = 1L;
+        String fooUrl = "http://localhost:8080/swagger-ui/index.html#/Contents/findById_5";
+        String dns =  restTemplate.getForObject(fooUrl, String.class, id);
+        System.out.println(dns);
         return null;
     }
 

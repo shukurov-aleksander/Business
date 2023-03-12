@@ -22,7 +22,7 @@ import java.util.List;
 public class CompanyController {
     private CompanyService companyService;
 
-    @GetMapping
+    @GetMapping("/find_companies")
     @Operation(summary = "Find companies")
     public List<CompanyListDto> findAll(
             @Parameter(description = "Company name", example = "Company name №709 .inc")

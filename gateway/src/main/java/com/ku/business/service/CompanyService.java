@@ -3,7 +3,6 @@ package com.ku.business.service;
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.filter.CompanyFilter;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,10 +14,9 @@ public class CompanyService {
 
     public List<CompanyListDto> findAll(CompanyFilter filter) {
         RestTemplate restTemplate = new RestTemplate();
-        String fooResourceUrl = "http://localhost:8080/swagger-ui/index.html";
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(fooResourceUrl, String.class, filter);
+        String fooResourceUrl = "http://localhost:8080/companies/get_compnies";
         HttpEntity<List<CompanyListDto>> request = new HttpEntity<>(new ArrayList<>());
-        List<CompanyListDto> listDtos = restTemplate.postForObject(fooResourceUrl, request, List.class);
+        List<CompanyListDto> listDtos = restTemplate.getForObject(fooResourceUrl, List.class);
         return listDtos;
     }
 }
