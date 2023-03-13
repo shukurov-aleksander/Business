@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class CompanyDao {
     private static final String FIND_ALL_QUERY = """
-        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
+        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status as company_status
         FROM companies c
-            LEFT JOIN company_statuses cs on c.company_status_id = cs.id
+            LEFT JOIN company_status_histories ch on ch.company_id = c.id AND active = true
+            LEFT JOIN company_statuses cs on ch.company_status_id = cs.id
         WHERE (:companyName::text IS NULL OR c.company_name = :companyName)
             AND (:taxNumber::text  IS NULL OR c.tax_number = :taxNumber)
             AND (:userId::integer IS NULL OR c.user_id = :userId)    
@@ -40,7 +40,8 @@ public class CompanyDao {
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
-                .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
+                .setCompanyStatus(
+                        rs.getString("company_status") != null ? CompanyStatus.valueOf(rs.getString("company_status")) : null);
     }
 
     public MapSqlParameterSource filteredFieldsMap(CompanyFilter filter) {
@@ -49,7 +50,7 @@ public class CompanyDao {
                 .addValue("taxNumber", filter.getTaxNumber())
                 .addValue("userId", filter.getUserId())
                 .addValue("isGovernmentAgency", filter.getIsGovernmentAgency())
-                .addValue("companyStatus", Objects.toString(filter.getCompanyStatus()))
+                .addValue("companyStatus", filter.getCompanyStatus() == null ? null : filter.getCompanyStatus().toString())
                 .addValue("limit", filter.getLimit())
                 .addValue("offset", filter.getOffset());
     }

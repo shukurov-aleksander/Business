@@ -9,12 +9,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 
 @RestController
 @Tag(name = "Companies", description = "Companies information")
@@ -22,9 +25,9 @@ import java.util.List;
 public class CompanyController {
     private CompanyService companyService;
 
-    @GetMapping("/find_companies")
+    @GetMapping
     @Operation(summary = "Find companies")
-    public List<CompanyListDto> findAll(
+    public String findAll(
             @Parameter(description = "Company name", example = "Company name №709 .inc")
             @RequestParam(value = "companyName", required = false) String companyName,
             @Parameter(description = "Tax number", example = "0000000000000709")
@@ -44,16 +47,7 @@ public class CompanyController {
             @Parameter(description = "Limit", example = "20")
             @RequestParam(defaultValue = "20") Integer limit
     ) {
-        return companyService.findAll(
-                new CompanyFilter()
-                        .setCompanyName(companyName)
-                        .setTaxNumber(taxNumber)
-                        .setUserId(userId)
-                        .setIsGovernmentAgency(isGovernmentAgency)
-                        .setCompanyStatus(companyStatus)
-                        .setLimit(limit)
-                        .setOffset(offset));
-    }
+        return companyService.findAll();  }
 
     @Autowired
     public void setCompanyService(CompanyService companyService) {

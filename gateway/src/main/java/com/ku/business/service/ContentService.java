@@ -12,11 +12,11 @@ import java.util.Optional;
 @Service
 public class ContentService {
 
-    public Optional<ContentDto> findById(Long id) {
+    public String findById(Long id) {
         RestTemplate restTemplate = new RestTemplate();
-        String fooUrl = "http://localhost:8080/contents/";
-        ContentDto dns =  restTemplate.getForObject(fooUrl, ContentDto.class, id);
-        return Optional.of(dns);
+        String fooUrl = "http://localhost:8080/contents/" + id;
+        String dns =  restTemplate.getForObject(fooUrl, String.class);
+        return dns;
     }
 
     public List<ContentListDto> findAll() {

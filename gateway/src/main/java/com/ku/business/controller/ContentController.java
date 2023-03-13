@@ -1,8 +1,8 @@
 package com.ku.business.controller;
 
-import com.ku.business.dto.ContentDto;
 import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
+
 import com.ku.business.service.ContentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,11 +26,11 @@ public class ContentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Find content by id")
-    public ContentDto findById(
+    public String findById(
         @Parameter(description = "Content id", required = true, example = "1")
         @PathVariable Long id
     ) {
-        return contentService.findById(id).get();
+        return contentService.findById(id);
     }
 
     @GetMapping
