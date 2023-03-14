@@ -1,6 +1,5 @@
 package com.ku.business.controller;
 
-import com.ku.business.dto.ContentListDto;
 import com.ku.business.dto.ContentSaveDto;
 
 import com.ku.business.service.ContentService;
@@ -8,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.List;
-
 @RestController
 @Tag(name = "Contents", description = "Contents information")
 @RequestMapping("/contents")
 public class ContentController {
     private ContentService contentService;
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Find content by id")
     public String findById(
         @Parameter(description = "Content id", required = true, example = "1")
@@ -33,9 +31,9 @@ public class ContentController {
         return contentService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Find contents")
-    public List<ContentListDto> findAll() {
+    public String findAll() {
         return contentService.findAll();
     }
 
