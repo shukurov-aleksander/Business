@@ -1,6 +1,5 @@
 package com.ku.business.service;
 
-import com.ku.business.dto.ContentSaveDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,11 +18,11 @@ public class ContentService {
         return restTemplate.getForObject(fooUrl, String.class);
     }
 
-    public void save(ContentSaveDto content) {
+    public void save(String content) {
        // contentDao.save(ContentDtoMapper.fromSaveDto(content));
     }
 
-    public void update(ContentSaveDto content) {
+    public void update(String content) {
      //   contentDao.save(ContentDtoMapper.fromSaveDto(content));
     }
 

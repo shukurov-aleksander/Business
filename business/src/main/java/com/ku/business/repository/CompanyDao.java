@@ -15,15 +15,16 @@ import java.util.List;
 @Repository
 public class CompanyDao {
     private static final String FIND_ALL_QUERY = """
-        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status as company_status
+        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status
         FROM companies c
-            LEFT JOIN company_status_histories ch on ch.company_id = c.id AND active = true
+            LEFT JOIN company_status_histories ch on ch.company_id = c.id AND ch.active = true
             LEFT JOIN company_statuses cs on ch.company_status_id = cs.id
         WHERE (:companyName::text IS NULL OR c.company_name = :companyName)
             AND (:taxNumber::text  IS NULL OR c.tax_number = :taxNumber)
             AND (:userId::integer IS NULL OR c.user_id = :userId)    
             AND (:isGovernmentAgency::text IS NULL OR c.is_government_agency = :isGovernmentAgency)
             AND (:companyStatus::company_status_enum IS NULL OR cs.company_status = :companyStatus::company_status_enum)
+            AND ch.active = true
         LIMIT :limit OFFSET :offset
     """;
 
@@ -40,8 +41,7 @@ public class CompanyDao {
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
-                .setCompanyStatus(
-                        rs.getString("company_status") != null ? CompanyStatus.valueOf(rs.getString("company_status")) : null);
+                .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
     }
 
     public MapSqlParameterSource filteredFieldsMap(CompanyFilter filter) {

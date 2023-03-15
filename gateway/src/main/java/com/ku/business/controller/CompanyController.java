@@ -5,7 +5,6 @@ import com.ku.business.filter.CompanyFilter;
 import com.ku.business.service.CompanyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,11 +31,7 @@ public class CompanyController {
             @Parameter(description = "is government agency", example = "false")
             @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
             @RequestParam(value = "companyStatus", required = false)
-            @Schema(
-                    type = "string", allowableValues = {"REGISTERED", "ACTIVE", "FREEZED", "ELIMINATED"},
-                    description = "Company status",
-                    example = "REGISTERED")
-            CompanyStatus companyStatus,
+            @Parameter(description = "Company status", example = "REGISTERED") CompanyStatus companyStatus,
             @Parameter(description = "Offset", example = "0")
             @RequestParam(defaultValue = "0") Integer offset,
             @Parameter(description = "Limit", example = "20")

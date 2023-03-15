@@ -1,6 +1,5 @@
 package com.ku.business.controller;
 
-import com.ku.business.dto.ContentSaveDto;
 
 import com.ku.business.service.ContentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,13 +38,13 @@ public class ContentController {
 
     @PostMapping
     @Operation(summary = "Save content")
-    public void save(ContentSaveDto content) {
+    public void save(String content) {
         contentService.save(content);
     }
 
     @PutMapping
     @Operation(summary = "Update content")
-    public void update(ContentSaveDto content) {
+    public void update(String content) {
         contentService.update(content);
     }
 
