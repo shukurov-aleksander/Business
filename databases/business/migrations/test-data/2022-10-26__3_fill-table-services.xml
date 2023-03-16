@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="Aleksander.shukurov@gmail.com" context="test_data">
+        <comment>fill in the table "services" with test data</comment>
+        <sql>
+            WITH series AS (SELECT GENERATE_SERIES(1, 1000) sery)
+            INSERT INTO services  (service_name, sum, service_description)
+            SELECT 'Service name №' || CAST(s.sery AS VARCHAR),
+                   FLOOR(RANDOM() * (150000 - 1) + 1),
+                   'Service description of the service name №' || CAST(s.sery AS VARCHAR)
+            FROM series s
+        </sql>
+    </changeSet>
+</databaseChangeLog>

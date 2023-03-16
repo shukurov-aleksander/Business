@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+<changeSet id="1" author="Aleksander.shukurov@gmail.com" context="test_data">
+    <comment>fill in the table "company_statuses" with test data</comment>
+    <sql>
+        INSERT INTO company_statuses (company_status, inserted_at_utc, comment)
+        VALUES
+            ('REGISTERED'::company_status_enum, NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day', 'Company status - registered'),
+            ('ACTIVE'::company_status_enum, NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day', 'Company status - active'),
+            ('FREEZED'::company_status_enum, NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day', 'Company status - freezed'),
+            ('ELIMINATED'::company_status_enum, NOW() - FLOOR((RANDOM() * (1000 - 500) + 500)) * INTERVAL '1 day', 'Company status - eliminated')
+    </sql>
+</changeSet>
+</databaseChangeLog>
