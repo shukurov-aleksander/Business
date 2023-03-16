@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @Tag(name = "Companies", description = "Companies information")
 @RequestMapping("/companies")
@@ -23,19 +25,19 @@ public class CompanyController {
     @Operation(summary = "Find companies")
     public String findAll(
             @Parameter(description = "Company name", example = "Company name №709 .inc")
-            @RequestParam(value = "companyName", required = false) String companyName,
+            @RequestParam(value = "companyName", required = false) Optional<String> companyName,
             @Parameter(description = "Tax number", example = "0000000000000709")
-            @RequestParam(value = "taxNumber", required = false)  String taxNumber,
+            @RequestParam(value = "taxNumber", required = false)  Optional<String> taxNumber,
             @Parameter(description = "User id", example = "4")
-            @RequestParam(value = "userId", required = false)  Long userId,
+            @RequestParam(value = "userId", required = false)  Optional<Long> userId,
             @Parameter(description = "is government agency", example = "false")
-            @RequestParam(value = "isGovernmentAgency", required = false)  Boolean isGovernmentAgency,
+            @RequestParam(value = "isGovernmentAgency", required = false)  Optional<Boolean> isGovernmentAgency,
             @RequestParam(value = "companyStatus", required = false)
-            @Parameter(description = "Company status", example = "REGISTERED") CompanyStatus companyStatus,
+            @Parameter(description = "Company status", example = "REGISTERED") Optional<CompanyStatus> companyStatus,
             @Parameter(description = "Offset", example = "0")
-            @RequestParam(defaultValue = "0") Integer offset,
+            @RequestParam(defaultValue = "0") Optional<Integer> offset,
             @Parameter(description = "Limit", example = "20")
-            @RequestParam(defaultValue = "20") Integer limit
+            @RequestParam(defaultValue = "20") Optional<Integer> limit
     ) {
         return companyService.findAll(new CompanyFilter()
                 .setCompanyName(companyName)
