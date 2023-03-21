@@ -8,11 +8,10 @@ import lombok.experimental.Accessors;
 @Schema(description = "Service save or update data transfer object")
 @Accessors(chain = true)
 public class ServiceSaveDto {
-    @Schema(description = "Id", required = true, example = "1")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Service name", required = true, example = "Service")
+    @Schema(description = "Service name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Service")
     private String serviceName;
-    @Schema(description = "Service sum", required = true, example = "1")
+    @Schema(description = "Service sum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long sum;
 }
-

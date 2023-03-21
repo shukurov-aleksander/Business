@@ -9,4 +9,3 @@ public class BusinessApp {
         SpringApplication.run(BusinessApp.class, args);
     }
 }
-

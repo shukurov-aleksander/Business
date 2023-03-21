@@ -13,6 +13,5 @@ public class CompanyFilter{
     private Long userId;
     private Integer limit;
     private Integer offset;
-    private String sortBy;
     private CompanyStatus companyStatus;
 }

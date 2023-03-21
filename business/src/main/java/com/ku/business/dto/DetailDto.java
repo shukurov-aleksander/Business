@@ -9,12 +9,12 @@ import lombok.experimental.Accessors;
 @Schema(description = "Detail data transfer object")
 @Accessors(chain = true)
 public class DetailDto {
-    @Schema(description = "Id", required = true, example = "1")
+    @Schema(description = "Id", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    @Schema(description = "Detail company", required = true)
+    @Schema(description = "Detail company", requiredMode = Schema.RequiredMode.REQUIRED)
     private CompanyDto company;
-    @Schema(description = "Detail order", required = true)
+    @Schema(description = "Detail order", requiredMode = Schema.RequiredMode.REQUIRED)
     private OrderDto order;
-    @Schema(description = "Detail operation type", required = true, example = "PURCHASE")
+    @Schema(description = "Detail operation type", requiredMode = Schema.RequiredMode.REQUIRED, example = "PURCHASE")
     private OperationType operationType;
 }
