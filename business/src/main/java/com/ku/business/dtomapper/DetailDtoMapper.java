@@ -22,7 +22,6 @@ public class DetailDtoMapper {
     public static DetailListDto toListDto(Detail detail) {
         return new DetailListDto()
                 .setId(detail.getId())
-                .setOrder(OrderDtoMapper.toDto(detail.getOrder()))
                 .setOperationType(detail.getOperationType());
     }
 
