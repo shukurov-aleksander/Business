@@ -1,2 +1,5 @@
-rootProject.name = 'business'
+rootProject.name = 'app'
+
+include "business"
+include "gateway"
 
