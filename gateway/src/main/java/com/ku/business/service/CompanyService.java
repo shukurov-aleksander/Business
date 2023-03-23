@@ -1,5 +1,6 @@
 package com.ku.business.service;
 
+import com.ku.business.exception.CompanyNotFoundException;
 import com.ku.business.filter.CompanyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,15 @@ public class CompanyService {
         filter.getOffset().ifPresent(offset -> findAllUrlBuilder.append("&offset=").append(offset));
         filter.getLimit().ifPresent(limit -> findAllUrlBuilder.append("&limit=").append(limit));
         return restTemplate.getForObject(findAllUrlBuilder.toString(), String.class);
+    }
+
+    public String findById(Long id) {
+        String findCompanyByIdUrl = "http://localhost:8080/companies/" + id;
+        try {
+            return  restTemplate.getForObject(findCompanyByIdUrl, String.class);
+        } catch (CompanyNotFoundException ex) {
+            throw new CompanyNotFoundException();
+        }
     }
 
     @Autowired
