@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Repository
@@ -34,7 +33,7 @@ public class CompanyDao {
         LIMIT :limit OFFSET :offset
     """;
     private static final String FIND_BY_ID_QUERY = """
-        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status, s.id, s.quantity, d.id, d.operation_type
+        SELECT c.id, c.company_name, c.tax_number, c.is_government_agency, c.user_id, cs.company_status, s.id as storage_id, s.quantity, d.id as detail_id, d.operation_type
         FROM companies c
             LEFT JOIN company_status_histories csh on csh.company_id = c.id
             LEFT JOIN company_statuses cs on csh.company_status_id = cs.id
@@ -76,25 +75,32 @@ public class CompanyDao {
 
     @SneakyThrows
     public CompanyDto buildCompanyDto(ResultSet rs) {
-        CompanyDto companyDto = new CompanyDto();
         rs.next();
-        companyDto.setId(rs.getLong("id"))
+        CompanyDto companyDto = new CompanyDto()
+                .setId(rs.getLong("id"))
                 .setCompanyName(rs.getString("company_name"))
                 .setTaxNumber(rs.getString("tax_number"))
                 .setIsGovernmentAgency(rs.getBoolean("is_government_agency"))
                 .setUserId(rs.getLong("user_id"))
                 .setCompanyStatus(CompanyStatus.valueOf(rs.getString("company_status")));
-        Set<DetailListDto> dtos = new HashSet<>();
         Set<StorageListDto> storageListDtos = new HashSet<>();
+        Set<DetailListDto> detailListDtos = new HashSet<>();
         do {
-            dtos.add(new DetailListDto()
-                    .setId(rs.getLong("id"))
-                    .setOperationType(OperationType.valueOf(Objects.toString(rs.getString("operation_type")))));
-            storageListDtos.add(new StorageListDto().setId(rs.getLong("id")).setQuantity(rs.getInt("quantity")));
+            if (rs.getLong("storage_id") != 0) {
+                storageListDtos.add(
+                        new StorageListDto()
+                                .setId(rs.getLong("storage_id"))
+                                .setQuantity(rs.getInt("quantity")));
+            }
+            if (rs.getLong("detail_id") != 0) {
+                detailListDtos.add(
+                        new DetailListDto()
+                                .setId(rs.getLong("storage_id"))
+                                .setOperationType(OperationType.valueOf(rs.getString("operation_type"))));
+            }
         }
         while (rs.next());
-        companyDto.setDetails(dtos).setStorages(storageListDtos);
-
+        companyDto.setDetails(detailListDtos).setStorages(storageListDtos);
         return companyDto;
     }
 

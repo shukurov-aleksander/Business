@@ -55,7 +55,8 @@ public class CompanyController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(example = "Some message 1")))
+            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(example = "Company was not found"))),
+            @ApiResponse(responseCode = "501", description = "Internal server error")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Find company by id")

@@ -13,13 +13,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(CompanyNotFoundException.class)
     protected ResponseEntity<Object> handleNotFoundException(CompanyNotFoundException ex, WebRequest request) {
-        String bodyOfResponse = "Company was not found";
-        return handleExceptionInternal(ex, ex.getMessage() + bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-//    @ExceptionHandler(RuntimeException.class)
-//    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
-//        String bodyOfResponse = "501 Internal service error sdasdasgsdgsd";
-//        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
+        String bodyOfResponse = "501 Internal service error";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 }
