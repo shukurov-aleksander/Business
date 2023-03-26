@@ -1,17 +1,20 @@
 package com.ku.business.controller;
 
+import com.ku.business.dto.CompanyDto;
 import com.ku.business.dto.CompanyListDto;
 import com.ku.business.entity.CompanyStatus;
 import com.ku.business.filter.CompanyFilter;
 import com.ku.business.service.CompanyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,6 +51,17 @@ public class CompanyController {
                         .setCompanyStatus(companyStatus)
                         .setLimit(limit)
                         .setOffset(offset));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(example = "Company was not found"))),
+            @ApiResponse(responseCode = "501", description = "Internal server error")
+    })
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Find company by id")
+    public CompanyDto findById(@Parameter(description = "id", example = "1") @PathVariable Long id) {
+        return companyService.findById(id);
     }
 
     @Autowired

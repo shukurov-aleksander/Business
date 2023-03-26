@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +48,12 @@ public class CompanyController {
                 .setCompanyStatus(companyStatus)
                 .setLimit(limit)
                 .setOffset(offset));
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Find company by id")
+    public String findById(@Parameter(description = "id", example = "1") @PathVariable Long id) {
+        return companyService.findById(id);
     }
 
     @Autowired

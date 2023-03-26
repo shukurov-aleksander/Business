@@ -21,6 +21,11 @@ public class CompanyService {
         return restTemplate.getForObject(findAllUrlBuilder.toString(), String.class);
     }
 
+    public String findById(Long id) {
+        String findCompanyByIdUrl = "http://localhost:8080/companies/" + id;
+            return  restTemplate.getForObject(findCompanyByIdUrl, String.class);
+    }
+
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
